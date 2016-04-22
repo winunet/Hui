@@ -1,0 +1,102 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hui</title>
+    <link href="css/iconfont/iconfont.css" rel="stylesheet" />
+    <link href="css/Hui.css" rel="stylesheet" type="text/css" />
+    <style type="text/css"></style>
+</head>
+<body class="H-flexbox-vertical">
+    <header class="H-header H-theme-background-color-5cb85c" id="common_header">
+        <div class="H-header-title H-center-all H-font-size-18 H-text-show-row-1 H-theme-font-color-white H-position-absolute H-width-100-percent">前端组件</div>
+        <span tapmode="" id="drop-menu" data-open="false" class="H-icon H-position-relative H-display-block H-float-right H-vertical-middle H-theme-font-color-white H-padding-horizontal-both-10 H-z-index-1000"><i class="H-iconfont H-icon-add H-font-size-18 H-vertical-middle"></i></span>
+    </header>
+    <header class="H-header H-theme-background-color-5cb85c H-display-none" id="templates_header">
+        <div class="H-header-title H-center-all H-font-size-18 H-text-show-row-1 H-theme-font-color-white H-position-absolute H-width-100-percent">常用模板</div>
+    </header>
+    <header class="H-header H-display-none" id="bbs_header" style="background: #499ef3; ">
+        <span tapmode="" onclick="H.historyBack(null, 'bbs_index');" class="H-icon H-position-relative H-display-inline-block H-float-left H-vertical-middle H-theme-font-color-white H-padding-horizontal-left-5 H-z-index-100"><i class="H-iconfont H-icon-arrow-left H-font-size-18 H-vertical-middle"></i><label class="H-display-block H-vertical-middle H-font-size-15">前一页</label></span>
+        <div class="H-header-title H-center-all H-font-size-18 H-text-show-row-1 H-theme-font-color-white H-position-absolute H-width-100-percent">社区贴吧</div>
+        <span tapmode="" onclick="H.historyForward(null, 'bbs_index');" class="H-icon H-position-relative H-display-inline-block H-float-right H-vertical-middle H-theme-font-color-white H-padding-horizontal-right-5 H-z-index-100"><label class="H-display-block H-vertical-middle H-font-size-15">后一页</label><i class="H-iconfont H-icon-arrow-right H-font-size-18 H-vertical-middle"></i></span>
+    </header>
+    <div class="main H-flex-item"></div>
+    <footer class="H-footer H-flexbox-horizontal H-theme-background-color-white H-border-vertical-top-after" id="footer">
+        <div class="H-flex-item H-center-all H-text-align-center H-theme-font-color-999 H-touch-active swipe-item">
+            <div>
+                <span class="H-icon H-display-block H-line-height-normal"><i class="iconfont icon-ui H-font-size-24"></i></span>
+                <strong class="H-font-size-12 H-display-block H-font-weight-normal H-margin-vertical-top-3">前端组件</strong>
+            </div>
+        </div>
+        <div class="H-flex-item H-center-all H-text-align-center H-theme-font-color-999 H-touch-active swipe-item">
+            <div>
+                <span class="H-icon H-display-block H-line-height-normal"><i class="iconfont icon-moban H-font-size-24"></i></span>
+                <strong class="H-font-size-12 H-display-block H-font-weight-normal H-margin-vertical-top-3">常用模板</strong>
+            </div>
+        </div>
+        <div class="H-flex-item H-center-all H-text-align-center  H-theme-font-color-999 H-touch-active swipe-item">
+            <div>
+                <span class="H-icon H-display-block H-line-height-normal"><i class="iconfont icon-shequ H-font-size-24"></i></span>
+                <strong class="H-font-size-12 H-display-block H-font-weight-normal H-margin-vertical-top-3">社区贴吧</strong>
+            </div>
+        </div>
+    </footer>
+    <script src="script/H.js" type="text/javascript"></script>
+    <script type="text/javascript">
+     
+        function showDropMenu() {
+            var openStatu = H.D("#drop-menu").getAttribute("data-open");
+            if (openStatu == "false") {
+                H.fixStatusBar(function (offset) {
+                    H.openFrame('more_info_index', './html/more-info/more_info_index.html', null, {
+                        rect: {
+                            x: 0,
+                            y: offset.h,
+                            w: H.winWidth,
+                            h: H.winHeight - offset.h
+                        },
+                        bounces: false
+                    });
+                    H.D("#drop-menu").setAttribute("data-open", "true");
+                }, '#common_header');
+            }
+            else {
+                H.execScript(H.winName, "more_info_index", "closeDropMenu();");
+                H.D("#drop-menu").setAttribute("data-open", "false");
+            }
+        }
+        H.D("#drop-menu").addEventListener("touchstart", function (e) {
+            showDropMenu();
+        });
+
+        H.ready(function () {
+            H.openFrameIndexByClick([
+            {
+                name: "common_index",
+                url: "./html/common/common_index.html",
+                header: "#common_header"
+            },
+            {
+                name: "templates_index",
+                url: "./html/templates/templates_index.html",
+                header: "#templates_header",
+                bounces: false
+            },
+             {
+                 name: "bbs_index",
+                 url: "http://hui.winu.net/",
+                 header: "#bbs_header",
+                 bounces: false,
+                 progress: {
+                     type: "default"
+                 },
+                 allowEdit: true
+             }], "H-display-none", "#footer", ".swipe-item", "H-theme-font-color-5cb85c");
+
+            H.dblclickToCloseApp();
+        });
+    </script>
+</body>
+</html>

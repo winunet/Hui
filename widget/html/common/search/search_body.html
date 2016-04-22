@@ -1,0 +1,68 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hui</title>
+    <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <!--################### 搜索样式一 ###################-->
+    <div class="H-channel-title H-flexbox-horizontal H-theme-background-color-white H-vertical-middle H-border-vertical-bottom-after">
+        <div class="H-channel-line H-theme-background-color-black H-padding-vertical-top-15 H-padding-horizontal-left-3  H-margin-horizontal-left-10"></div>
+        <div class="H-channel-text H-theme-font-color-black H-flex-item H-font-size-18 H-theme-font-color-black H-padding-10 H-margin-horizontal-right-10 H-text-show-row-1">搜索样式一</div>
+    </div>
+    <div class="H-padding-vertical-bottom-10"></div>
+    <div class="H-padding-10 H-theme-background-color-white">
+        <div class="H-search H-flexbox-horizontal H-box-sizing-border-box">
+            <input type="search" name="keyword" placeholder="请输入关键字" class="H-border-none  H-theme-background-color-f4f4f4 H-flex-item H-font-size-16 H-padding-horizontal-both-10 H-padding-vertical-both-5" /><button class="H-button H-font-size-15 H-outline-none H-padding-vertical-both-5 H-padding-horizontal-both-20 H-theme-background-color1 H-theme-font-color-white H-theme-border-color1 H-theme-border-color1-click H-theme-background-color1-click H-theme-font-color1-click" style="min-width:0;">搜索</button>
+        </div>
+    </div>
+    <div class="H-padding-vertical-bottom-10"></div>
+    <!--################### 搜索样式二 ###################-->
+    <div class="H-channel-title H-flexbox-horizontal H-theme-background-color-white H-vertical-middle H-border-vertical-bottom-after">
+        <div class="H-channel-line H-theme-background-color-black H-padding-vertical-top-15 H-padding-horizontal-left-3  H-margin-horizontal-left-10"></div>
+        <div class="H-channel-text H-theme-font-color-black H-flex-item H-font-size-18 H-theme-font-color-black H-padding-10 H-margin-horizontal-right-10 H-text-show-row-1">搜索样式二</div>
+    </div>
+    <div class="H-padding-vertical-bottom-10"></div>
+    <div class="H-padding-10 H-theme-background-color-white">
+        <div class="H-search H-flexbox-horizontal H-box-sizing-border-box  H-theme-background-color-f4f4f4 H-border-radius-3 H-overflow-hidden">
+            <input type="search" name="keyword" placeholder="请输入关键字" class="H-border-none H-theme-background-color-transparent H-flex-item H-font-size-16 H-padding-horizontal-both-10 H-padding-vertical-both-5 H-vertical-align-middle" /><span class="H-icon H-display-block H-padding-horizontal-both-10 H-vertical-middle"><i class="H-iconfont H-icon-search H-font-size-18 H-theme-font-color1"></i></span>
+        </div>
+        <div class="H-padding-vertical-bottom-10"></div>
+        <div class="H-search H-flexbox-horizontal H-box-sizing-border-box  H-theme-background-color-f4f4f4 H-border-radius-3 H-overflow-hidden">
+            <span class="H-icon H-display-block H-padding-horizontal-right-0 H-margin-horizontal-left-10 H-vertical-middle"><i class="H-iconfont H-icon-search H-font-size-18 H-theme-font-color1"></i></span><input type="search" name="keyword" placeholder="请输入关键字" class="H-border-none H-theme-background-color-transparent H-flex-item H-font-size-16 H-padding-horizontal-both-10 H-padding-vertical-both-5 H-vertical-align-middle" />
+        </div>
+    </div>
+    <div class="H-padding-vertical-bottom-10"></div>
+    <!--################### 搜索样式三 ###################-->
+    <div class="H-channel-title H-flexbox-horizontal H-theme-background-color-white H-vertical-middle H-border-vertical-bottom-after">
+        <div class="H-channel-line H-theme-background-color-black H-padding-vertical-top-15 H-padding-horizontal-left-3  H-margin-horizontal-left-10"></div>
+        <div class="H-channel-text H-theme-font-color-black H-flex-item H-font-size-18 H-theme-font-color-black H-padding-10 H-margin-horizontal-right-10 H-text-show-row-1">搜索样式三</div>
+    </div>
+    <div class="H-padding-vertical-bottom-10"></div>
+    <div class="H-padding-10 H-theme-background-color-white">
+        <div class="H-search H-flexbox-horizontal H-box-sizing-border-box H-overflow-hidden H-position-relative">
+            <div class="H-position-absolute H-z-index-100 H-width-100-percent H-height-100-percent H-vertical-middle H-text-align-center H-theme-font-color-999 H-border-radius-15" id="ser"><span class="H-display-block H-width-100-percent H-font-size-14"><i class="H-iconfont H-icon-search H-font-size-14"></i> 搜索关键字</span></div>
+            <input type="search" name="keyword" id="ipt" class="H-border-none  H-border-radius-15 H-theme-background-color-f4f4f4 H-flex-item H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-5 H-theme-background-color-f4f4f4" /><span class="H-display-block H-font-size-14 H-vertical-middle H-theme-font-color1 H-padding-horizontal-both-10 btn" style="display:none;">取消</span>
+        </div>
+    </div>
+    <script src="../../../script/H.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        H.D("#ser").addEventListener("touchend", function (e) {
+            this.style.cssText = "display:none;";
+            H.D(".btn").removeAttribute("style");
+            H.D("#ipt").setAttribute("placeholder", "请输入关键字");
+        });
+
+        H.D(".btn").addEventListener("touchend", function (e) {
+            this.style.cssText = "display:none;";
+            H.D("#ipt").setAttribute("placeholder", "");
+            H.D("#ser").removeAttribute("style");
+        });
+    </script>
+</body>
+</html>

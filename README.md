@@ -1,6 +1,10 @@
 ### Hui是一款与众不同，却包罗万象的移动UI框架。
 
-![输入图片说明](http://git.oschina.net/uploads/images/2016/0420/152227_433cb12d_526496.png "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0425/034348_513ebfc5_526496.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0425/034355_1f9ef567_526496.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0425/034403_f10b9ac3_526496.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0425/034408_292b2949_526496.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0425/034414_022f2550_526496.jpeg "在这里输入图片标题")
 
 * Hui崇尚的是样式组装化，提倡抽取通用类方式，你只需要写简单的样式甚至不需要写任何样式就可以通过通用类组装成丰富的组件和布局效果。
 * Hui包含了23中主题样式，可以满足各种App对色彩的需求。</p>
@@ -25,10 +29,10 @@
 
 *****
 
-### Hui V0.1.2 正式版
+### Hui V0.1.3 正式版
 
-* IOS（苹果还未审核通过）：[IOS下载](http://downloadpkg.apicloud.com/app/download?path=/zip/af/04/af04b8ab4b8e444d8fcb2e2c4cbb98a6.ipa)
-* Android：[Android下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/cf033910504d8e1df505622b39ec38e6_d)
+* IOS（苹果还未审核通过）：[IOS下载](http://downloadpkg.apicloud.com/app/download?path=/zip/c0/32/c0320e4363d2142cf7e5109632b6b48e.ipa)
+* Android：[Android下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/de55c6a4e7c3a7193aaadd5dc0e3211d_d)
 
 *****
 

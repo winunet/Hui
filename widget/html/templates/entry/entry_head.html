@@ -6,17 +6,50 @@
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>Hui</title>
     <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
-    <style type="text/css"></style>
 </head>
-<body>
-    <header class="H-header H-theme-background-color9" id="header">
-        <span tapmode="" onclick="H.closeWin();" class="H-icon H-position-relative H-display-inline-block H-float-left H-vertical-middle H-theme-font-color-white H-padding-horizontal-left-5 H-z-index-100"><i class="H-iconfont H-icon-arrow-left H-font-size-18 H-vertical-middle"></i><label class="H-display-block H-vertical-middle H-font-size-15">返回</label></span>
-        <div class="H-header-title H-center-all H-font-size-18 H-text-show-row-1 H-theme-font-color-white H-position-absolute H-width-100-percent">常见登录注册</div>
-    </header>
+<body class="H-theme-background-color-white H-height-100-percent H-box-sizing-border-box H-overflow-hidden">
+    <div class="fix">
+        <div class="H-horizontal-center H-padding-vertical-both-20">
+            <div class="H-text-align-center">
+                <img src="../../../image/logo.png" class="H-border-radius-12" style="width:80px;height:80px;" />
+                <div class="H-font-size-18">Hui</div>
+            </div>
+        </div>
+        <div class="H-border-vertical-top-after H-margin-vertical-top-10">
+            <div class="H-flexbox-horizontal  H-border-vertical-bottom-margin-both-10-after">
+                <span class="H-icon H-vertical-middle H-padding-horizontal-left-10 H-theme-background-color-white"><i class="H-iconfont H-icon-phone H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span><input type="text" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15" placeholder="请输入手机号码" />
+            </div>
+            <div class="H-flexbox-horizontal H-border-vertical-bottom-after">
+                <span class="H-icon H-vertical-middle H-padding-horizontal-left-10 H-theme-background-color-white"><i class="H-iconfont H-icon-lock H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span><input type="password" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15" placeholder="请输入登录密码" />
+            </div>
+            <div class="H-padding-15 H-margin-vertical-top-10">
+                <button class="H-button H-width-100-percent  H-font-size-15 H-outline-none H-padding-vertical-both-15 H-padding-horizontal-both-20 H-theme-background-color9 H-theme-font-color-white H-theme-border-color9 H-theme-border-color9-click H-theme-background-color9-click H-theme-font-color9-click H-border-radius-3">登录提交</button>
+            </div>
+            <div class="H-margin-horizontal-both-15">
+                <span tapmode="" onclick="H.openWin('reg_head', 'reg_head.html');" class="H-theme-font-color1 H-float-left H-font-size-14">注册账号</span><span class="H-theme-font-color1 H-float-right H-font-size-14">忘记密码？</span>
+            </div>
+        </div>
+    </div>
+    <div class="H-padding-vertical-bottom-10"></div>
+    <div class="H-theme-font-color1 H-text-align-center H-padding-vertical-both-10 H-font-size-14">其他方式登录</div>
+    <div class="H-flexbox-horizontal H-text-align-center H-theme-background-color-white H-padding-vertical-both-15">
+        <div class="H-flex-item">
+            <span class="H-icon H-center-all H-theme-background-color1 H-border-radius-circle H-margin-horizontal-auto" style="height: 42px; width: 42px; "><i class="H-iconfont H-icon-qq H-font-size-22 H-theme-font-color-white"></i></span>
+            <label class="H-display-block H-font-size-13 H-margin-vertical-top-5">腾讯QQ</label>
+        </div>
+        <div class="H-flex-item">
+            <span class="H-icon H-center-all H-theme-background-color2 H-border-radius-circle H-margin-horizontal-auto" style="height: 42px; width: 42px; "><i class="H-iconfont H-icon-weixin H-font-size-22 H-theme-font-color-white"></i></span>
+            <label class="H-display-block H-font-size-13 H-margin-vertical-top-5">腾讯微信</label>
+        </div>
+        <div class="H-flex-item">
+            <span class="H-icon H-center-all H-theme-background-color3 H-border-radius-circle H-margin-horizontal-auto" style="height: 42px; width: 42px; "><i class="H-iconfont H-icon-weibo H-font-size-22 H-theme-font-color-white"></i></span>
+            <label class="H-display-block H-font-size-13 H-margin-vertical-top-5">新浪微博</label>
+        </div>
+    </div>
     <script src="../../../script/H.js" type="text/javascript"></script>
     <script type="text/javascript">
         H.ready(function () {
-            H.openFrameNavOrFoot("entry_body", "entry_body.html", "#header");
+            H.fixStatusBar(null, ".fix");
         });
     </script>
 </body>

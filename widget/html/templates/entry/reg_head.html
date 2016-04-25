@@ -8,15 +8,36 @@
     <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
     <style type="text/css"></style>
 </head>
-<body>
-    <header class="H-header H-theme-background-color9" id="header">
-        <span tapmode="" onclick="H.closeWin();" class="H-icon H-position-relative H-display-inline-block H-float-left H-vertical-middle H-theme-font-color-white H-padding-horizontal-left-5 H-z-index-100"><i class="H-iconfont H-icon-arrow-left H-font-size-18 H-vertical-middle"></i><label class="H-display-block H-vertical-middle H-font-size-15">返回</label></span>
-        <div class="H-header-title H-center-all H-font-size-18 H-text-show-row-1 H-theme-font-color-white H-position-absolute H-width-100-percent">常见登录注册</div>
-    </header>
+<body class="H-theme-background-color-white H-height-100-percent H-box-sizing-border-box">
+    <div class="fix">
+        <div class="H-horizontal-center H-padding-vertical-both-20">
+            <div class="H-text-align-center">
+                <img src="../../../image/logo.png" class="H-border-radius-12" style="width:80px;height:80px;" />
+                <div class="H-font-size-18">Hui</div>
+            </div>
+        </div>
+        <div class="H-border-vertical-top-after H-margin-vertical-top-20">
+            <div class="H-flexbox-horizontal  H-border-vertical-bottom-margin-both-10-after">
+                <span class="H-icon H-vertical-middle H-padding-horizontal-left-10 H-theme-background-color-white"><i class="H-iconfont H-icon-phone H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span><input type="text" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15" placeholder="请输入手机号码" /><span class="H-vertical-middle H-padding-horizontal-right-10 H-theme-background-color-white H-theme-font-color1 H-font-size-14">获取验证码</span>
+            </div>
+            <div class="H-flexbox-horizontal H-border-vertical-bottom-margin-both-10-after">
+                <span class="H-icon H-vertical-middle H-padding-horizontal-left-10 H-theme-background-color-white"><i class="H-iconfont H-icon-lock H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span><input type="password" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15" placeholder="请输入密码" />
+            </div>
+            <div class="H-flexbox-horizontal H-border-vertical-bottom-after">
+                <span class="H-icon H-vertical-middle H-padding-horizontal-left-10 H-theme-background-color-white"><i class="H-iconfont H-icon-lock H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span><input type="password" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15" placeholder="请再次输入密码" />
+            </div>
+            <div class="H-padding-15 H-margin-vertical-top-10">
+                <button class="H-button H-width-100-percent  H-font-size-15 H-outline-none H-padding-vertical-both-15 H-padding-horizontal-both-20 H-theme-background-color9 H-theme-font-color-white H-theme-border-color9 H-theme-border-color9-click H-theme-background-color9-click H-theme-font-color9-click H-border-radius-3">提交注册</button>
+            </div>
+            <div class="H-margin-horizontal-both-15">
+                <span class="H-theme-font-color1 H-float-left H-font-size-14"><input type="checkbox" class="H-checkbox H-checkbox-null H-vertical-align-middle H-font-size-18 H-theme-font-color1 H-border-radius-circle" checked="checked" style="-webkit-transform: scale(0.6); -webkit-transform-origin: 0 38%;" /><label style="position:relative;left:-10px;">《Hui用户注册协议》</label></span>
+            </div>
+        </div>
+    </div>
     <script src="../../../script/H.js" type="text/javascript"></script>
     <script type="text/javascript">
         H.ready(function () {
-            H.openFrameNavOrFoot("reg_body", "reg_body.html", "#header");
+            H.fixStatusBar(null, ".fix");
         });
     </script>
 </body>

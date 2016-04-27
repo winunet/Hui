@@ -6,21 +6,24 @@
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>Hui</title>
     <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        body { background: url(../../../image/login_bg.jpg) no-repeat left top; background-size: cover; }
+    </style>
 </head>
-<body class="H-theme-background-color-white H-height-100-percent H-box-sizing-border-box H-overflow-hidden">
+<body class="H-height-100-percent H-box-sizing-border-box H-overflow-hidden">
     <div class="fix">
-        <div class="H-horizontal-center H-padding-vertical-both-20">
+        <div class="H-horizontal-center H-padding-vertical-both-25">
             <div class="H-text-align-center">
-                <img src="../../../image/logo.png" class="H-border-radius-12" style="width:80px;height:80px;" />
+                <img src="../../../image/logo.png" class="H-border-radius-12 H-margin-vertical-top-10" style="width:80px;height:80px;" />
                 <div class="H-font-size-18">Hui</div>
             </div>
         </div>
         <div class="H-border-vertical-top-after H-margin-vertical-top-10">
             <div class="H-flexbox-horizontal  H-border-vertical-bottom-margin-both-10-after">
-                <span class="H-icon H-vertical-middle H-padding-horizontal-left-10 H-theme-background-color-white"><i class="H-iconfont H-icon-phone H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span><input type="text" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15" placeholder="请输入手机号码" />
+                <span class="H-icon H-vertical-middle H-padding-horizontal-left-10"><i class="H-iconfont H-icon-phone H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span><input type="text" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15 H-theme-background-color-transparent" placeholder="请输入手机号码" />
             </div>
             <div class="H-flexbox-horizontal H-border-vertical-bottom-after">
-                <span class="H-icon H-vertical-middle H-padding-horizontal-left-10 H-theme-background-color-white"><i class="H-iconfont H-icon-lock H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span><input type="password" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15" placeholder="请输入登录密码" />
+                <span class="H-icon H-vertical-middle H-padding-horizontal-left-10"><i class="H-iconfont H-icon-lock H-font-size-18 H-vertical-middle H-theme-font-color-999"></i></span><input type="password" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-15 H-theme-background-color-transparent" placeholder="请输入登录密码" />
             </div>
             <div class="H-padding-15 H-margin-vertical-top-10">
                 <button class="H-button H-width-100-percent  H-font-size-15 H-outline-none H-padding-vertical-both-15 H-padding-horizontal-both-20 H-theme-background-color9 H-theme-font-color-white H-theme-border-color9 H-theme-border-color9-click H-theme-background-color9-click H-theme-font-color9-click H-border-radius-3">登录提交</button>
@@ -32,7 +35,7 @@
     </div>
     <div class="H-padding-vertical-bottom-10"></div>
     <div class="H-theme-font-color1 H-text-align-center H-padding-vertical-both-10 H-font-size-14">其他方式登录</div>
-    <div class="H-flexbox-horizontal H-text-align-center H-theme-background-color-white H-padding-vertical-both-15">
+    <div class="H-flexbox-horizontal H-text-align-center  H-padding-vertical-both-15">
         <div class="H-flex-item">
             <span class="H-icon H-center-all H-theme-background-color1 H-border-radius-circle H-margin-horizontal-auto" style="height: 42px; width: 42px; "><i class="H-iconfont H-icon-qq H-font-size-22 H-theme-font-color-white"></i></span>
             <label class="H-display-block H-font-size-13 H-margin-vertical-top-5">腾讯QQ</label>
@@ -48,9 +51,6 @@
     </div>
     <script src="../../../script/H.js" type="text/javascript"></script>
     <script type="text/javascript">
-        H.ready(function () {
-            H.fixStatusBar(null, ".fix");
-        });
     </script>
 </body>
 </html>

@@ -2035,8 +2035,10 @@
                     }
                 });
             },
-            openFrameIndexByClick: function (framesOption, headerToggleClass, footerSelector, triggerSelector, triggerActiveClass) {
+            openFrameIndexByClick: function (framesOption, headerToggleClass, footerSelector, triggerSelector, triggerActiveClass, defaultIndex) {
                 var that = this;
+                defaultIndex = that.isNumber(defaultIndex) ? (Math.abs(defaultIndex) + 1) : 1;
+
                 window.___currentFrameName___ = "";
                 window.___currentTriggerIndex___ = -1;
                 window.___frameNameList___ = [];
@@ -2089,7 +2091,7 @@
 
                 var _evt = document.createEvent('Event');
                 _evt.initEvent('touchstart', true, true);
-                that.D(footerSelector + " " + triggerSelector + ":nth-child(1)").dispatchEvent(_evt);
+                that.D(footerSelector + " " + triggerSelector + ":nth-child(" + defaultIndex + ")").dispatchEvent(_evt);
             },
             openFrameGroupIndexByClick: function (callback, groupName, framesOption, index, isScroll, headerToggleClass, footerSelector, triggerSelector, triggerActiveClass, options) {
                 var that = this;

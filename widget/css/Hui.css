@@ -389,14 +389,20 @@ textarea { overflow: auto; }
 .H-horizontal-center { display: -webkit-box; -webkit-box-orient: horizontal; -webkit-box-pack: center; display: box; box-orient: horizontal; box-pack: center; }
 .H-horizontal-left { display: -webkit-box; -webkit-box-orient: horizontal; -webkit-box-pack: start; display: box; box-orient: horizontal; box-pack: start; }
 .H-horizontal-right { display: -webkit-box; -webkit-box-orient: horizontal; -webkit-box-pack: end; display: box; box-orient: horizontal; box-pack: end; }
+/*定位元素水平居中*/
+.H-position-horizontal-center { left: 50%; transform: translate(-50%,0); -webkit-transform: translate(-50%,0); }
 
 /* 行块元素垂直对齐 */
 .H-vertical-middle { display: -webkit-box; -webkit-box-orient: horizontal; -webkit-box-align: center; display: box; box-orient: horizontal; box-align: center; }
 .H-vertical-top { display: -webkit-box; -webkit-box-orient: horizontal; -webkit-box-align: start; display: box; box-orient: horizontal; box-align: start; }
 .H-vertical-bottom { display: -webkit-box; -webkit-box-orient: horizontal; -webkit-box-align: end; display: box; box-orient: horizontal; box-align: end; }
+/*定位元素垂直居中*/
+.H-position-vertical-middle { top: 50%; transform: translate(0,-50%); -webkit-transform: translate(0,-50%); }
 
 /* 行块元素水平垂直对齐 */
 .H-center-all { display: -webkit-box; -webkit-box-orient: horizontal; -webkit-box-pack: center; -webkit-box-align: center; display: box; box-orient: horizontal; box-pack: center; box-align: center; }
+/*定位元素水平垂直居中*/
+.H-position-center-all { top: 50%; left: 50%; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); }
 
 /*让元素水平排布*/
 .H-block-horizontal { display: box; display: -webkit-box; -webkit-box-orient: horizontal; box-sizing: border-box; -webkit-box-sizing: border-box; position: relative; }
@@ -674,10 +680,10 @@ textarea { overflow: auto; }
 .H-border-vertical-bottom-white { border-bottom: 1px solid white; }
 .H-border-vertical-bottom-after:after, .H-border-vertical-bottom-margin-left-10-after:after, .H-border-vertical-bottom-margin-right-10-after:after, .H-border-vertical-bottom-margin-both-10-after:after { border-bottom: 1px solid #e6e6e6; }
 .H-border-vertical-both-margin-10-after:after { margin-left: 10px; margin-right: 10px; }
-.H-border-vertical-top-margin-both-10-after:after { margin-left: 10px; margin-right: 30px; }
+.H-border-vertical-top-margin-both-10-after:after { margin-left: 10px; margin-right: 10px; }
 .H-border-vertical-top-margin-left-10-after:after { margin-left: 10px; }
 .H-border-vertical-top-margin-right-10-after:after { margin-right: 10px; }
-.H-border-vertical-bottom-margin-both-10-after:after { margin-left: 10px; margin-right: 30px; }
+.H-border-vertical-bottom-margin-both-10-after:after { margin-left: 10px; margin-right: 10px; }
 .H-border-vertical-bottom-margin-left-10-after:after { margin-left: 10px; }
 .H-border-vertical-bottom-margin-right-10-after:after { margin-right: 10px; }
 /*水平方向*/
@@ -688,10 +694,10 @@ textarea { overflow: auto; }
 .H-border-horizontal-right-white { border-right: 1px solid white; }
 .H-border-horizontal-right-after:after, .H-border-horizontal-right-margin-top-10-after:after, .H-border-horizontal-right-margin-bottom-10-after:after, .H-border-horizontal-right-margin-both-10-after:after { border-right: 1px solid #e6e6e6; }
 .H-border-horizontal-both-margin-10-after:after { margin-top: 10px; margin-bottom: 10px; }
-.H-border-horizontal-left-margin-both-10-after:after { margin-top: 10px; margin-bottom: 30px; }
+.H-border-horizontal-left-margin-both-10-after:after { margin-top: 10px; margin-bottom: 10px; }
 .H-border-horizontal-left-margin-top-10-after:after { margin-top: 10px; }
 .H-border-horizontal-left-margin-bottom-10-after:after { margin-bottom: 10px; }
-.H-border-horizontal-right-margin-both-10-after:after { margin-top: 10px; margin-bottom: 30px; }
+.H-border-horizontal-right-margin-both-10-after:after { margin-top: 10px; margin-bottom: 10px; }
 .H-border-horizontal-right-margin-top-10-after:after { margin-top: 10px; }
 .H-border-horizontal-right-margin-bottom-10-after:after { margin-bottom: 10px; }
 
@@ -701,6 +707,10 @@ textarea { overflow: auto; }
 
 @media screen and (-webkit-min-device-pixel-ratio:1.5) {
     .H-border-vertical-both-after:after, .H-border-vertical-top-after:after, .H-border-vertical-bottom-after:after, .H-border-horizontal-both-after:after, .H-border-horizontal-left-after:after, .H-border-horizontal-right-after:after, .H-border-vertical-both-margin-10-after:after, .H-border-vertical-top-margin-left-10-after:after, .H-border-vertical-top-margin-right-10-after:after, .H-border-vertical-top-margin-right-10-after:after, .H-border-vertical-bottom-margin-left-10-after:after, .H-border-vertical-bottom-margin-right-10-after:after, .H-border-horizontal-both-margin-10-after:after, .H-border-horizontal-left-margin-top-10-after:after, .H-border-horizontal-left-margin-bottom-10-after:after, .H-border-horizontal-right-margin-top-10-after:after, .H-border-horizontal-right-margin-bottom-10-after:after, .H-border-vertical-top-margin-both-10-after:after, .H-border-vertical-bottom-margin-both-10-after:after, .H-border-horizontal-left-margin-both-10-after:after, .H-border-horizontal-right-margin-both-10-after:after, .H-border-both-after:after { right: -100%; bottom: -100%; -webkit-transform: scale(0.5); }
+    .H-border-vertical-top-margin-both-10-after:after { margin-left: 10px; margin-right: 30px; }
+    .H-border-vertical-bottom-margin-both-10-after:after { margin-left: 10px; margin-right: 30px; }
+    .H-border-horizontal-left-margin-both-10-after:after { margin-top: 10px; margin-bottom: 30px; }
+    .H-border-horizontal-right-margin-both-10-after:after { margin-top: 10px; margin-bottom: 30px; }
 }
 
 /*支持动画*/

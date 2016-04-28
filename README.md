@@ -1,10 +1,10 @@
 ### Hui是一款与众不同，却包罗万象的移动UI框架。
 
-![输入图片说明](http://git.oschina.net/uploads/images/2016/0425/034348_513ebfc5_526496.jpeg "在这里输入图片标题")
-![输入图片说明](http://git.oschina.net/uploads/images/2016/0425/034355_1f9ef567_526496.jpeg "在这里输入图片标题")
-![输入图片说明](http://git.oschina.net/uploads/images/2016/0425/034403_f10b9ac3_526496.jpeg "在这里输入图片标题")
-![输入图片说明](http://git.oschina.net/uploads/images/2016/0425/034408_292b2949_526496.jpeg "在这里输入图片标题")
-![输入图片说明](http://git.oschina.net/uploads/images/2016/0425/034414_022f2550_526496.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0429/023737_accf0494_526496.png "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0429/023743_2facac53_526496.png "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0429/023749_3e3be56c_526496.png "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0429/023756_6d78412c_526496.png "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/0429/023802_eaa25a35_526496.png "在这里输入图片标题")
 
 * Hui崇尚的是样式组装化，提倡抽取通用类方式，你只需要写简单的样式甚至不需要写任何样式就可以通过通用类组装成丰富的组件和布局效果。
 * Hui包含了23中主题样式，可以满足各种App对色彩的需求。</p>
@@ -19,20 +19,20 @@
 
 * 框架名称：`Hui`
 * 框架作者：`新生帝`
-* 作者Q Q：`400465`，`8020292`
+* 作者Q Q：`8020292`
 * QQ交流群：`18863883`，加群请注明：`Hui`
 * 开发日期：`2016年04月15日`
 * 版权所有：`中山赢友网络科技有限公司`
 * 企业官网：[http://www.winu.net](http://www.winu.net)
-* 开源协议：`GPL v2 License`
+* 开源协议：`MIT License`
 * 系统描述：`一切从简，只为了更懒！`
 
 *****
 
-### Hui V0.1.5 正式版
+### Hui V0.1.6 正式版
 
-* IOS（苹果还未审核通过）：[IOS下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/d3c23d5a32b51cf997bb8af2358ac5d1.ipa)
-* Android：[Android下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/c1f808e0ed704c2c72dc6ef9ae5d47f2_d)
+* IOS（苹果还未审核通过）：[IOS下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/c6fde69b1b3c9dbc845eafb9a5a73fcc.ipa)
+* Android：[Android下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/1d4a41fef16706bae615029e21f8b5c1_d)
 
 *****
 

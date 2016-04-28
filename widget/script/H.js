@@ -1,11 +1,11 @@
 ﻿/*!
  * 文件名称：H.js
- * 文件版本：Version 0.0.2    2016-04-14
+ * 文件版本：Version 0.0.3    2016-04-28
  * 文件作者：新生帝(JsonLei)
  * 编写日期：2016年03月11日
  * 版权所有：中山赢友网络科技有限公司
  * 企业官网：http://www.winu.net
- * 开源协议：GPL v2 License
+ * 开源协议：MIT License
  * 文件描述：一切从简，只为了更懒！让APICloud再飞一会！
  * 讨论群区：一起改变中国IT教育 18863883
  * 文档地址：http://www.kancloud.cn/winu/hybrid
@@ -20,7 +20,7 @@
         define(['exports'], factory);
     } else {
         factory(window['H'] = {
-            v: "0.0.2",
+            v: "0.0.3",
             M: {},
             tppl_flag: ['[:', ':]'],
             trim: function (str) {
@@ -1753,18 +1753,18 @@
                         for (var i = 0; i < elements.length; i++) {
                             if (classs.indexOf(',') > -1) {
                                 var _classArr = classs.split(",");
-                                for (var i = 0; i < _classArr.length; i++) {
+                                for (var j = 0; j < _classArr.length; j++) {
                                     if (_classArr != "") {
-                                        elements[i].classList.add(_classArr[i]);
+                                        elements[i].classList.add(_classArr[j]);
                                     }
                                 }
                             }
                             else {
                                 if (classs.indexOf(' ') > -1) {
                                     var _classArr = classs.split(" ");
-                                    for (var i = 0; i < _classArr.length; i++) {
+                                    for (var j = 0; j < _classArr.length; j++) {
                                         if (_classArr != "") {
-                                            elements[i].classList.add(_classArr[i]);
+                                            elements[i].classList.add(_classArr[j]);
                                         }
                                     }
                                 }
@@ -1776,7 +1776,27 @@
                     }
                 }
                 else {
-                    elements.classList.add(classs);
+                    if (classs.indexOf(',') > -1) {
+                        var _classArr = classs.split(",");
+                        for (var i = 0; i < _classArr.length; i++) {
+                            if (_classArr != "") {
+                                elements.classList.add(_classArr[i]);
+                            }
+                        }
+                    }
+                    else {
+                        if (classs.indexOf(' ') > -1) {
+                            var _classArr = classs.split(" ");
+                            for (var i = 0; i < _classArr.length; i++) {
+                                if (_classArr != "") {
+                                    elements.classList.add(_classArr[i]);
+                                }
+                            }
+                        }
+                        else {
+                            elements.classList.add(classs);
+                        }
+                    }
                 }
             },
             removeClass: function (elements, classs) {
@@ -1787,18 +1807,18 @@
                         for (var i = 0; i < elements.length; i++) {
                             if (classs.indexOf(',') > -1) {
                                 var _classArr = classs.split(",");
-                                for (var i = 0; i < _classArr.length; i++) {
+                                for (var j = 0; j < _classArr.length; j++) {
                                     if (_classArr != "") {
-                                        elements[i].classList.remove(_classArr[i]);
+                                        elements[i].classList.remove(_classArr[j]);
                                     }
                                 }
                             }
                             else {
                                 if (classs.indexOf(' ') > -1) {
                                     var _classArr = classs.split(" ");
-                                    for (var i = 0; i < _classArr.length; i++) {
+                                    for (var j = 0; j < _classArr.length; j++) {
                                         if (_classArr != "") {
-                                            elements[i].classList.remove(_classArr[i]);
+                                            elements[i].classList.remove(_classArr[j]);
                                         }
                                     }
                                 }
@@ -1810,7 +1830,27 @@
                     }
                 }
                 else {
-                    elements.classList.remove(classs);
+                    if (classs.indexOf(',') > -1) {
+                        var _classArr = classs.split(",");
+                        for (var i = 0; i < _classArr.length; i++) {
+                            if (_classArr != "") {
+                                elements.classList.remove(_classArr[i]);
+                            }
+                        }
+                    }
+                    else {
+                        if (classs.indexOf(' ') > -1) {
+                            var _classArr = classs.split(" ");
+                            for (var i = 0; i < _classArr.length; i++) {
+                                if (_classArr != "") {
+                                    elements.classList.remove(_classArr[i]);
+                                }
+                            }
+                        }
+                        else {
+                            elements.classList.remove(classs);
+                        }
+                    }
                 }
             },
             hasClass: function (element, _class) {

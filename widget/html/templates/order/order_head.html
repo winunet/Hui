@@ -1,0 +1,58 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../../css/Hui.css" />
+    <style type="text/css">
+    </style>
+</head>
+<body class="H-flexbox-vertical">
+    <header class="H-header H-theme-background-color9" id="header">
+        <span tapmode="" onclick="H.closeWin();" class="H-icon H-position-relative H-display-inline-block H-float-left H-vertical-middle H-theme-font-color-white H-padding-horizontal-left-5 H-z-index-100"><i class="H-iconfont H-icon-arrow-left H-font-size-18 H-vertical-middle"></i><label class="H-display-block H-vertical-middle H-font-size-15">返回</label></span>
+        <div class="H-header-title H-center-all H-font-size-18 H-text-show-row-1 H-theme-font-color-white H-position-absolute H-width-100-percent">
+            我的订单
+        </div>
+        <div class="H-flexbox-horizontal H-theme-background-color-white" id="tag">
+            <div tapmode="" onclick="swipeIndex(0);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-10 H-theme-border-color-white  H-font-size-16 H-theme-border-color-52ace5 H-theme-font-color-52ace5 H-theme-border-color9 H-theme-font-color9" style="border-width: 0 0 2px  0">
+                话费充值
+            </div>
+            <div tapmode="" onclick="swipeIndex(1);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-10 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
+                打印复印
+            </div>
+            <div tapmode="" onclick="swipeIndex(2);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-10 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
+                商品购买
+            </div>
+        </div>
+    </header>
+    <script type="text/javascript" src="../../../script/H.js"></script>
+    <script type="text/javascript">
+        function setStyle(index) {
+            var that = H.D("#tag div:nth-child(" + (index + 1) + ")");
+            H.addClass(that, "H-theme-border-color9 H-theme-font-color9");
+            H.removeClass(H.siblings(that), "H-theme-border-color9 H-theme-font-color9");
+        }
+
+        function swipeIndex(index) {
+            H.setFrameGroupIndex("groups", index, true);
+        }
+
+        H.ready(function () {
+            H.openFrameGroupNavOrFoot(function (ret, err) {
+                setStyle(ret.index);
+            }, "groups", [{
+                url: 'order_mobile_body.html',
+                name: 'order_mobile_body'
+            }, {
+                url: 'order_print_body.html',
+                name: 'order_print_body'
+            }, {
+                url: 'order_goods_body.html',
+                name: 'order_goods_body'
+            }], 0, "#header", null);
+        });
+    </script>
+</body>
+</html>

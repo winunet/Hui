@@ -295,14 +295,13 @@
             var touch = event.targetTouches[0];
             var clientY = touch.clientY > 0 ? touch.clientY : 0;
 
-            var _index = Math.floor(clientY / (indexObj_height / indexSize)) + 95;
+            var _index = Math.floor(clientY / (indexObj_height / indexSize)) + 97;
             var word = "";
             // A-Z
             if (_index >= 97 && _index <= 122) {
                 currentIndexObj.innerHTML = String.fromCharCode(_index).toUpperCase();
                 word = String.fromCharCode(_index).toUpperCase();
             }
-
             else {
             }
             scrollToWord(word);

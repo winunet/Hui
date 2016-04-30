@@ -1,6 +1,6 @@
 ﻿/*!
  * 文件名称：H.js
- * 文件版本：Version 0.0.3    2016-04-28
+ * 文件版本：Version 0.0.4    2016-04-30
  * 文件作者：新生帝(JsonLei)
  * 编写日期：2016年03月11日
  * 版权所有：中山赢友网络科技有限公司
@@ -20,7 +20,7 @@
         define(['exports'], factory);
     } else {
         factory(window['H'] = {
-            v: "0.0.3",
+            v: "0.0.4",
             M: {},
             tppl_flag: ['[:', ':]'],
             trim: function (str) {
@@ -1669,15 +1669,15 @@
             },
             D: function (cssSelectorOrElement, parentSelectorOrElement) {
                 var that = this;
-                parentSelectorOrElement = that.isString(parentSelectorOrElement) ? parentSelectorOrElement : document;
-                parentSelectorOrElement = that.returnElement(parentSelectorOrElement);
+                parentSelectorOrElement = parentSelectorOrElement ? parentSelectorOrElement : document;
+                parentSelectorOrElement = that.isString(parentSelectorOrElement) ? document.querySelector(parentSelectorOrElement) : parentSelectorOrElement;
 
                 return parentSelectorOrElement.querySelector(cssSelectorOrElement);
             },
             Ds: function (cssSelectorOrElement, parentSelectorOrElement) {
                 var that = this;
-                parentSelectorOrElement = that.isString(parentSelectorOrElement) ? parentSelectorOrElement : document;
-                parentSelectorOrElement = that.returnElement(parentSelectorOrElement);
+                parentSelectorOrElement = parentSelectorOrElement ? parentSelectorOrElement : document;
+                parentSelectorOrElement = that.isString(parentSelectorOrElement) ? document.querySelector(parentSelectorOrElement) : parentSelectorOrElement;
 
                 return parentSelectorOrElement.querySelectorAll(cssSelectorOrElement);
             },

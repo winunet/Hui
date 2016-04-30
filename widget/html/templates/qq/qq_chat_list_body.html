@@ -326,7 +326,7 @@
             var touch = event.targetTouches[0];
             if (H.isElement(parentEle)) {
                 currentRange = Number(parentEle.firstElementChild.style.WebkitTransform.replace(/translateX\(/g, "").replace(/px\)/g, ""));
-                if (currentRange > -scrollWidth / 3) {
+                if (currentRange > 30) {
                     setScroll(parentEle, 0, 0.2);
                 }
                 else {

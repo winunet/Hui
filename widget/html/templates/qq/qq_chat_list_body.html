@@ -261,6 +261,7 @@
         var scrollWidth = 0;
         var currentRange = 0;
         var parentEle = null;
+        var direction = 1;
 
         // 设置侧滑动画
         function setScroll(parentElement, value, time) {
@@ -302,7 +303,7 @@
         window.addEventListener("touchmove", function (event) {
             if (event.targetTouches.length == 1) {
                 var touch = event.targetTouches[0];
-                var direction = GetSlideDirection(_startX, _startY, touch.pageX, touch.pageY);
+                direction = GetSlideDirection(_startX, _startY, touch.pageX, touch.pageY);
                 if (direction == 3 || direction == 4) {
                     event.preventDefault();
                     if (H.isElement(parentEle)) {
@@ -326,11 +327,14 @@
             var touch = event.targetTouches[0];
             if (H.isElement(parentEle)) {
                 currentRange = Number(parentEle.firstElementChild.style.WebkitTransform.replace(/translateX\(/g, "").replace(/px\)/g, ""));
-                if (currentRange > 30) {
-                    setScroll(parentEle, 0, 0.2);
+                if (direction == 3 && (currentRange < 0)) {
+                    setScroll(parentEle, -scrollWidth, 0.4);
+                }
+
+                if (direction == 4 && currentRange < 60) {
+                    setScroll(parentEle, 0, 0.4);
                 }
                 else {
-                    setScroll(parentEle, -scrollWidth, 0.2);
                 }
             }
         }, false);
@@ -338,7 +342,7 @@
         window.addEventListener("click", function (event) {
             var parentEle = H.getParents(event.target, "H-qq-item");
             if (H.isElement(parentEle)) {
-                setScroll(parentEle, 0, 0.2);
+                setScroll(parentEle, 0, 0.4);
             }
         }, false);
     </script>

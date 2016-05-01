@@ -59,12 +59,14 @@
     <script src="../../../plugins/response-waterfall/responsive_waterfall.js"></script>
     <script src="../../../script/H.js" type="text/javascript"></script>
     <script type="text/javascript">
-        // 初始化
-        var waterfall = new Waterfall({
-            containerSelector: '.wf-container',
-            boxSelector: '.wf-box',
-            minBoxWidth: 120
-        });
+        window.onload = function () {
+            // 初始化
+            var waterfall = new Waterfall({
+                containerSelector: '.wf-container',
+                boxSelector: '.wf-box',
+                minBoxWidth: 120
+            });
+        };
     </script>
 </body>
 </html>

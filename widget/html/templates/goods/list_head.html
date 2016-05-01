@@ -1,0 +1,69 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../../css/Hui.css" />
+    <style type="text/css">
+    </style>
+</head>
+<body class="H-flexbox-vertical">
+    <header class="H-header H-theme-background-color1" id="header">
+        <span tapmode="" class="H-icon H-position-relative H-display-inline-block H-float-left H-vertical-middle H-theme-font-color-white H-padding-horizontal-left-5 H-z-index-100" onclick="H.closeWin();"><i class="H-iconfont H-icon-arrow-left H-font-size-18 H-vertical-middle"></i></span>
+        <div class="H-header-title H-center-all H-font-size-18 H-text-show-row-1 H-theme-font-color-white H-position-absolute H-width-100-percent">
+            热卖商品
+        </div>
+        <div class="H-flexbox-horizontal H-theme-background-color-white" id="tag">
+            <div onclick="swipeIndex(0);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-5 H-theme-border-color-white  H-font-size-16 H-theme-border-color7-active H-theme-font-color7" style="border-width: 0 0 2px  0">
+                全部
+            </div>
+            <div onclick="swipeIndex(1);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-5 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
+                男装
+            </div>
+            <div onclick="swipeIndex(2);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-5 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
+                女装
+            </div>
+            <div onclick="swipeIndex(3);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-5 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
+                鞋包
+            </div>
+            <div onclick="swipeIndex(4);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-5 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
+                内衣
+            </div>
+        </div>
+    </header>
+    <script type="text/javascript" src="../../../script/H.js"></script>
+    <script type="text/javascript">
+        function setStyle(index) {
+            var that = H.D("#tag div:nth-child(" + (index + 1) + ")");
+            H.addClass(that, "H-theme-border-color7-active H-theme-font-color7");
+            H.removeClass(H.siblings(that), "H-theme-border-color7-active H-theme-font-color7");
+        }
+
+        function swipeIndex(index) {
+            H.setFrameGroupIndex("groups", index, true);
+        }
+        H.ready(function () {
+            H.openFrameGroupNavOrFoot(function (ret, err) {
+                setStyle(ret.index);
+            }, "groups", [{
+                url: 'list_body.html',
+                name: 'list_body1'
+            }, {
+                url: 'list_body.html',
+                name: 'list_body2'
+            }, {
+                url: 'list_body.html',
+                name: 'list_body3'
+            }, {
+                url: 'list_body.html',
+                name: 'list_body4'
+            }, {
+                url: 'list_body.html',
+                name: 'list_body5'
+            }], 0, "#header", null);
+        });
+    </script>
+</body>
+</html>

@@ -330,11 +330,11 @@
                 if (direction == 3 && (currentRange < 0)) {
                     setScroll(parentEle, -scrollWidth, 0.4);
                 }
-
-                if (direction == 4 && currentRange < 60) {
+                else if (direction == 4 && currentRange < 80) {
                     setScroll(parentEle, 0, 0.4);
                 }
                 else {
+                    setScroll(parentEle, 0, 0.4);
                 }
             }
         }, false);

@@ -2,7 +2,7 @@
 
 /*!
  * 文件名称：Hui.css
- * 文件版本：Version 0.1.9    2016-05-02
+ * 文件版本：Version 0.2.0    2016-05-04
  * 文件作者：新生帝
  * 编写日期：2016年04月15日
  * 版权所有：中山赢友网络科技有限公司
@@ -74,7 +74,6 @@ textarea { overflow: auto; }
 .H-icon-android:before { content: "\f100"; }
 .H-icon-SSID:before { content: "\f059"; }
 .H-icon-qq:before { content: "\f025"; }
-.H-icon-nice:before { content: "\f051"; }
 .H-icon-weibo:before { content: "\f026"; }
 .H-icon-add-user:before { content: "\f058"; }
 .H-icon-dot-more:before { content: "\f098"; }
@@ -125,23 +124,33 @@ textarea { overflow: auto; }
 .H-icon-tel:before { content: "\f112"; }
 .H-icon-com:before { content: "\f086"; }
 .H-icon-lock:before { content: "\f036"; }
+.H-icon-ipadiphone:before { content: "\f180"; }
 .H-icon-mobile-net:before { content: "\f037"; }
 .H-icon-arrow-scrolltop:before { content: "\f032"; }
+.H-icon-ding-null:before { content: "\f132"; }
+.H-icon-ding-fill:before { content: "\f133"; }
+.H-icon-cai-null:before { content: "\f134"; }
+.H-icon-cai-fill:before { content: "\f135"; }
 .H-icon-delegate:before { content: "\f075"; }
 .H-icon-ios:before { content: "\f101"; }
 .H-icon-arrow-down:before { content: "\f023"; }
 .H-icon-more:before { content: "\f038"; }
 .H-icon-clear:before { content: "\f041"; }
+.H-icon-tools:before { content: "\f136"; }
+.H-icon-qiandao:before { content: "\f137"; }
 .H-icon-loading:before { content: "\f011"; }
 .H-icon-tip-msg:before { content: "\f067"; }
 .H-icon-where:before { content: "\f066"; }
 .H-icon-gobottom:before { content: "\f096"; }
 .H-icon-bbs:before { content: "\f093"; }
 .H-icon-finding:before { content: "\f095"; }
+.H-icon-list-down:before { content: "\f138"; }
+.H-icon-list-up:before { content: "\f139"; }
 .H-icon-about-me:before { content: "\f077"; }
 .H-icon-quick:before { content: "\f065"; }
 .H-icon-camera:before { content: "\f062"; }
 .H-icon-position:before { content: "\f021"; }
+.H-icon-gif:before { content: "\f131"; }
 .H-icon-qzone:before { content: "\f029"; }
 .H-icon-hot:before { content: "\f097"; }
 .H-icon-scanning:before { content: "\f061"; }
@@ -171,10 +180,40 @@ textarea { overflow: auto; }
 .H-icon-vip:before { content: "\f072"; }
 .H-icon-aite:before { content: "\f034"; }
 .H-icon-alipay:before { content: "\f108"; }
-.H-icon-save:before { content: "\f080"; }
+.H-icon-none:before { content: "\f130"; }
+.H-icon-calc:before { content: "\f155"; }
+.H-icon-licai:before { content: "\f171"; }
+.H-icon-money2:before { content: "\f170"; }
+.H-icon-familyarea:before { content: "\f160"; }
+.H-icon-femaleanchors:before { content: "\f159"; }
+.H-icon-gamelive:before { content: "\f154"; }
+.H-icon-recreationcenter:before { content: "\f145"; }
+.H-icon-application:before { content: "\f144"; }
+.H-icon-logo:before { content: "\f151"; }
+.H-icon-game1:before { content: "\f141"; }
+.H-icon-music1:before { content: "\f142"; }
+.H-icon-money21:before { content: "\f143"; }
+.H-icon-safe2:before { content: "\f146"; }
+.H-icon-safe:before { content: "\f080"; }
+.H-icon-supermarket:before { content: "\f147"; }
 .H-icon-reward:before { content: "\f081"; }
+.H-icon-zujin:before { content: "\f148"; }
+.H-icon-zhongping:before { content: "\f150"; }
+.H-icon-camera1:before { content: "\f140"; }
+.H-icon-new:before { content: "\f152"; }
+.H-icon-point:before { content: "\f153"; }
+.H-icon-user2:before { content: "\f173"; }
+.H-icon-adduser:before { content: "\f156"; }
+.H-icon-passuser:before { content: "\f157"; }
+.H-icon-send-msg:before { content: "\f158"; }
+.H-icon-v1:before { content: "\f161"; }
+.H-icon-v2:before { content: "\f162"; }
+.H-icon-v3:before { content: "\f163"; }
+.H-icon-wangge:before { content: "\f164"; }
+.H-icon-zuanshi:before { content: "\f167"; }
+.H-icon-dengpao:before { content: "\f168"; }
+.H-icon-taideng:before { content: "\f169"; }
 .H-icon-arrow-up:before { content: "\f099"; }
-.H-icon-pass:before { content: "\f116"; }
 .H-icon-close:before { content: "\f117"; }
 .H-icon-fee:before { content: "\f118"; }
 
@@ -198,6 +237,13 @@ textarea { overflow: auto; }
 .H-font-size-32 { font-size: 3.2rem; }
 .H-font-size-34 { font-size: 3.4rem; }
 .H-font-size-36 { font-size: 3.6rem; }
+.H-font-size-38 { font-size: 3.8rem; }
+.H-font-size-40 { font-size: 4.0rem; }
+.H-font-size-42 { font-size: 4.2rem; }
+.H-font-size-44 { font-size: 4.4rem; }
+.H-font-size-46 { font-size: 4.6rem; }
+.H-font-size-48 { font-size: 4.8rem; }
+.H-font-size-50 { font-size: 5.0rem; }
 
 /* 常用主题字体颜色 */
 .H-theme-font-color-ccc { color: #ccc; }
@@ -376,9 +422,12 @@ textarea { overflow: auto; }
 
 /* 常用行块元素切换 */
 .H-display-none { display: none; }
+.H-display-none-important { display: none !important; }
 .H-display-block { display: block; }
+.H-display-block-important { display: block !important; }
 .H-display-inline { display: inline; }
 .H-display-inline-block { display: inline-block; }
+.H-display-inline-block-important { display: inline-block !important; }
 .H-display-table { display: table; }
 .H-display-table-cell { display: table-cell; transform-style: preserve-3d; -webkit-transform-style: preserve-3d; }
 
@@ -399,9 +448,9 @@ textarea { overflow: auto; }
 
 /* 常用流布局 */
 .H-box { display: box; display: -webkit-box; }
-.H-flexbox-vertical { display: box; display: -webkit-box; display: -webkit-flex; display: flex; -webkit-box-orient: vertical; -webkit-flex-flow: column; flex-flow: column; height: 100%; -webkit-flex-direction: column; flex-direction: column; }
-.H-flexbox-horizontal { display: box; display: -webkit-box; display: -webkit-flex; display: flex; -webkit-box-orient: horizontal; -webkit-flex-flow: row; flex-flow: row; width: 100%; -webkit-flex-direction: row; flex-direction: row; }
-.H-flex-item { -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; }
+.H-flexbox-vertical { display: box; display: -webkit-box; display: -webkit-flex; display: flex; -webkit-box-orient: vertical; -webkit-flex-flow: column; flex-flow: column; height: 100%; -webkit-flex-direction: column; flex-direction: column; box-sizing: border-box; -webkit-box-sizing: border-box; }
+.H-flexbox-horizontal { display: box; display: -webkit-box; display: -webkit-flex; display: flex; -webkit-box-orient: horizontal; -webkit-flex-flow: row; flex-flow: row; width: 100%; -webkit-flex-direction: row; flex-direction: row; box-sizing: border-box; -webkit-box-sizing: border-box; }
+.H-flex-item { -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; box-sizing: border-box; -webkit-box-sizing: border-box; }
 .H-flex-flow-row-wrap { flex-direction: row; flex-wrap: wrap; -webkit-flex-direction: row; -webkit-flex-wrap: wrap; }
 .H-flex-flow-row-nowrap { flex-direction: row; flex-wrap: nowrap; -webkit-flex-direction: row; -webkit-flex-wrap: nowrap; }
 
@@ -569,6 +618,37 @@ textarea { overflow: auto; }
 .H-margin-vertical-top-25 { margin-top: 25px; }
 .H-margin-vertical-bottom-25 { margin-bottom: 25px; }
 
+.H-vertical-both-0 { top: 0; bottom: 0; }
+.H-vertical-both-2 { top: 2px; bottom: 2px; }
+.H-vertical-both-3 { top: 3px; bottom: 3px; }
+.H-vertical-both-5 { top: 5px; bottom: 5px; }
+.H-vertical-both-8 { top: 8px; bottom: 8px; }
+.H-vertical-both-10 { top: 10px; bottom: 10px; }
+.H-vertical-both-12 { top: 12px; bottom: 12px; }
+.H-vertical-both-15 { top: 15px; bottom: 15px; }
+.H-vertical-both-20 { top: 20px; bottom: 20px; }
+.H-vertical-both-25 { top: 25px; bottom: 25px; }
+.H-vertical-top-0 { top: 0; }
+.H-vertical-top-2 { top: 2px; }
+.H-vertical-top-3 { top: 3px; }
+.H-vertical-top-5 { top: 5px; }
+.H-vertical-top-8 { top: 8px; }
+.H-vertical-top-10 { top: 10px; }
+.H-vertical-top-12 { top: 12px; }
+.H-vertical-top-15 { top: 15px; }
+.H-vertical-top-20 { top: 20px; }
+.H-vertical-top-25 { top: 25px; }
+.H-vertical-bottom-0 { bottom: 0; }
+.H-vertical-bottom-2 { bottom: 2px; }
+.H-vertical-bottom-3 { bottom: 3px; }
+.H-vertical-bottom-5 { bottom: 5px; }
+.H-vertical-bottom-8 { bottom: 8px; }
+.H-vertical-bottom-10 { bottom: 10px; }
+.H-vertical-bottom-12 { bottom: 12px; }
+.H-vertical-bottom-15 { bottom: 15px; }
+.H-vertical-bottom-20 { bottom: 20px; }
+.H-vertical-bottom-25 { bottom: 25px; }
+
 /*水平方向*/
 .H-padding-horizontal-both-0 { padding-left: 0; padding-right: 0; }
 .H-padding-horizontal-left-0 { padding-left: 0; }
@@ -630,6 +710,37 @@ textarea { overflow: auto; }
 .H-margin-horizontal-both-25 { margin-left: 25px; margin-right: 25px; }
 .H-margin-horizontal-left-25 { margin-left: 25px; }
 .H-margin-horizontal-right-25 { margin-right: 25px; }
+
+.H-horizontal-both-0 { left: 0; right: 0; }
+.H-horizontal-both-2 { left: 2px; right: 2px; }
+.H-horizontal-both-3 { left: 3px; right: 3px; }
+.H-horizontal-both-5 { left: 5px; right: 5px; }
+.H-horizontal-both-8 { left: 8px; right: 8px; }
+.H-horizontal-both-10 { left: 10px; right: 10px; }
+.H-horizontal-both-12 { left: 12px; right: 12px; }
+.H-horizontal-both-15 { left: 15px; right: 15px; }
+.H-horizontal-both-20 { left: 20px; right: 20px; }
+.H-horizontal-both-25 { left: 25px; right: 25px; }
+.H-horizontal-left-0 { left: 0; }
+.H-horizontal-left-2 { left: 2px; }
+.H-horizontal-left-3 { left: 3px; }
+.H-horizontal-left-5 { left: 5px; }
+.H-horizontal-left-8 { left: 8px; }
+.H-horizontal-left-10 { left: 10px; }
+.H-horizontal-left-12 { left: 12px; }
+.H-horizontal-left-15 { left: 15px; }
+.H-horizontal-left-20 { left: 20px; }
+.H-horizontal-left-25 { left: 25px; }
+.H-horizontal-right-0 { right: 0; }
+.H-horizontal-right-2 { right: 2px; }
+.H-horizontal-right-3 { right: 3px; }
+.H-horizontal-right-5 { right: 5px; }
+.H-horizontal-right-8 { right: 8px; }
+.H-horizontal-right-10 { right: 10px; }
+.H-horizontal-right-12 { right: 12px; }
+.H-horizontal-right-15 { right: 15px; }
+.H-horizontal-right-20 { right: 20px; }
+.H-horizontal-right-25 { right: 25px; }
 
 /*定位位置*/
 
@@ -760,6 +871,18 @@ textarea { overflow: auto; }
     .H-border-horizontal-right-margin-both-10-after:after { margin-top: 10px; margin-bottom: 30px; }
 }
 
+/*边线样式*/
+.H-border-style-solid { border-style: solid; }
+.H-border-style-dotted { border-style: dotted; }
+.H-border-style-double { border-style: double; }
+.H-border-style-dashed { border-style: dashed; }
+.H-border-style-hidden { border-style: hidden; }
+.H-border-style-solid-after:after { border-style: solid; }
+.H-border-style-dotted-after:after { border-style: dotted; }
+.H-border-style-double-after:after { border-style: double; }
+.H-border-style-dashed-after:after { border-style: dashed; }
+.H-border-style-hidden-after:after { border-style: hidden; }
+
 /*透明度*/
 .H-opacity-0 { opacity: 0; }
 .H-opacity-1-half { opacity: 0.5; }
@@ -816,6 +939,7 @@ textarea { overflow: auto; }
 .H-header { min-height: 44px; }
 .H-header-title, .H-header .H-icon { height: 44px; }
 .H-header-title { left: 0; }
+.H-header input::-webkit-input-placeholder { line-height: 1.5em; }
 
 /* 底部工具栏 */
 .H-footer { height: 55px; }
@@ -995,7 +1119,7 @@ textarea { overflow: auto; }
 .H-radio.H-radio-gender-man.H-radio-null.H-theme-font-color9:checked:before,
 .H-radio.H-radio-judge-no.H-radio-null.H-theme-font-color9:checked:before,
 .H-radio.H-radio-judge-yes.H-radio-null.H-theme-font-color9:checked:before,
-.H-radio.H-radio-select-A.H-radio-null.H-theme-font-color-b5cb85clack:checked:before,
+.H-radio.H-radio-select-A.H-radio-null.H-theme-font-color9:checked:before,
 .H-radio.H-radio-select-B.H-radio-null.H-theme-font-color9:checked:before,
 .H-radio.H-radio-select-C.H-radio-null.H-theme-font-color9:checked:before,
 .H-radio.H-radio-select-D.H-radio-null.H-theme-font-color9:checked:before,
@@ -1162,8 +1286,6 @@ textarea.H-textbox { min-height: 150px; resize: none; }
 #H-drop-reflesh { top: -40px; left: 50%; margin-left: -20px; }
 
 /********************丰富动画集合*********************/
-
-@charset "UTF-8";
 
 /*!
  * animate.css -http://daneden.me/animate

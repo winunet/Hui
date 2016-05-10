@@ -2800,6 +2800,10 @@
 
                 o.buttons = buttons;
 
+                if (that.Ds(".H-actionSheet") && that.Ds(".H-actionSheet").length > 0) {
+                    document.body.removeChild(that.D(".H-actionSheet"));
+                }
+
                 var html = '<div class="H-actionSheet H-display-none-important H-flexbox-vertical H-position-absolute H-vertical-top-0 H-horizontal-right-0 H-vertical-bottom-0 H-horizontal-left-0 H-height-100-percent H-width-100-percent H-background-color-transparent-3" style="z-index: 19923015; ">';
                 html += '<div class="H-actionSheet-space H-flex-item"></div>';
                 html += '<div class="H-actionSheet-list H-padding-10 animated slideInUp" style="-webkit-animation-duration:0.4s;animation-duration:0.4s;">';

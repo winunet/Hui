@@ -60,7 +60,7 @@
             本款鞋码偏大，妈妈们尽量按脚长+0.3CM选，不要再加码哦。默认发中通快递。
         </div>
     </div>
-    <div tapmode="" class="zpbg H-flexbox-horizontal H-theme-font-color-666 H-box-sizing-border-box H-padding-horizontal-both-10 H-padding-vertical-both-8 H-font-size-12 " onclick="H.openFrame('zhengpin_body', 'zhengpin_body.html', null, {bounces:false});">
+    <div tapmode="" class="zpbg H-flexbox-horizontal H-theme-font-color-666 H-box-sizing-border-box H-padding-horizontal-both-10 H-padding-vertical-both-8 H-font-size-12 " onclick="H.swiperShare('.show-services','.zp-menu','space');">
         <div class="H-flex-item">
             <span class="H-margin-horizontal-right-10 "><i class="H-iconfont H-icon-right H-font-size-12 H-theme-font-color7 H-margin-horizontal-right-5"></i>正品保证</span>
             <span class="H-margin-horizontal-right-10"><i class="H-iconfont H-icon-right H-font-size-12 H-theme-font-color7 H-margin-horizontal-right-5"></i>急速退款</span>
@@ -85,7 +85,7 @@
             评价（17）
         </div>
         <div class="H-flex-item H-theme-font-color-333 H-text-align-right">
-            好评度<span class=" H-theme-font-color7 H-margin-horizontal-both-5">88%</span><i class="H-iconfont H-icon-arrow-right H-font-size-12"></i>
+            好评度<span class="H-theme-font-color7 H-margin-horizontal-both-5">88%</span><i class="H-iconfont H-icon-arrow-right H-font-size-12"></i>
         </div>
     </div>
     <div id="replaylist">
@@ -142,10 +142,50 @@
         </div>
     </div>
     <div class="H-background-white H-padding10">
-        <p class=" H-font-size-12 H-theme-font-color-999 H-text-align-center" id="noreplay">
+        <p class="H-font-size-12 H-theme-font-color-999 H-text-align-center" id="noreplay">
             沙发空余，快来抢占
         </p>
         <div class="H-padding-vertical-bottom-10"></div>
+    </div>
+
+    <div class="show-services H-flexbox-vertical H-display-none-important H-position-fixed H-width-100-percent H-height-100-percent H-z-index-1000000 H-horizontal-left-0 H-vertical-bottom-0 H-horizontal-right-0">
+        <div class="space H-flex-item"></div>
+        <div class="zp-menu H-theme-background-color-white">
+            <div class="H-padding-vertical-both-15 H-text-align-center H-font-size-16">
+                服务说明
+            </div>
+            <div class="H-flexbox-horizontal H-padding-vertical-bottom-10 H-font-size-14 H-border-vertical-bottom-margin-both-10-after">
+                <i class="H-iconfont H-margin-vertical-both-3 H-icon-right H-theme-font-color7 H-padding-horizontal-both-15"></i>
+                <div class="H-flex-item H-flexbox-vertical">
+                    <span class="H-margin-vertical-both-5 H-theme-font-color-333 ">正品保证</span>
+                    <span class="H-theme-font-color-999 H-padding-horizontal-right-15 H-font-size-12">
+                        该商品由中国人保承保正品保证险
+                    </span>
+                </div>
+            </div>
+            <div class="H-flexbox-horizontal H-padding-vertical-bottom-10 H-font-size-14 H-border-vertical-bottom-margin-both-10-after">
+                <i class="H-iconfont H-margin-vertical-both-3 H-icon-right H-theme-font-color7 H-padding-horizontal-both-15"></i>
+                <div class="H-flex-item H-flexbox-vertical">
+                    <span class="H-margin-vertical-both-5 H-theme-font-color-333">急速退款</span>
+                    <span class="H-theme-font-color-999 H-padding-horizontal-right-15 H-font-size-12">
+                        天猫会员专享特权 天猫为T2、T3、T4天猫会员提供退款退货流程的专享特权
+                    </span>
+                </div>
+            </div>
+            <div class="H-flexbox-horizontal H-padding-vertical-bottom-10 H-font-size-14">
+                <i class="H-iconfont H-margin-vertical-both-3 H-icon-right H-theme-font-color7 H-padding-horizontal-both-15"></i>
+                <div class="H-flex-item H-flexbox-vertical">
+                    <span class="H-margin-vertical-both-5 H-theme-font-color-333">七天无理由退换</span>
+                    <span class="H-theme-font-color-999 H-padding-horizontal-right-15 H-font-size-12">
+                        消费者在满足7天无理由退换货申请条件的前提下，可以提出“7天无理由退换货”的申请
+                    </span>
+                </div>
+            </div>
+
+            <div tapmode="" onclick="H.swiperShare('.show-services', '.zp-menu', 'space');" class="H-theme-background-color7 H-theme-font-color-white H-padding-12 H-font-size-16 H-center-all H-margin-vertical-top-15">
+                关 闭
+            </div>
+        </div>
     </div>
     <script src="../../../plugins/swiper/swiper.min.js"></script>
     <script type="text/javascript" src="../../../script/H.js"></script>

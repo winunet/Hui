@@ -1,6 +1,6 @@
 ﻿/*!
  * 文件名称：H.js
- * 文件版本：Version 0.0.4    2016-04-30
+ * 文件版本：Version 0.0.7    2016-05-10
  * 文件作者：新生帝(JsonLei)
  * 编写日期：2016年03月11日
  * 版权所有：中山赢友网络科技有限公司
@@ -20,13 +20,16 @@
         define(['exports'], factory);
     } else {
         factory(window['H'] = {
-            v: "0.0.4",
+            v: "0.0.7",
             M: {},
             tppl_flag: ['[:', ':]'],
             trim: function (str) {
                 if (str) {
                     return str.replace(/(^\s*)|(\s*$)/g, '');
                 }
+            },
+            trimAll: function (str) {
+                return str.replace(/\s*/g, '');
             },
             getFileExt: function (fileName) {
                 if (fileName && fileName.length > 2) {
@@ -46,6 +49,17 @@
                     return (Y - r[1]);
                 }
                 return 0;
+            },
+            getClassOrTagName: function (str) {
+                if (str && str.length > 0) {
+                    if (str.substr(0, 1) == "." || str.substr(0, 1) == "#") {
+                        return str.substr(1);
+                    }
+                    else {
+                        return str;
+                    }
+                }
+                return "*";
             },
             isNumber: function (str) {
                 return !isNaN(str);
@@ -188,22 +202,90 @@
                 }
                 return result;
             },
+            // 动态载入js，css，filetype类型就是js,css
+            loadJsOrCssFile: function (filename, filetype) {
+                if (filetype == "js") {
+                    var fileref = document.createElement('script');
+                    fileref.setAttribute("type", "text/javascript");
+                    fileref.setAttribute("src", filename);
+                } else if (filetype == "css") {
+
+                    var fileref = document.createElement('link');
+                    fileref.setAttribute("rel", "stylesheet");
+                    fileref.setAttribute("type", "text/css");
+                    fileref.setAttribute("href", filename);
+                }
+                if (typeof fileref != "undefined") {
+                    document.getElementsByTagName("head")[0].appendChild(fileref);
+                }
+            },
+            // 异步载入Html
+            loadHtml: function (filename, callback) {
+                var that = this;
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+                        if (that.isFunction(callback)) {
+                            callback(xmlHttp.responseText);
+                        }
+                    }
+                };
+                xmlHttp.open("get", filename, true);
+                xmlHttp.send(null);
+            },
+            // 判断是否是WebView
+            isWebView: function () {
+                var that = this;
+                var host = window.location.host;
+                var path = window.location.href;
+                if (host == "" && ((path.toLowerCase().indexOf('file:///storage') > -1)) || (path.toLowerCase().indexOf('file:///var/') > -1) || (path.toLowerCase().indexOf('contents:///') > -1)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+            // 判断是否是APICloud
+            isAPICloud: function () {
+                var that = this;
+                if (typeof api !== 'undefined' && typeof api.openWin !== 'undefined' && that.isWebView()) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
+            // 判断是否是服务器环境
+            isServerEnvironment: function () {
+                var that = this;
+                var host = window.location.host;
+                var path = window.location.href;
+
+                if (host != "" && path.indexOf('file:///') == -1 && that.isAPICloud() == false) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            },
             // ######################### 事件
             addEventListener: function (callback, name, extra) {
                 var that = this;
-                var o = {};
-                o.name = name;
+                if (that.isAPICloud()) {
+                    var o = {};
+                    o.name = name;
 
-                if (extra) {
-                    extra = that.isObject(extra) ? extra : {};
-                    o.extra = extra;
-                }
-
-                api.addEventListener(o, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
+                    if (extra) {
+                        extra = that.isObject(extra) ? extra : {};
+                        o.extra = extra;
                     }
-                });
+
+                    api.addEventListener(o, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             batterylow: function (callback) {
                 var that = this;
@@ -483,7 +565,19 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.openWin_CONFIG, o, options);
-                api.openWin(opt);
+
+                if (that.isAPICloud()) {
+                    api.openWin(opt);
+                }
+                else {
+                    if (parent && parent.window) {
+                        parent.window.location = winUrl;
+                    }
+                    else {
+                        window.location = winUrl;
+                    }
+                }
+
             },
             closeWin: function (winName, options) {
                 var that = this;
@@ -494,7 +588,16 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.closeWin_CONFIG, o, options);
-                api.closeWin(opt);
+                if (that.isAPICloud()) {
+                    api.closeWin(opt);
+                }
+                else {
+                    try {
+                        parent.window.history.go(-1);
+                    } catch (e) {
+                        window.history.go(-1);
+                    }
+                }
             },
             closeToWin: function (winName, options) {
                 var that = this;
@@ -504,14 +607,18 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.closeToWin_CONFIG, o, options);
-                api.closeToWin(opt);
+                if (that.isAPICloud()) {
+                    api.closeToWin(opt);
+                }
             },
             setWinAttr: function (options) {
                 var that = this;
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.setWinAttr_CONFIG, options);
-                api.setWinAttr(opt)
+                if (that.isAPICloud()) {
+                    api.setWinAttr(opt)
+                }
             },
             openFrame: function (frameName, frameUrl, framePageParam, options) {
                 var that = this;
@@ -522,14 +629,50 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.openFrame_CONFIG, o, options);
-                api.openFrame(opt);
+
+                if (that.isAPICloud()) {
+                    api.openFrame(opt);
+                }
+                else {
+                    // 判断是否已经存在iframe了，ID为H-frame
+                    if (that.Ds("#H-frame") && that.Ds("#H-frame").length > 0) {
+                        that.D("#H-frame").setAttribute("src", frameUrl);
+                        return;
+                    }
+
+                    var iframeHtml = '<iframe id="H-frame"  src="' + frameUrl + '" class="H-position-absolute H-vertical-top-0 H-horizontal-right-0 H-vertical-bottom-0 H-horizontal-left-0 H-width-100-percent H-height-100-percent H-z-index-100" frameborder="0" scrolling="yes"></iframe>';
+                    // 判断是否有H-main了
+                    if (that.Ds(".H-main") && that.Ds(".H-main").length > 0) {
+                        that.addClass(that.D(".H-main"), "H-position-relative H-overflow-scrolling");
+                        that.D(".H-main").innerHTML = iframeHtml;
+                    }
+                    else {
+                        var html = '<div class="H-main H-flex-item H-position-relative H-overflow-scrolling">';
+                        html += iframeHtml;
+                        html += '</div>';
+                        if (that.hasClass(document.body, "H-flexbox-vertical") == false) {
+                            that.addClass(document.body, "H-flexbox-vertical");
+                        }
+
+                        if (that.Ds(".H-header") && that.Ds(".H-header").length > 0) {
+                            that.after(that.Ds(".H-header")[that.Ds(".H-header").length - 1], null, html);
+                        }
+                        else {
+                            that.prepend("body", "html", html);
+                        }
+                    }
+                }
             },
             closeFrame: function (frameName) {
+                var that = this;
+
                 var o = {};
                 if (frameName) {
                     o.name = frameName;
                 }
-                api.closeFrame(o);
+                if (that.isAPICloud()) {
+                    api.closeFrame(o);
+                }
             },
             setFrameAttr: function (frameName, hidden, options) {
                 var that = this;
@@ -541,36 +684,46 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.setFrameAttr_CONFIG, o, options);
-                api.setFrameAttr(opt);
+                if (that.isAPICloud()) {
+                    api.setFrameAttr(opt);
+                }
             },
             bringFrameToFront: function (fromFrameName, toFrameName) {
+                var that = this;
+
                 var o = {};
                 o.from = fromFrameName;
 
                 if (toFrameName) {
                     o.to = toFrameName;
                 }
-                api.bringFrameToFront(o);
+                if (that.isAPICloud()) {
+                    api.bringFrameToFront(o);
+                }
             },
             sendFrameToBack: function (fromFrameName, toFrameName) {
+                var that = this;
                 var o = {};
                 o.from = fromFrameName;
 
                 if (toFrameName) {
                     o.to = toFrameName;
                 }
-                api.sendFrameToBack(o);
+                if (that.isAPICloud()) {
+                    api.sendFrameToBack(o);
+                }
             },
             setFrameClient: function (callback, frameName) {
                 var that = this;
-
-                api.setFrameClient({
-                    frameName: frameName
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.setFrameClient({
+                        frameName: frameName
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             animation: function (callback, frameName, options) {
                 var that = this;
@@ -581,11 +734,13 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.animation_CONFIG, o, options);
-                api.animation(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.animation(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             openFrameGroup: function (callback, groupName, frames, index, options) {
                 var that = this;
@@ -612,16 +767,50 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.openFrameGroup_CONFIG, o, options);
-                api.openFrameGroup(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
+
+                if (that.isAPICloud()) {
+                    api.openFrameGroup(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
+                else {
+                    // 判断是否已经存在iframe了，ID为H-frame
+                    if (that.Ds("#H-frame") && that.Ds("#H-frame").length > 0) {
+                        that.D("#H-frame").setAttribute("src", frames[0].url);
+                        return;
                     }
-                });
+
+                    var iframeHtml = '<iframe id="H-frame" src="' + frames[0].url + '" class="H-position-absolute H-vertical-top-0 H-horizontal-right-0 H-vertical-bottom-0 H-horizontal-left-0 H-width-100-percent H-height-100-percent H-z-index-100" frameborder="0" scrolling="yes"></iframe>';
+                    // 判断是否有H-main了
+                    if (that.Ds(".H-main") && that.Ds(".H-main").length > 0) {
+                        that.addClass(that.D(".H-main"), "H-position-relative H-overflow-hidden H-overflow-scrolling");
+                        that.D(".H-main").innerHTML = iframeHtml;
+                    }
+                    else {
+                        var html = '<div class="H-main H-flex-item H-position-relative H-overflow-hidden H-overflow-scrolling">';
+                        html += iframeHtml;
+                        html += '</div>';
+                        if (that.hasClass(document.body, "H-flexbox-vertical") == false) {
+                            that.addClass(document.body, "H-flexbox-vertical");
+                        }
+                        if (that.Ds(".H-header") && that.Ds(".H-header").length > 0) {
+                            that.after(that.Ds(".H-header")[that.Ds(".H-header").length - 1], null, html);
+                        }
+                        else {
+                            that.prepend("body", "html", html);
+                        }
+                    }
+                }
             },
             closeFrameGroup: function (groupName) {
-                api.closeFrameGroup({
-                    name: groupName
-                });
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.closeFrameGroup({
+                        name: groupName
+                    });
+                }
             },
             setFrameGroupAttr: function (groupName, hidden, options) {
                 var that = this;
@@ -633,7 +822,9 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.setFrameGroupAttr_CONFIG, o, options);
-                api.setFrameGroupAttr(opt)
+                if (that.isAPICloud()) {
+                    api.setFrameGroupAttr(opt);
+                }
             },
             setFrameGroupIndex: function (groupName, index, isScroll, options) {
                 var that = this;
@@ -646,7 +837,9 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.setFrameGroupIndex_CONFIG, o, options);
-                api.setFrameGroupIndex(opt)
+                if (that.isAPICloud()) {
+                    api.setFrameGroupIndex(opt);
+                }
             },
             openPopoverWin: function (popoverWinName, popoverWinUrl, popoverWinpageParam, options) {
                 var that = this;
@@ -657,10 +850,15 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.openPopoverWin_CONFIG, o, options);
-                api.openPopoverWin(opt);
+                if (that.isAPICloud()) {
+                    api.openPopoverWin(opt);
+                }
             },
             closePopoverWin: function () {
-                api.closePopoverWin();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.closePopoverWin();
+                }
             },
             openSlidLayout: function (callback, fixedPane, slidPane, options) {
                 var that = this;
@@ -683,11 +881,13 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.openSlidLayout_CONFIG, o, options);
-                api.openSlidLayout(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.openSlidLayout(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             openSlidPane: function (type) {
                 var that = this;
@@ -695,18 +895,29 @@
                 type = that.isString(type) ? type : "left";
                 type = typeArr.indexOf(type) > -1 ? type : "left";
 
-                api.openSlidPane({
-                    type: type
-                });
+                if (that.isAPICloud()) {
+                    api.openSlidPane({
+                        type: type
+                    });
+                }
             },
             closeSlidPane: function () {
-                api.closeSlidPane();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.closeSlidPane();
+                }
             },
             lockSlidPane: function () {
-                api.lockSlidPane();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.lockSlidPane();
+                }
             },
             unlockSlidPane: function () {
-                api.unlockSlidPane();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.unlockSlidPane();
+                }
             },
             openDrawerLayout: function (drawerName, drawerUrl, leftPane, rightPane, drawerPageParam, options) {
                 var that = this;
@@ -736,116 +947,138 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.openDrawerLayout_CONFIG, o, options);
-                api.openDrawerLayout(opt);
+                if (that.isAPICloud()) {
+                    api.openDrawerLayout(opt);
+                }
             },
             openDrawerPane: function (type) {
                 var that = this;
                 var typeArr = ["left", "right"];
                 type = that.isString(type) ? type : "left";
                 type = typeArr.indexOf(type) > -1 ? type : "left";
-
-                api.openDrawerPane({
-                    type: type
-                });
+                if (that.isAPICloud()) {
+                    api.openDrawerPane({
+                        type: type
+                    });
+                }
             },
             closeDrawerPane: function () {
-                api.closeDrawerPane();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.closeDrawerPane();
+                }
             },
             execScript: function (winName, frameName, script) {
                 var that = this;
                 script = that.isString(script) ? script : "();";
-
-                if (winName) {
-                    if (frameName) {
+                if (that.isAPICloud()) {
+                    if (winName) {
+                        if (frameName) {
+                            api.execScript({
+                                name: winName,
+                                frameName: frameName,
+                                script: script
+                            });
+                        } else {
+                            api.execScript({
+                                name: winName,
+                                script: script
+                            });
+                        }
+                    } else {
                         api.execScript({
-                            name: winName,
                             frameName: frameName,
                             script: script
                         });
-                    } else {
-                        api.execScript({
-                            name: winName,
-                            script: script
-                        });
                     }
-                } else {
-                    api.execScript({
-                        frameName: frameName,
-                        script: script
-                    });
                 }
             },
             historyBack: function (callback, frameName) {
                 var that = this;
-
-                api.historyBack({
-                    frameName: frameName
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.historyBack({
+                        frameName: frameName
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             historyForward: function (callback, frameName) {
                 var that = this;
-
-                api.historyForward({
-                    frameName: frameName
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.historyForward({
+                        frameName: frameName
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             pageUp: function (callback, isTop) {
                 var that = this;
 
                 isTop = that.isTargetType(isTop, "boolean") ? isTop : false;
-                api.pageUp({
-                    top: isTop
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.pageUp({
+                        top: isTop
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             pageDown: function (callback, isBottom) {
                 var that = this;
 
                 isBottom = that.isTargetType(isBottom, "boolean") ? isBottom : false;
-                api.pageUp({
-                    bottom: isBottom
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.pageDown({
+                        bottom: isBottom
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             removeLaunchView: function (options) {
                 var that = this;
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.removeLaunchView_CONFIG, options);
-                api.removeLaunchView(opt);
+                if (that.isAPICloud()) {
+                    api.removeLaunchView(opt);
+                }
             },
             parseTapmode: function () {
-                api.parseTapmode();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.parseTapmode();
+                }
             },
             installApp: function (appUri) {
-                api.installApp({
-                    appUri: appUri
-                });
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.installApp({
+                        appUri: appUri
+                    });
+                }
             },
             appInstalled: function (callback, appBundle) {
                 var that = this;
-
-                api.appInstalled({
-                    appBundle: appBundle
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.appInstalled({
+                        appBundle: appBundle
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             openApp: function (callback, url, appParam, options) {
                 var that = this;
@@ -866,14 +1099,19 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.openApp_CONFIG, o, options);
-                api.openApp(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.openApp(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             rebootApp: function () {
-                api.rebootApp();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.rebootApp();
+                }
             },
             openWidget: function (callback, wgtID, wgtParam, options) {
                 var that = this;
@@ -885,11 +1123,13 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.openWidget_CONFIG, o, options);
-                api.openWidget(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.openWidget(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             closeWidget: function (wgtID, returnData, options) {
                 var that = this;
@@ -903,7 +1143,9 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.closeWidget_CONFIG, o, options);
-                api.closeWidget(opt);
+                if (that.isAPICloud()) {
+                    api.closeWidget(opt);
+                }
             },
             ajax: function (callback, url, method, data, dataType, options) {
                 var that = this;
@@ -917,16 +1159,21 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.ajax_CONFIG, o, options);
-                api.ajax(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.ajax(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             cancelAjax: function (tag) {
-                api.cancelAjax({
-                    tag: tag
-                });
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.cancelAjax({
+                        tag: tag
+                    });
+                }
             },
             download: function (callback, url, savePath, options) {
                 var that = this;
@@ -938,16 +1185,20 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.download_CONFIG, o, options);
-                api.download(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.download(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             cancelDownload: function (url) {
-                api.cancelDownload({
-                    url: url
-                });
+                if (that.isAPICloud()) {
+                    api.cancelDownload({
+                        url: url
+                    });
+                }
             },
             imageCache: function (callback, url, options) {
                 var that = this;
@@ -956,22 +1207,25 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.imageCache_CONFIG, o, options);
-                api.imageCache(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.imageCache(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             readFile: function (callback, path) {
                 var that = this;
-
-                api.readFile({
-                    path: path
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.readFile({
+                        path: path
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             writeFile: function (callback, path, data, isAppend) {
                 var that = this;
@@ -980,15 +1234,17 @@
                 if (that.isObject(data)) {
                     data = JSON.stringify(data);
                 }
-                api.writeFile({
-                    path: path,
-                    data: data,
-                    append: isAppend
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.writeFile({
+                        path: path,
+                        data: data,
+                        append: isAppend
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             setPrefs: function (callback, key, value) {
                 var that = this;
@@ -996,84 +1252,94 @@
                 if (that.isObject(value)) {
                     value = JSON.stringify(value);
                 }
-
-                api.setPrefs({
-                    key: key,
-                    value: value
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.setPrefs({
+                        key: key,
+                        value: value
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             getPrefs: function (callback, key) {
                 var that = this;
-
-                api.getPrefs({
-                    key: key
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.getPrefs({
+                        key: key
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             removePrefs: function (callback, key) {
                 var that = this;
-
-                api.removePrefs({
-                    key: key
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.removePrefs({
+                        key: key
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             clearCache: function (callback, timeThreshold) {
                 var that = this;
 
                 timeThreshold = Math.abs(that.isNumber(timeThreshold) ? Number(timeThreshold) : 0);
-
-                api.clearCache({
-                    timeThreshold: timeThreshold
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.clearCache({
+                        timeThreshold: timeThreshold
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             getCacheSize: function (callback) {
                 var that = this;
-
-                api.getCacheSize(function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.getCacheSize(function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             getFreeDiskSpace: function (callback) {
                 var that = this;
-
-                api.getFreeDiskSpace(function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.getFreeDiskSpace(function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             loadSecureValue: function (callback, key) {
                 var that = this;
-
-                api.loadSecureValue({
-                    key: key
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.loadSecureValue({
+                        key: key
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             removeEventListener: function (name) {
-                api.removeEventListener({
-                    name: name
-                });
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.removeEventListener({
+                        name: name
+                    });
+                }
             },
             sendEvent: function (name, extra) {
                 var that = this;
@@ -1081,10 +1347,12 @@
                 if (extra) {
                     extra = that.isObject(extra) ? extra : {};
                 }
-                api.sendEvent({
-                    name: name,
-                    extra: extra
-                });
+                if (that.isAPICloud()) {
+                    api.sendEvent({
+                        name: name,
+                        extra: extra
+                    });
+                }
             },
             accessNative: function (callback, name, extra) {
                 var that = this;
@@ -1092,14 +1360,17 @@
                 if (extra) {
                     extra = that.isObject(extra) ? extra : {};
                 }
-                api.accessNative({
-                    name: name,
-                    extra: extra
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+
+                if (that.isAPICloud()) {
+                    api.accessNative({
+                        name: name,
+                        extra: extra
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             notification: function (callback, notify, alarm) {
                 var that = this;
@@ -1121,16 +1392,21 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.notification_CONFIG, o, options);
-                api.notification(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.notification(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             cancelNotification: function (id) {
-                api.cancelNotification({
-                    id: id
-                });
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.cancelNotification({
+                        id: id
+                    });
+                }
             },
             startLocation: function (callback, isAutoStop) {
                 var that = this;
@@ -1141,46 +1417,59 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.startLocation_CONFIG, o, options);
-                api.startLocation(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.startLocation(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             stopLocation: function () {
-                api.stopLocation();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.stopLocation();
+                }
             },
             getLocation: function (callback) {
                 var that = this;
-
-                api.getLocation(function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.getLocation(function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             startSensor: function (callback, type) {
-                api.startSensor({
-                    type: type
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.startSensor({
+                        type: type
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             stopSensor: function (type) {
-                api.stopSensor({
-                    type: type
-                });
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.stopSensor({
+                        type: type
+                    });
+                }
             },
             call: function (type, number) {
                 var that = this;
                 type = that.isString(type) ? type : "tel_prompt";
-
-                api.call({
-                    type: type,
-                    number: number
-                });
+                if (that.isAPICloud()) {
+                    api.call({
+                        type: type,
+                        number: number
+                    });
+                }
             },
             sms: function (callback, numbers, text, silent) {
                 var that = this;
@@ -1192,16 +1481,17 @@
                 if (numbers.length == 0) {
                     console.error("字符串数组至少要有一个字符串号码");
                 }
-
-                api.sms({
-                    numbers: numbers,
-                    text: text,
-                    silent: silent
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.sms({
+                        numbers: numbers,
+                        text: text,
+                        silent: silent
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             mail: function (callback, recipients, subject, body, attachments) {
                 var that = this;
@@ -1220,29 +1510,32 @@
 
                     o.attachments = attachments;
                 }
-
-                api.mail(o, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.mail(o, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             openContacts: function (callback) {
                 var that = this;
-
-                api.openContacts(function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.openContacts(function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             setFullScreen: function (isFullScreen) {
                 var that = this;
                 isFullScreen = that.isTargetType(isFullScreen, "boolean") ? isFullScreen : true;
-
-                api.setFullScreen({
-                    fullScreen: isFullScreen
-                });
+                if (that.isAPICloud()) {
+                    api.setFullScreen({
+                        fullScreen: isFullScreen
+                    });
+                }
             },
             setStatusBarStyle: function (iosStyle, androidColor) {
                 var that = this;
@@ -1253,49 +1546,61 @@
                 if (that.systemType == "android" && androidColor) {
                     o.color = androidColor;
                 }
-
-                api.setStatusBarStyle(o);
+                if (that.isAPICloud()) {
+                    api.setStatusBarStyle(o);
+                }
             },
             setScreenOrientation: function (orientation) {
-                api.setScreenOrientation({
-                    orientation: orientation
-                });
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.setScreenOrientation({
+                        orientation: orientation
+                    });
+                }
             },
             setKeepScreenOn: function (isKeepOn) {
                 var that = this;
                 isKeepOn = that.isTargetType(isKeepOn, "boolean") ? isKeepOn : true;
-
-                api.setKeepScreenOn({
-                    keepOn: isKeepOn
-                });
+                if (that.isAPICloud()) {
+                    api.setKeepScreenOn({
+                        keepOn: isKeepOn
+                    });
+                }
             },
             toLauncher: function () {
-                api.toLauncher();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.toLauncher();
+                }
             },
             setScreenSecure: function (isSecure) {
                 var that = this;
                 isSecure = that.isTargetType(isSecure, "boolean") ? isSecure : true;
-
-                api.setScreenSecure({
-                    secure: isSecure
-                });
+                if (that.isAPICloud()) {
+                    api.setScreenSecure({
+                        secure: isSecure
+                    });
+                }
             },
             setAppIconBadge: function (badge) {
                 var that = this;
 
                 badge = Math.abs(that.isNumber(badge) ? Number(badge) : 0);
-                api.setAppIconBadge({
-                    badge: badge
-                });
+                if (that.isAPICloud()) {
+                    api.setAppIconBadge({
+                        badge: badge
+                    });
+                }
             },
             getPhoneNumber: function (callback) {
                 var that = this;
-
-                api.getPhoneNumber(function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.getPhoneNumber(function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             alert: function (callback, msg, title, buttons) {
                 var that = this;
@@ -1310,26 +1615,34 @@
                 if (buttons) {
                     if (!that.isArray(buttons)) {
                         if (that.isString(buttons)) {
-                            buttons = [].push(buttons);
+                            var _tmp = [];
+                            _tmp.push(buttons[0]);
+                            buttons = _tmp;
                         } else {
                             buttons = ["确定"];
                         }
                     } else {
-                        buttons = [].push(buttons[0]);
+                        var _tmp = [];
+                        _tmp.push(buttons[0]);
+                        buttons = _tmp;
                     }
                 } else {
                     buttons = ["确定"];
                 }
-
-                api.alert({
-                    title: title,
-                    msg: msg,
-                    buttons: buttons
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.alert({
+                        title: title,
+                        msg: msg,
+                        buttons: buttons
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
+                else {
+                    that.alertTip(callback, msg, title, buttons);
+                }
             },
             confirm: function (callback, title, msg, buttons) {
                 var that = this;
@@ -1338,17 +1651,17 @@
                 if (buttons) {
                     if (!that.isArray(buttons)) {
                         if (that.isString(buttons)) {
-                            buttons = ["取消"].push(buttons);
+                            buttons = ["取消"].pop(buttons);
                         } else {
-                            buttons = ["取消", "确定"];
+                            buttons = ["确定", "取消"];
                         }
                     } else {
                         var _buttons = [];
                         if (buttons.length == 0) {
-                            _buttons = ["取消", "确定"];
+                            _buttons = ["确定", "取消"];
                         } else if (buttons.length == 1) {
-                            _buttons.push("取消");
                             _buttons.push(buttons[0]);
+                            _buttons.push("取消");
                         } else if (buttons.length == 2) {
                             _buttons.push(buttons[0]);
                             _buttons.push(buttons[1]);
@@ -1360,39 +1673,44 @@
                         buttons = _buttons;
                     }
                 } else {
-                    buttons = ["取消", "确定"];
+                    buttons = ["确定", "取消"];
                 }
-
-                api.confirm({
-                    title: title,
-                    msg: msg,
-                    buttons: buttons
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.confirm({
+                        title: title,
+                        msg: msg,
+                        buttons: buttons
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
+                else {
+                    that.confirmTip(callback, title, msg, buttons);
+                }
             },
             prompt: function (callback, title, msg, text, type, buttons) {
                 var that = this;
-                msg = that.isObject(msg) ? (JSON.stringify(msg)) : msg;
+                msg = msg ? msg : "请输入值...";
                 title = title ? title : "请输入数据后再操作";
                 type = type ? type : "text";
+                text = text ? text : "";
 
                 if (buttons) {
                     if (!that.isArray(buttons)) {
                         if (that.isString(buttons)) {
-                            buttons = ["取消"].push(buttons);
+                            buttons = ["取消"].pop(buttons);
                         } else {
-                            buttons = ["取消", "确定"];
+                            buttons = ["确定", "取消"];
                         }
                     } else {
                         var _buttons = [];
                         if (buttons.length == 0) {
-                            _buttons = ["取消", "确定"];
+                            _buttons = ["确定", "取消"];
                         } else if (buttons.length == 1) {
-                            _buttons.push("取消");
                             _buttons.push(buttons[0]);
+                            _buttons.push("取消");
                         } else if (buttons.length == 2) {
                             _buttons.push(buttons[0]);
                             _buttons.push(buttons[1]);
@@ -1404,20 +1722,24 @@
                         buttons = _buttons;
                     }
                 } else {
-                    buttons = ["取消", "确定"];
+                    buttons = ["确定", "取消"];
                 }
-
-                api.prompt({
-                    title: title,
-                    msg: msg,
-                    text: text,
-                    type: type,
-                    buttons: buttons
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.prompt({
+                        title: title,
+                        msg: msg,
+                        text: text,
+                        type: type,
+                        buttons: buttons
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
+                else {
+                    that.promptTip(callback, title, msg, text, type, buttons);
+                }
             },
             actionSheet: function (callback, title, buttons, cancelTitle, destructiveTitle, style) {
                 var that = this;
@@ -1449,12 +1771,16 @@
                 }
 
                 o.buttons = buttons;
-
-                api.actionSheet(o, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.actionSheet(o, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
+                else {
+                    that.actionSheetTip(callback, title, buttons, cancelTitle, destructiveTitle, style);
+                }
             },
             showProgress: function (title, text, isModal, options) {
                 var that = this;
@@ -1469,10 +1795,15 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.showProgress_CONFIG, o, options);
-                api.showProgress(opt);
+                if (that.isAPICloud()) {
+                    api.showProgress(opt);
+                }
             },
             hideProgress: function () {
-                api.hideProgress();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.hideProgress();
+                }
             },
             toast: function (callback, msg, duration, location) {
                 var that = this;
@@ -1488,15 +1819,20 @@
                 location = location ? location : "bottom";
                 location = locationArr.indexOf(location) > -1 ? location : "bottom";
 
-                api.toast({
-                    msg: msg,
-                    duration: duration,
-                    location: location
-                });
-                if (that.isFunction(callback)) {
-                    setTimeout(function () {
-                        callback();
-                    }, duration);
+                if (that.isAPICloud()) {
+                    api.toast({
+                        msg: msg,
+                        duration: duration,
+                        location: location
+                    });
+                    if (that.isFunction(callback)) {
+                        setTimeout(function () {
+                            callback();
+                        }, duration);
+                    }
+                }
+                else {
+                    that.toastTip(callback, msg, duration, location);
                 }
             },
             openPicker: function (callback, type, date, title) {
@@ -1511,50 +1847,62 @@
                 if (date) {
                     o.date = date;
                 }
-
-                api.openPicker(o, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.openPicker(o, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             setRefreshHeaderInfo: function (callback, options) {
                 var that = this;
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.setRefreshHeaderInfo_CONFIG, options);
-                api.setRefreshHeaderInfo(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.setRefreshHeaderInfo(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             setCustomRefreshHeaderInfo: function (callback, options) {
                 var that = this;
 
                 options = options || {};
-                api.setCustomRefreshHeaderInfo(options, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.setCustomRefreshHeaderInfo(options, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             refreshHeaderLoading: function () {
-                api.refreshHeaderLoading();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.refreshHeaderLoading();
+                }
             },
             refreshHeaderLoadDone: function () {
-                api.refreshHeaderLoadDone();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.refreshHeaderLoadDone();
+                }
             },
             showFloatBox: function (iconPath, duration) {
                 var that = this;
 
                 iconPath = iconPath ? iconPath : 'widget://image/icon.png';
                 duration = Math.abs(that.isNumber(duration) ? Number(duration) : 5000);
-
-                api.showFloatBox({
-                    iconPath: iconPath,
-                    duration: duration
-                });
+                if (that.isAPICloud()) {
+                    api.showFloatBox({
+                        iconPath: iconPath,
+                        duration: duration
+                    });
+                }
             },
             getPicture: function (callback, sourceType, mediaValue, destinationType, options) {
                 var that = this;
@@ -1573,89 +1921,232 @@
 
                 options = options || {};
                 var opt = that.extendObj(that.DEFAULT_CONFIG.getPicture_CONFIG, o, options);
-                api.getPicture(opt, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.getPicture(opt, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             saveMediaToAlbum: function (callback, path) {
                 var that = this;
-
-                api.saveMediaToAlbum({
-                    path: path
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.saveMediaToAlbum({
+                        path: path
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             startRecord: function (path) {
-                api.startRecord({
-                    path: path
-                });
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.startRecord({
+                        path: path
+                    });
+                }
             },
             stopRecord: function (callback) {
                 var that = this;
-
-                api.stopRecord(function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.stopRecord(function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             startPlay: function (path) {
                 var that = this;
-
-                api.startPlay({
-                    path: path
-                }, function (ret, err) {
-                    if (that.isFunction(callback)) {
-                        callback(ret, err);
-                    }
-                });
+                if (that.isAPICloud()) {
+                    api.startPlay({
+                        path: path
+                    }, function (ret, err) {
+                        if (that.isFunction(callback)) {
+                            callback(ret, err);
+                        }
+                    });
+                }
             },
             stopPlay: function () {
-                api.stopPlay();
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.stopPlay();
+                }
             },
             openVideo: function (url) {
-                api.openVideo({
-                    url: url
-                });
+                var that = this;
+                if (that.isAPICloud()) {
+                    api.openVideo({
+                        url: url
+                    });
+                }
             },
             ready: function (callback) {
                 var that = this;
-
-                apiready = function () {
-                    if (that.isFunction(callback)) {
-                        callback();
+                var host = window.location.host;
+                var path = window.location.href;
+                if (that.isWebView()) {
+                    apiready = function () {
+                        if (that.isFunction(callback)) {
+                            callback();
+                        }
+                    };
+                }
+                else {
+                    window.onload = function () {
+                        if (that.isFunction(callback)) {
+                            callback();
+                        }
                     }
-                };
+                }
             },
             require: function (modules) {
                 var that = this;
-
-                if (that.isArray(modules)) {
-                    if (modules.length > 0) {
-                        for (var i = 0; i < modules.length; i++) {
-                            if (modules) {
-                                (that.M)[modules[i]] = api.require(modules[i]);
+                if (that.isAPICloud()) {
+                    if (that.isArray(modules)) {
+                        if (modules.length > 0) {
+                            for (var i = 0; i < modules.length; i++) {
+                                if (modules) {
+                                    (that.M)[modules[i]] = api.require(modules[i]);
+                                }
                             }
                         }
-                    }
-                } else if (that.isString(modules)) {
-                    if (modules.indexOf(",") > -1) {
+                    } else if (that.isString(modules)) {
+                        if (modules.indexOf(",") > -1) {
 
-                        var tempAttr = modules.split(",");
-                        for (var i = 0; i < tempAttr.length; i++) {
-                            if (tempAttr) {
-                                (that.M)[tempAttr[i]] = api.require(tempAttr[i]);
+                            var tempAttr = modules.split(",");
+                            for (var i = 0; i < tempAttr.length; i++) {
+                                if (tempAttr) {
+                                    (that.M)[tempAttr[i]] = api.require(tempAttr[i]);
+                                }
                             }
+                        } else {
+                            (that.M)[modules] = api.require(modules);
                         }
-                    } else {
-                        (that.M)[modules] = api.require(modules);
                     }
                 }
+            },
+            // ######################### 常用APICloud语法糖
+            openFrameNavOrFoot: function (frameName, frameUrl, headerSelector, framePageParam, footerSelector, options) {
+                var that = this;
+
+                var footerOffset = that.offset(footerSelector);
+                that.fixStatusBar(function (offset) {
+                    var _options = {
+                        rect: {
+                            x: 0,
+                            y: offset.h,
+                            h: that.winHeight - offset.h - footerOffset.h,
+                            w: that.winWidth
+                        }
+                    };
+
+                    options = options || {};
+                    var opt = that.extendObj(_options, options);
+                    that.openFrame(frameName, frameUrl, framePageParam, opt);
+
+                }, headerSelector);
+            },
+            openFrameGroupNavOrFoot: function (callback, groupName, frames, index, headerSelector, footerSelector, options) {
+                var that = this;
+                var footerOffset = that.offset(footerSelector);
+                that.fixStatusBar(function (offset) {
+                    options = options || {};
+                    options.rect = {
+                        x: 0,
+                        y: offset.h,
+                        h: that.winHeight - offset.h - footerOffset.h,
+                        w: that.winWidth
+                    };
+                    that.openFrameGroup(callback, groupName, frames, index, options);
+                }, headerSelector);
+            },
+            openBrowser: function (url, appParam) {
+                var that = this;
+
+                that.openApp(null, url, appParam);
+            },
+            dblclickToCloseApp: function (callback) {
+                var that = this;
+
+                var mkeyTime = new Date().getTime();
+                that.keyback(function (ret, err) {
+                    if ((new Date().getTime() - mkeyTime) > 2000) {
+                        mkeyTime = new Date().getTime();
+                        that.toast(null, '再按一次退出' + that.appName, 2000);
+                    } else {
+                        if (that.isFunction(callback)) {
+                            callback();
+                        }
+                        setTimeout(function () {
+                            that.closeWidget(null, null, {
+                                silent: true
+                            });
+                        }, 300);
+                    }
+                });
+            },
+            openFrameIndexByClick: function (framesOptionsWithHeaderSelector, hideHeaderClassName, footerSelector, triggerSelectorByFooter, triggerActiveClasses, defaultIndex) {
+                var that = this;
+                defaultIndex = that.isNumber(defaultIndex) ? Math.abs(defaultIndex) : 0;
+                // 内部切换
+                function swiperPage(_index) {
+                    // 显示对应的头部和底部高亮样式
+                    if (framesOptionsWithHeaderSelector && framesOptionsWithHeaderSelector.length > 0) {
+                        var currentFrame = null;
+                        var openedFrameArr = [];
+                        for (var i = 0; i < framesOptionsWithHeaderSelector.length; i++) {
+                            currentFrame = framesOptionsWithHeaderSelector[i];
+                            if (_index == i) {
+                                that.removeClass(that.D(currentFrame.header), hideHeaderClassName);
+                                that.addClass(that.D(footerSelector + " " + triggerSelectorByFooter + ":nth-child(" + (i + 1) + ")"), triggerActiveClasses);
+
+                                if (openedFrameArr.indexOf(currentFrame.name) > -1) {
+                                    that.setFrameAttr(currentFrame.name, false);
+                                }
+                                else {
+                                    that.openFrameNavOrFoot(currentFrame.name, currentFrame.url, currentFrame.header, that.pageParam, footerSelector, currentFrame);
+                                    openedFrameArr.push(currentFrame.name);
+                                }
+                            }
+                            else {
+                                that.setFrameAttr(currentFrame.name, true);
+                                that.addClass(that.D(currentFrame.header), hideHeaderClassName);
+                                that.removeClass(that.D(footerSelector + " " + triggerSelectorByFooter + ":nth-child(" + (i + 1) + ")"), triggerActiveClasses);
+                            }
+                        }
+                    }
+                }
+
+                swiperPage(defaultIndex);
+
+                // 绑定底部点击切换事件
+                that.on(that.Ds(footerSelector + " " + triggerSelectorByFooter), "touchstart", function (event) {
+                    var triggerElement = that.getParents(event.target, that.getClassOrTagName(triggerSelectorByFooter));
+                    var _index = that.getIndex(triggerElement);
+                    swiperPage(_index);
+                });
+
+            },
+            openFrameGroupIndexByClick: function (callback, groupName, framesOptionsWithHeaderSelector, defaultIndex, isScroll, hideHeaderClassName, footerSelector, triggerSelectorByFooter, triggerActiveClasses, options) {
+                var that = this;
+            },
+            getPictureWithCamera: function (callback, options) {
+                var that = this;
+                that.actionSheet(function (ret, err) {
+                    switch (ret.buttonIndex) {
+                        case 1:
+                            that.getPicture(callback, "album", "pic", "url", options);
+                            break;
+                        case 2:
+                            that.getPicture(callback, "camera", "pic", "url", options);
+                            break;
+                    }
+                }, "请选择图片来源", ["相册选取", "相机拍摄"]);
             },
             // ######################### 自定义
             returnElement: function (cssSelectorOrElement) {
@@ -1680,6 +2171,225 @@
                 parentSelectorOrElement = that.isString(parentSelectorOrElement) ? document.querySelector(parentSelectorOrElement) : parentSelectorOrElement;
 
                 return parentSelectorOrElement.querySelectorAll(cssSelectorOrElement);
+            },
+            // 根据数字返回对应键码
+            getWordByIndex: function (number) {
+                return String.fromCharCode(number).toLocaleUpperCase();
+            },
+            on: function (elements, eventType, callback, useCapture) {
+                var that = this;
+                useCapture = useCapture || false;
+                if (that.isElements(elements)) {
+                    if (elements.length > 0) {
+                        for (var i = 0; i < elements.length; i++) {
+                            elements[i].addEventListener(eventType, function (event) {
+                                if (that.isFunction(callback)) {
+                                    callback(event);
+                                }
+                            }, useCapture);
+                        }
+                    }
+                }
+                else {
+                    elements.addEventListener(eventType, function (event) {
+                        if (that.isFunction(callback)) {
+                            callback(event);
+                        }
+                    }, useCapture);
+                }
+            },
+            off: function (elements, eventType, callback, useCapture) {
+                var that = this;
+                useCapture = useCapture || false;
+                if (that.isElements(elements)) {
+                    if (elements.length > 0) {
+                        for (var i = 0; i < elements.length; i++) {
+                            elements[i].removeEventListener(eventType, function (event) {
+                                if (that.isFunction(callback)) {
+                                    callback(event);
+                                }
+                            }, useCapture);
+                        }
+                    }
+                }
+                else {
+                    elements.removeEventListener(eventType, function (event) {
+                        if (that.isFunction(callback)) {
+                            callback(event);
+                        }
+                    }, useCapture);
+                }
+            },
+            one: function (elements, eventType, callback, useCapture) {
+                var that = this;
+
+                var fn = function (event) {
+                    callback && callback();
+                    that.off(elements, eventType, callback, useCapture);
+                };
+
+                that.on(elements, eventType, fn, useCapture);
+            },
+            animationEventEnd: function (cssSelectorOrElement, callback) {
+                var that = this;
+                var elem = that.returnElement(cssSelectorOrElement);
+                that.on(elem, "webkitAnimationEnd", callback);
+            },
+            domLoadEventEnd: function (callback) {
+                var that = this;
+                that.on(document, "DOMContentLoaded", callback);
+            },
+            domInsertedEvent: function (callback) {
+                var that = this;
+                that.on(document, "DOMNodeInserted", callback);
+            },
+            domModifiedEvent: function (callback) {
+                var that = this;
+                that.on(document, "DOMAttrModified", callback);
+            },
+            domRemovedEvent: function (callback) {
+                var that = this;
+                that.on(document, "DOMNodeRemoved", callback);
+            },
+            // 返回滑动的角度
+            // dx表示开始的pageX减去结束的pageX
+            // dy表示开始的pageY减去结束的pageY
+            GetSlideAngle: function (dx, dy) {
+                return Math.atan2(dy, dx) * 180 / Math.PI;
+            },
+            //根据起点和终点返回方向 1：向上，2：向下，3：向左，4：向右,0：未滑动
+            GetSlideDirection: function (startX, startY, endX, endY) {
+                var that = this;
+
+                var dy = startY - endY;
+                var dx = endX - startX;
+                var result = 0;
+                //如果滑动距离太短
+                if (Math.abs(dx) < 2 && Math.abs(dy) < 2) {
+                    return result;
+                }
+                var angle = that.GetSlideAngle(dx, dy);
+                if (angle >= -45 && angle < 45) {
+                    result = 4;
+                } else if (angle >= 45 && angle < 135) {
+                    result = 1;
+                } else if (angle >= -135 && angle < -45) {
+                    result = 2;
+                }
+                else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+                    result = 3;
+                }
+                return result;
+            },
+            prepend: function (cssSelectorOrElement, parentSelectorOrElement, htmlOrElement) {
+                var that = this;
+                var selectors = [];
+
+                if (that.isElements(cssSelectorOrElement)) {
+                    selectors = cssSelectorOrElement;
+                }
+                else {
+                    if (that.isElement(cssSelectorOrElement)) {
+                        selectors.push(cssSelectorOrElement);
+                    }
+                    else {
+                        selectors = that.Ds(cssSelectorOrElement, parentSelectorOrElement);
+                    }
+                }
+                if (selectors.length > 0) {
+                    for (var i = 0; i < selectors.length; i++) {
+                        if (that.isElement(htmlOrElement)) {
+                            selectors[i].insertAdjacentElement('afterbegin', htmlOrElement);
+                        }
+                        else {
+                            selectors[i].insertAdjacentHTML('afterbegin', htmlOrElement);
+                        }
+                    }
+                }
+            },
+            append: function (cssSelectorOrElement, parentSelectorOrElement, htmlOrElement) {
+                var that = this;
+                var selectors = [];
+
+                if (that.isElements(cssSelectorOrElement)) {
+                    selectors = cssSelectorOrElement;
+                }
+                else {
+                    if (that.isElement(cssSelectorOrElement)) {
+                        selectors.push(cssSelectorOrElement);
+                    }
+                    else {
+                        selectors = that.Ds(cssSelectorOrElement, parentSelectorOrElement);
+                    }
+                }
+                if (selectors.length > 0) {
+                    for (var i = 0; i < selectors.length; i++) {
+                        if (that.isElement(htmlOrElement)) {
+                            selectors[i].insertAdjacentElement('beforeend', htmlOrElement);
+                        }
+                        else {
+                            selectors[i].insertAdjacentHTML('beforeend', htmlOrElement);
+                        }
+                    }
+                }
+            },
+            before: function (cssSelectorOrElement, parentSelectorOrElement, htmlOrElement) {
+                var that = this;
+                var selectors = [];
+
+                if (that.isElements(cssSelectorOrElement)) {
+                    selectors = cssSelectorOrElement;
+                }
+                else {
+                    if (that.isElement(cssSelectorOrElement)) {
+                        selectors.push(cssSelectorOrElement);
+                    }
+                    else {
+                        selectors = that.Ds(cssSelectorOrElement, parentSelectorOrElement);
+                    }
+                }
+                if (selectors.length > 0) {
+                    for (var i = 0; i < selectors.length; i++) {
+                        if (that.isElement(htmlOrElement)) {
+                            selectors[i].insertAdjacentElement('beforebegin', htmlOrElement);
+                        }
+                        else {
+                            selectors[i].insertAdjacentHTML('beforebegin', htmlOrElement);
+                        }
+                    }
+                }
+            },
+            after: function (cssSelectorOrElement, parentSelectorOrElement, htmlOrElement) {
+                var that = this;
+                var selectors = [];
+
+                if (that.isElements(cssSelectorOrElement)) {
+                    selectors = cssSelectorOrElement;
+                }
+                else {
+                    if (that.isElement(cssSelectorOrElement)) {
+                        selectors.push(cssSelectorOrElement);
+                    }
+                    else {
+                        selectors = that.Ds(cssSelectorOrElement, parentSelectorOrElement);
+                    }
+                }
+                if (selectors.length > 0) {
+                    for (var i = 0; i < selectors.length; i++) {
+                        if (that.isElement(htmlOrElement)) {
+                            selectors[i].insertAdjacentElement('afterend', htmlOrElement);
+                        }
+                        else {
+                            selectors[i].insertAdjacentHTML('afterend', htmlOrElement);
+                        }
+                    }
+                }
+            },
+            cssValue: function (cssSelectorOrElement, propName) {
+                var that = this;
+                var elem = that.returnElement(cssSelectorOrElement);
+                var computedStyle = window.getComputedStyle(elem, null);
+                return computedStyle.getPropertyValue(propName);
             },
             getParents: function (element, className) {
                 var that = this;
@@ -1732,6 +2442,12 @@
                 }
                 return r;
             },
+            scrollToElement: function (cssSelectorOrElement, targetCssSelectorOrElement) {
+                var that = this;
+                var elem = that.returnElement(cssSelectorOrElement);
+                var targetElem = that.returnElement(targetCssSelectorOrElement);
+                elem.scrollTop = targetElem.offsetTop + document.documentElement.scrollTop;
+            },
             siblingsContainSelf: function (cssSelectorOrElement) {
                 var that = this;
 
@@ -1754,7 +2470,7 @@
                             if (classs.indexOf(',') > -1) {
                                 var _classArr = classs.split(",");
                                 for (var j = 0; j < _classArr.length; j++) {
-                                    if (_classArr != "") {
+                                    if (_classArr[j] != "") {
                                         elements[i].classList.add(_classArr[j]);
                                     }
                                 }
@@ -1763,7 +2479,7 @@
                                 if (classs.indexOf(' ') > -1) {
                                     var _classArr = classs.split(" ");
                                     for (var j = 0; j < _classArr.length; j++) {
-                                        if (_classArr != "") {
+                                        if (_classArr[j] != "") {
                                             elements[i].classList.add(_classArr[j]);
                                         }
                                     }
@@ -1779,7 +2495,7 @@
                     if (classs.indexOf(',') > -1) {
                         var _classArr = classs.split(",");
                         for (var i = 0; i < _classArr.length; i++) {
-                            if (_classArr != "") {
+                            if (_classArr[i] != "") {
                                 elements.classList.add(_classArr[i]);
                             }
                         }
@@ -1788,7 +2504,7 @@
                         if (classs.indexOf(' ') > -1) {
                             var _classArr = classs.split(" ");
                             for (var i = 0; i < _classArr.length; i++) {
-                                if (_classArr != "") {
+                                if (_classArr[i] != "") {
                                     elements.classList.add(_classArr[i]);
                                 }
                             }
@@ -1808,7 +2524,7 @@
                             if (classs.indexOf(',') > -1) {
                                 var _classArr = classs.split(",");
                                 for (var j = 0; j < _classArr.length; j++) {
-                                    if (_classArr != "") {
+                                    if (_classArr[j] != "") {
                                         elements[i].classList.remove(_classArr[j]);
                                     }
                                 }
@@ -1817,7 +2533,7 @@
                                 if (classs.indexOf(' ') > -1) {
                                     var _classArr = classs.split(" ");
                                     for (var j = 0; j < _classArr.length; j++) {
-                                        if (_classArr != "") {
+                                        if (_classArr[j] != "") {
                                             elements[i].classList.remove(_classArr[j]);
                                         }
                                     }
@@ -1833,7 +2549,7 @@
                     if (classs.indexOf(',') > -1) {
                         var _classArr = classs.split(",");
                         for (var i = 0; i < _classArr.length; i++) {
-                            if (_classArr != "") {
+                            if (_classArr[i] != "") {
                                 elements.classList.remove(_classArr[i]);
                             }
                         }
@@ -1842,7 +2558,7 @@
                         if (classs.indexOf(' ') > -1) {
                             var _classArr = classs.split(" ");
                             for (var i = 0; i < _classArr.length; i++) {
-                                if (_classArr != "") {
+                                if (_classArr[i] != "") {
                                     elements.classList.remove(_classArr[i]);
                                 }
                             }
@@ -1853,7 +2569,9 @@
                     }
                 }
             },
-            hasClass: function (element, _class) {
+            hasClass: function (cssSelectorOrElement, _class) {
+                var that = this;
+                var element = that.returnElement(cssSelectorOrElement);
                 return element.classList.contains(_class);
             },
             getIndex: function (ele) {
@@ -1971,7 +2689,6 @@
             },
             fixIos7Bar: function (cssSelectorOrElement) {
                 var that = this;
-
                 var element = that.returnElement(cssSelectorOrElement);
                 if (!that.isElement(element)) {
                     console.warn('没有找到DOM元素');
@@ -2012,187 +2729,430 @@
                     callback(_offset);
                 }
             },
-            openFrameNavOrFoot: function (frameName, frameUrl, headerSelector, framePageParam, footerSelector, options) {
-                var that = this;
-
-                var footerOffset = that.offset(footerSelector);
-                that.fixStatusBar(function (offset) {
-                    var _options = {
-                        rect: {
-                            x: 0,
-                            y: offset.h,
-                            h: that.winHeight - offset.h - footerOffset.h,
-                            w: that.winWidth
-                        }
-                    };
-
-                    options = options || {};
-                    var opt = that.extendObj(_options, options);
-                    that.openFrame(frameName, frameUrl, framePageParam, opt);
-
-                }, headerSelector);
-            },
-            openFrameGroupNavOrFoot: function (callback, groupName, frames, index, headerSelector, footerSelector, options) {
-                var that = this;
-                var footerOffset = that.offset(footerSelector);
-                that.fixStatusBar(function (offset) {
-                    options = options || {};
-                    options.rect = {
-                        x: 0,
-                        y: offset.h,
-                        h: that.winHeight - offset.h - footerOffset.h,
-                        w: that.winWidth
-                    };
-                    that.openFrameGroup(callback, groupName, frames, index, options);
-                }, headerSelector);
-            },
             scrollToDocButton: function () {
                 var that = this;
                 that.D("body").scrollTop = that.D("body").scrollHeight;
             },
-            openBrowser: function (url, appParam) {
+            // #################### 自定义UI组件
+            dialogCore: function (type, title, msg, buttons) {
                 var that = this;
+                title = title ? title : "温馨提示：";
+                var clientWidth = window.document.body.clientWidth;
 
-                that.openApp(null, url, appParam);
-            },
-            dblclickToCloseApp: function (callback) {
-                var that = this;
+                var contentHtml = "";
+                contentHtml += '<div class="H-dialog H-theme-background-color-white animated rollIn" style="-webkit-animation-duration: 0.6s; animation-duration: 0.6s;width: ' + (clientWidth - 50) + 'px; min-height: 80px; margin-top:-30px;">';
+                contentHtml += '<div class="H-dialog-title H-padding-10 H-font-size-16 H-line-height-normal" style="background: #f4f4f4;">' + title + '</div>';
+                contentHtml += '<div class="H-dialog-content H-padding-10 H-word-break-break-all H-font-size-16 H-theme-font-color-666">' + msg + '</div>';
+                contentHtml += '<div class="H-dialog-buttons H-flexbox-horizontal H-border-vertical-top-after">';
 
-                var mkeyTime = new Date().getTime();
-                that.keyback(function (ret, err) {
-                    if ((new Date().getTime() - mkeyTime) > 2000) {
-                        mkeyTime = new Date().getTime();
-                        that.toast(null, '再按一次退出' + that.appName, 2000);
-                    } else {
-                        if (that.isFunction(callback)) {
-                            callback();
+                if (buttons && buttons.length > 0) {
+                    for (var i = 0; i < buttons.length; i++) {
+                        if (i == (buttons.length - 1) && buttons.length > 1) {
+                            contentHtml += '<div class="H-dialog-button H-flex-item H-font-size-16 H-padding-10 H-center-all H-touch-active H-theme-font-color1">' + buttons[i] + '</div>';
                         }
-                        setTimeout(function () {
-                            that.closeWidget(null, null, {
-                                silent: true
-                            });
-                        }, 300);
+                        else {
+                            contentHtml += '<div class="H-dialog-button H-border-horizontal-right-after H-flex-item H-font-size-16 H-padding-10 H-center-all H-touch-active H-theme-font-color1">' + buttons[i] + '</div>';
+                        }
+                    }
+                }
+                contentHtml += '</div>';
+                contentHtml += '</div>';
+
+                if (that.Ds(".H-dialog-area") && that.Ds(".H-dialog-area").length > 0) {
+                    that.D(".H-dialog-area").innerHTML = contentHtml;
+                }
+                else {
+                    var html = "";
+                    html += '<div class="H-dialog-area H-display-none-important H-position-absolute H-vertical-top-0 H-center-all H-horizontal-right-0 H-vertical-bottom-0 H-horizontal-left-0 H-background-color-transparent-3" style="z-index:1234567890123">';
+                    html += contentHtml;
+                    html += '</div>';
+                    that.prepend(document.body, null, html);
+                }
+            },
+            actionSheetTip: function (callback, title, buttons, cancelTitle, destructiveTitle, style) {
+                var that = this;
+                var o = {};
+
+                o.title = title ? title : "请选择你要操作的项";
+                o.cancelTitle = cancelTitle ? cancelTitle : "取消";
+                if (destructiveTitle) {
+                    o.destructiveTitle = destructiveTitle;
+                }
+                if (that.isObject(style)) {
+                    o.style = style;
+                }
+
+                if (buttons) {
+                    if (!that.isArray(buttons)) {
+                        if (that.isString(buttons)) {
+                            buttons = [].push(buttons);
+                        } else {
+                            buttons = ["确定"];
+                        }
+                    } else {
+                        if (buttons.length == 0) {
+                            buttons = ["确定"];
+                        }
+                    }
+                } else {
+                    buttons = ["确定"];
+                }
+
+                o.buttons = buttons;
+
+                var html = '<div class="H-actionSheet H-display-none-important H-flexbox-vertical H-position-absolute H-vertical-top-0 H-horizontal-right-0 H-vertical-bottom-0 H-horizontal-left-0 H-height-100-percent H-width-100-percent H-background-color-transparent-3" style="z-index: 19923015; ">';
+                html += '<div class="H-actionSheet-space H-flex-item"></div>';
+                html += '<div class="H-actionSheet-list H-padding-10 animated slideInUp" style="-webkit-animation-duration:0.4s;animation-duration:0.4s;">';
+                html += '<div class="H-actionSheet-title">';
+                html += '<div class="H-actionSheet-item H-theme-background-color-white  H-text-show-row-1 H-border-vertical-bottom-after H-padding-10 H-center-all H-font-size-14 H-theme-font-color-999">' + o.title + '</div>';
+                html += '</div>';
+                html += '<div class="H-actionSheet-buttons">';
+
+                for (var i = 0; i < o.buttons.length; i++) {
+                    html += '<div class="H-actionSheet-item H-theme-background-color-white H-touch-active H-border-vertical-bottom-after H-text-show-row-1 H-padding-10 H-center-all H-font-size-14 H-theme-font-color1">' + o.buttons[i] + '</div>';
+                }
+
+                html += '</div>';
+                html += '<div class="H-actionSheet-cancel H-margin-vertical-top-10">';
+                html += '<div class="H-actionSheet-item H-theme-background-color-white H-touch-active  H-text-show-row-1 H-padding-10 H-center-all H-font-size-14 H-theme-font-color1" tapmode="">' + o.cancelTitle + '</div>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+
+                that.prepend(document.body, null, html);
+                that.removeClass(that.D('.H-actionSheet'), "H-display-none-important");
+
+                var _ret = {};
+                that.on(that.Ds('.H-actionSheet-buttons .H-actionSheet-item'), "touchend", function (event) {
+                    var _index = that.getIndex(that.getParents(event.target, "H-actionSheet-item"));
+                    _ret.buttonIndex = _index + 1;
+                    that.addClass(that.D('.H-actionSheet-list'), 'slideOutDown');
+                });
+
+                that.on(that.Ds('.H-actionSheet-cancel .H-actionSheet-item'), "touchend", function (event) {
+                    that.addClass(that.D('.H-actionSheet-list'), 'slideOutDown');
+                    _ret.buttonIndex = that.Ds('.H-actionSheet-buttons .H-actionSheet-item').length + 1;
+                });
+
+                that.animationEventEnd(".H-actionSheet-list", function (event) {
+                    if (that.hasClass(that.D('.H-actionSheet'), "H-display-none-important") == false) {
+                        that.removeClass(that.D('.H-actionSheet-list'), 'slideInUp');
+                    }
+                    if (that.hasClass(that.D('.H-actionSheet-list'), 'slideOutDown')) {
+                        that.addClass(that.D('.H-actionSheet'), "H-display-none-important");
+                        if (that.isFunction(callback)) {
+                            callback(_ret);
+                        }
                     }
                 });
             },
-            openFrameIndexByClick: function (framesOption, headerToggleClass, footerSelector, triggerSelector, triggerActiveClass, defaultIndex) {
+            alertTip: function (callback, msg, title, buttons) {
                 var that = this;
-                defaultIndex = that.isNumber(defaultIndex) ? (Math.abs(defaultIndex) + 1) : 1;
+                if ((!that.isFunction(arguments[0])) && (arguments[0])) {
+                    msg = arguments[0];
+                }
+                msg = that.isObject(msg) ? (JSON.stringify(msg)) : msg;
 
-                window.___currentFrameName___ = "";
-                window.___currentTriggerIndex___ = -1;
-                window.___frameNameList___ = [];
-
-                if (!that.isArray(framesOption)) {
-                    console.error("必须传入frame配置数组对象！");
-                } else {
-                    if (!(framesOption.length > 0 && framesOption.length == that.Ds(triggerSelector, footerSelector).length)) {
-                        console.error("传入的frame配置数组个数必须大于0并且个数等于触发按钮的个数！");
-                    } else {
-                        var items = that.Ds(triggerSelector, footerSelector);
-                        for (var i = 0; i < items.length; i++) {
-                            items[i].addEventListener("touchstart", function (e) {
-                                var item = this;
-                                var index = that.getIndex(item);
-
-                                var frameObj = framesOption[index];
-
-                                var opt = that.extendObj(that.DEFAULT_CONFIG.openFrame_CONFIG, frameObj);
-                                delete opt.name;
-                                delete opt.url;
-                                delete opt.header;
-                                delete opt.rect;
-
-                                if (window.___currentFrameName___ && window.___currentFrameName___ != frameObj.name) {
-                                    H.setFrameAttr(window.___currentFrameName___, true);
-                                }
-                                if (window.___currentTriggerIndex___ != index && window.___currentTriggerIndex___ != -1) {
-                                    // 设置选中
-                                    var currentItem = that.D(footerSelector + " " + triggerSelector + ":nth-child(" + (___currentTriggerIndex___ + 1) + ")");
-                                    currentItem.classList.remove(triggerActiveClass);
-                                    // 头部切换
-                                    that.D(framesOption[___currentTriggerIndex___].header).classList.add(headerToggleClass);
-                                }
-                                that.D(framesOption[index].header).classList.remove(headerToggleClass);
-
-                                if (window.___frameNameList___.indexOf(frameObj.name) > -1) {
-                                    H.setFrameAttr(frameObj.name, false);
-                                } else {
-                                    H.openFrameNavOrFoot(frameObj.name, frameObj.url, frameObj.header, that.pageParam, footerSelector, opt);
-                                    window.___frameNameList___.push(frameObj.name);
-                                }
-                                item.classList.add(triggerActiveClass);
-                                window.___currentFrameName___ = frameObj.name;
-                                window.___currentTriggerIndex___ = index;
-                            });
+                // 设置提示标题为App名称
+                title = title ? title : that.appName;
+                if (buttons) {
+                    if (!that.isArray(buttons)) {
+                        if (that.isString(buttons)) {
+                            var _tmp = [];
+                            _tmp.push(buttons[0]);
+                            buttons = _tmp;
+                        } else {
+                            buttons = ["确定"];
                         }
+                    } else {
+                        var _tmp = [];
+                        _tmp.push(buttons[0]);
+                        buttons = _tmp;
                     }
+                } else {
+                    buttons = ["确定"];
                 }
 
-                var _evt = document.createEvent('Event');
-                _evt.initEvent('touchstart', true, true);
-                that.D(footerSelector + " " + triggerSelector + ":nth-child(" + defaultIndex + ")").dispatchEvent(_evt);
-            },
-            openFrameGroupIndexByClick: function (callback, groupName, framesOption, index, isScroll, headerToggleClass, footerSelector, triggerSelector, triggerActiveClass, options) {
-                var that = this;
-                window.___currentTriggerGroupIndex___ = -1;
+                // 生成HTML
+                that.dialogCore("text", title, msg, buttons);
 
-                index = Math.abs(that.isNumber(index) ? Number(index) : 0);
+                that.removeClass(that.D('.H-dialog-area'), "H-display-none-important");
+                that.on(that.Ds('.H-dialog-button'), "touchend", function (e) {
+                    var index = that.getIndex(that.getParents(event.target, "H-dialog-button"));
+                    that.addClass(that.D('.H-dialog'), 'rollOut');
+                });
 
-                if (!that.isArray(framesOption)) {
-                    console.error("必须传入frame配置数组对象！");
-                } else {
-                    if (!(framesOption.length > 0 && framesOption.length == that.Ds(triggerSelector, footerSelector).length)) {
-                        console.error("传入的frame配置数组个数必须大于0并且个数等于触发按钮的个数！");
-                    } else {
-                        if (index > framesOption.length - 1) {
-                            index = framesOption.length;
-                        }
-
-                        var items = that.Ds(triggerSelector, footerSelector);
-                        for (var i = 0; i < items.length; i++) {
-                            items[i].addEventListener("touchstart", function (e) {
-                                var item = this;
-                                var index = that.getIndex(item);
-
-                                that.setFrameGroupIndex(groupName, index, isScroll);
-                            });
-                        }
-
-                        that.openFrameGroupNavOrFoot(function (ret, err) {
-                            var frameName = ret.name;
-                            var index = ret.index;
-
-                            if (window.___currentTriggerGroupIndex___ != index && window.___currentTriggerGroupIndex___ != -1) {
-                                // 设置选中
-                                var currentItem = that.D(footerSelector + " " + triggerSelector + ":nth-child(" + (window.___currentTriggerGroupIndex___ + 1) + ")");
-                                currentItem.classList.remove(triggerActiveClass);
-
-                                // 头部切换
-                                that.D(framesOption[___currentTriggerGroupIndex___].header).classList.add(headerToggleClass);
-                            }
-                            that.D(framesOption[index].header).classList.remove(headerToggleClass);
-                            that.fixStatusBar(function (offset) {
-                                that.setFrameGroupAttr(groupName, false, {
-                                    x: 0,
-                                    y: offset.h,
-                                    h: that.winHeight - offset.h - that.offset(footerSelector).h,
-                                    w: that.winWidth
-                                });
-                            }, framesOption[index].header);
-
-                            var item = that.D(footerSelector + " " + triggerSelector + ":nth-child(" + (index + 1) + ")");
-                            item.classList.add(triggerActiveClass);
-
-                            window.___currentTriggerGroupIndex___ = index;
-
-                            if (that.isFunction(callback)) {
-                                callback(ret, err);
-                            }
-                        }, groupName, framesOption, index, framesOption[index].header, footerSelector, options);
+                that.animationEventEnd(that.D('.H-dialog'), function (event) {
+                    if (that.hasClass(that.D('.H-dialog-area'), "H-display-none-important") == false) {
+                        that.removeClass(that.D('.H-dialog'), 'rollIn');
                     }
+                    if (that.hasClass(that.D('.H-dialog'), 'rollOut')) {
+                        that.addClass(that.D('.H-dialog-area'), "H-display-none-important");
+                        if (that.isFunction(callback)) {
+                            callback();
+                        }
+                    }
+                });
+            },
+            confirmTip: function (callback, title, msg, buttons) {
+                var that = this;
+
+                msg = that.isObject(msg) ? (JSON.stringify(msg)) : msg;
+                title = title ? title : "你确定要执行此操作吗？";
+                if (buttons) {
+                    if (!that.isArray(buttons)) {
+                        if (that.isString(buttons)) {
+                            buttons = ["取消"].pop(buttons);
+                        } else {
+                            buttons = ["确定", "取消"];
+                        }
+                    } else {
+                        var _buttons = [];
+                        if (buttons.length == 0) {
+                            _buttons = ["确定", "取消"];
+                        } else if (buttons.length == 1) {
+                            _buttons.push(buttons[0]);
+                            _buttons.push("取消");
+                        } else if (buttons.length == 2) {
+                            _buttons.push(buttons[0]);
+                            _buttons.push(buttons[1]);
+                        } else {
+                            _buttons.push(buttons[0]);
+                            _buttons.push(buttons[1]);
+                            _buttons.push(buttons[2]);
+                        }
+                        buttons = _buttons;
+                    }
+                } else {
+                    buttons = ["确定", "取消"];
+                }
+
+                var _ret = {};
+                var _err = {};
+                // 生成HTML
+                that.dialogCore("text", title, msg, buttons.reverse());
+                var index = buttons.length - 1;
+                that.removeClass(that.D('.H-dialog-area'), "H-display-none-important");
+                that.on(that.Ds('.H-dialog-button'), "touchend", function (e) {
+                    index = that.getIndex(that.getParents(event.target, "H-dialog-button"));
+                    _ret.buttonIndex = buttons.length - index;
+                    that.addClass(that.D('.H-dialog'), 'rollOut');
+                });
+
+                that.animationEventEnd(that.D('.H-dialog'), function (event) {
+                    if (that.hasClass(that.D('.H-dialog-area'), "H-display-none-important") == false) {
+                        that.removeClass(that.D('.H-dialog'), 'rollIn');
+                    }
+                    if (that.hasClass(that.D('.H-dialog'), 'rollOut')) {
+                        that.addClass(that.D('.H-dialog-area'), "H-display-none-important");
+                        if (that.isFunction(callback)) {
+                            callback(_ret, _err);
+                        }
+                    }
+                });
+            },
+            promptTip: function (callback, title, msg, text, type, buttons) {
+                var that = this;
+
+                msg = msg ? msg : "请输入值...";
+                title = title ? title : "请输入数据后再操作";
+                type = type ? type : "text";
+                text = text ? text : "";
+
+                if (buttons) {
+                    if (!that.isArray(buttons)) {
+                        if (that.isString(buttons)) {
+                            buttons = ["取消"].pop(buttons);
+                        } else {
+                            buttons = ["确定", "取消"];
+                        }
+                    } else {
+                        var _buttons = [];
+                        if (buttons.length == 0) {
+                            _buttons = ["确定", "取消"];
+                        } else if (buttons.length == 1) {
+                            _buttons.push(buttons[0]);
+                            _buttons.push("取消");
+                        } else if (buttons.length == 2) {
+                            _buttons.push(buttons[0]);
+                            _buttons.push(buttons[1]);
+                        } else {
+                            _buttons.push(buttons[0]);
+                            _buttons.push(buttons[1]);
+                            _buttons.push(buttons[2]);
+                        }
+                        buttons = _buttons;
+                    }
+                } else {
+                    buttons = ["确定", "取消"];
+                }
+
+                var _ret = {};
+                var _err = {};
+                // 生成HTML
+
+                var _msg = '<div class="H-dialog-prompt-tip H-font-size-16">' + msg + '</div><input type="text" class="H-dialog-prompt-text H-width-100-percent H-border-none padding H-padding-10 H-box-sizing-border-box H-box-shadow-inset" style="border:1px solid #f1f1f1;" placeholder="请输入值..." value="' + text + '" />';
+
+                that.dialogCore("text", title, _msg, buttons.reverse());
+                var index = buttons.length - 1;
+                that.removeClass(that.D('.H-dialog-area'), "H-display-none-important");
+                that.on(that.Ds('.H-dialog-button'), "touchend", function (e) {
+                    index = that.getIndex(that.getParents(event.target, "H-dialog-button"));
+                    _ret.buttonIndex = buttons.length - index;
+                    _ret.text = that.D('.H-dialog-prompt-text').value;
+                    that.addClass(that.D('.H-dialog'), 'rollOut');
+                });
+
+                that.animationEventEnd(that.D('.H-dialog'), function (event) {
+                    if (that.hasClass(that.D('.H-dialog-area'), "H-display-none-important") == false) {
+                        that.removeClass(that.D('.H-dialog'), 'rollIn');
+                    }
+                    if (that.hasClass(that.D('.H-dialog'), 'rollOut')) {
+                        that.addClass(that.D('.H-dialog-area'), "H-display-none-important");
+                        if (that.isFunction(callback)) {
+                            callback(_ret, _err);
+                        }
+                    }
+                });
+            },
+            toastTip: function (callback, msg, duration, location) {
+                var that = this;
+                var tip = null;
+
+                if ((!that.isFunction(arguments[0])) && (arguments[0])) {
+                    msg = arguments[0];
+                }
+
+                msg = that.isObject(msg) ? (JSON.stringify(msg)) : msg;
+                duration = Math.abs(that.isNumber(duration) ? Number(duration) : 2000);
+
+                var locationArr = ["top", "middle", "bottom"];
+                location = location ? location : "bottom";
+                location = locationArr.indexOf(location) > -1 ? location : "bottom";
+
+                clearTimeout(tip);
+                var clientWidth = window.outerWidth;
+                var clientHeight = window.outerHeight;
+                if (that.Ds(".H-toast") && that.Ds(".H-toast").length > 0) {
+                    document.body.removeChild(that.D(".H-toast"));
+                }
+                var html = '<div class="H-toast H-position-absolute animated wobble H-background-color-transparent-6 H-theme-font-color-white H-font-size-12 H-padding-horizontal-both-10 H-padding-vertical-both-5 H-border-radius-3 H-display-inline-block H-word-break-break-all" style="z-index: 199305658315;left:50%;max-width:' + (clientWidth - 80) + 'px;">' + msg + '</div>';
+                that.prepend(document.body, null, html);
+                var offset = that.offset(that.D(".H-toast"));
+                that.D(".H-toast").style.width = offset.w + "px";
+                that.D(".H-toast").style.marginLeft = -(offset.w / 2) + "px";
+
+                if (location == "top") {
+                    that.D(".H-toast").style.top = "30px";
+                    that.D(".H-toast").style.bottom = "auto";
+                }
+                else if (location == "bottom") {
+                    that.D(".H-toast").style.bottom = "30px";
+                    that.D(".H-toast").style.top = "auto";
+                }
+                else if (location == "middle") {
+                    that.D(".H-toast").style.top = (clientHeight - offset.h) / 2 + "px";
+                    that.D(".H-toast").style.bottom = "auto";
+                }
+
+                tip = setTimeout(function () {
+                    document.body.removeChild(that.D(".H-toast"));
+                    if (that.isFunction(callback)) {
+                        callback();
+                    }
+                }, duration);
+
+            },
+            toastCore: function (iconHTML, tipText, duration, animateName) {
+                var that = this;
+                iconHTML = iconHTML ? iconHTML : '<span class="H-display-block H-line-height-normal"><i class="H-iconfont H-icon-right H-font-size-42"></i></span>';
+                tipText = tipText ? tipText : "提交成功";
+                duration = Math.abs(that.isNumber(duration) ? Number(duration) : 2000);
+                animateName = animateName ? animateName : "rubberBand";
+
+                if (that.Ds("#H-toast-tip") && that.Ds("#H-toast-tip").length > 0) {
+                }
+                else {
+                    var toastDiv = document.createElement("div");
+                    toastDiv.id = "H-toast-tip";
+                    that.addClass(toastDiv, "H-position-fixed H-z-index-1000000 H-height-100 H-width-100 H-border-radius-5 H-theme-background-color-black H-theme-font-color-white H-center-all H-text-align-center H-background-color-transparent-5 animated " + animateName);
+                    that.cssText(toastDiv, "left:50%;top:50%;margin-left:-50px;margin-top:-80px;")
+                    var html = "";
+                    html += '<div>';
+                    html += iconHTML;
+                    html += '<label class="H-display-block H-margin-vertical-top-3 H-font-size-14 H-theme-font-color-white">' + tipText + '</label>';
+                    html += '</div>';
+                    toastDiv.innerHTML = html;
+                    that.D("body").appendChild(toastDiv);
+
+                    setTimeout(function () {
+                        H.closeToast();
+                    }, duration);
                 }
             },
+            toastSuccess: function (duration) {
+                var that = this;
+                that.toastCore('<span class="H-display-block H-line-height-normal"><i class="H-iconfont H-icon-right H-font-size-42"></i></span>', "提交成功", duration);
+            },
+            toastError: function (duration) {
+                var that = this;
+                that.toastCore('<span class="H-display-block H-line-height-normal"><i class="H-iconfont H-icon-error H-font-size-42"></i></span>', "提交失败", duration);
+            },
+            toastLoading: function (duration) {
+                var that = this;
+                duration = Math.abs(that.isNumber(duration) ? Number(duration) : 10000);
+                that.toastCore('<span class="H-display-block H-line-height-normal H-animate-rotate"><i class="H-iconfont H-icon-loading H-font-size-42"></i></span>', "加载中...", duration);
+            },
+            closeToast: function () {
+                var that = this;
+                if (that.Ds("#H-toast-tip") && that.Ds("#H-toast-tip").length > 0) {
+                    that.D("body").removeChild(that.D("#H-toast-tip"));
+                }
+            },
+            // 切换显示隐藏（通常用于底部分享，弹窗显示）
+            swiperShare: function (parentSelector, animateSelector, closeElemementClassName, openCallBack, closeCallback) {
+                var that = this;
+
+
+                var parentElem = that.D(parentSelector);
+                var animateElem = that.D(parentSelector + " " + animateSelector);
+
+                if (parentElem.classList.contains("H-display-none-important") == false) {
+                    that.addClass(animateElem, "H-animate-scale-small");
+                }
+                else {
+                    that.addClass(animateElem, "H-animate-scale-big");
+                    that.removeClass(parentElem, "H-display-none-important");
+                }
+
+                that.animationEventEnd(animateElem, function (e) {
+                    if (animateElem.classList.contains("H-animate-scale-big")) {
+                        that.removeClass(animateElem, "H-animate-scale-big");
+
+                        if (that.isFunction(openCallBack)) {
+                            openCallBack();
+                        }
+                    }
+                    if (animateElem.classList.contains("H-animate-scale-small")) {
+                        that.removeClass(animateElem, "H-animate-scale-small");
+                        that.addClass(parentElem, "H-display-none-important");
+                        if (that.isFunction(closeCallback)) {
+                            closeCallback();
+                        }
+                    }
+                });
+
+                that.one(window, 'touchend', function (e) {
+                    var src = event.target;
+                    if (src.tagName.toLowerCase() == "div" && src.classList.contains(closeElemementClassName)) {
+                        if (parentElem.classList.contains("H-display-none-important") == false) {
+                            that.swiperShare(parentSelector, animateSelector, closeElemementClassName);
+                        }
+                    }
+                }, true);
+
+            },
+
             // ######################### 模板引擎
             tppl: function (tpl, data) {
                 var that = this;
@@ -2228,195 +3188,265 @@
     // ######################### 属性
     Object.defineProperty(H, "appId", {
         get: function () {
-            return api.appId;
+            if (H.isAPICloud()) {
+                return api.appId;
+            }
         }
     });
     Object.defineProperty(H, "appName", {
         get: function () {
-            return api.appName;
+            if (H.isAPICloud()) {
+                return api.appName;
+            }
         }
     });
     Object.defineProperty(H, "appVersion", {
         get: function () {
-            return api.appVersion;
+            if (H.isAPICloud()) {
+                return api.appVersion;
+            }
         }
     });
     Object.defineProperty(H, "systemType", {
         get: function () {
-            return api.systemType;
+            if (H.isAPICloud()) {
+                return api.systemType;
+            }
         }
     });
     Object.defineProperty(H, "systemVersion", {
         get: function () {
-            return api.systemVersion;
+            if (H.isAPICloud()) {
+                return api.systemVersion;
+            }
         }
     });
     Object.defineProperty(H, "version", {
         get: function () {
-            return api.version;
+            if (H.isAPICloud()) {
+                return api.version;
+            }
         }
     });
     Object.defineProperty(H, "deviceId", {
         get: function () {
-            return api.deviceId;
+            if (H.isAPICloud()) {
+                return api.deviceId;
+            }
         }
     });
     Object.defineProperty(H, "deviceToken", {
         get: function () {
-            return api.deviceToken;
+            if (H.isAPICloud()) {
+                return api.deviceToken;
+            }
         }
     });
     Object.defineProperty(H, "deviceModel", {
         get: function () {
-            return api.deviceModel;
+            if (H.isAPICloud()) {
+                return api.deviceModel;
+            }
         }
     });
     Object.defineProperty(H, "deviceName", {
         get: function () {
-            return api.deviceName;
+            if (H.isAPICloud()) {
+                return api.deviceName;
+            }
         }
     });
     Object.defineProperty(H, "operator", {
         get: function () {
-            return api.operator;
+            if (H.isAPICloud()) {
+                return api.operator;
+            }
         }
     });
     Object.defineProperty(H, "connectionType", {
         get: function () {
-            return api.connectionType;
+            if (H.isAPICloud()) {
+                return api.connectionType;
+            }
         }
     });
     Object.defineProperty(H, "fullScreen", {
         get: function () {
-            return api.fullScreen;
+            if (H.isAPICloud()) {
+                return api.fullScreen;
+            }
         }
     });
     Object.defineProperty(H, "screenWidth", {
         get: function () {
-            return api.screenWidth;
+            if (H.isAPICloud()) {
+                return api.screenWidth;
+            }
         }
     });
     Object.defineProperty(H, "screenHeight", {
         get: function () {
-            return api.screenHeight;
+            if (H.isAPICloud()) {
+                return api.screenHeight;
+            }
         }
     });
     Object.defineProperty(H, "winName", {
         get: function () {
-            return api.winName;
+            if (H.isAPICloud()) {
+                return api.winName;
+            }
         }
     });
     Object.defineProperty(H, "winWidth", {
         get: function () {
-            return api.winWidth;
+            if (H.isAPICloud()) {
+                return api.winWidth;
+            }
         }
     });
     Object.defineProperty(H, "winHeight", {
         get: function () {
-            return api.winHeight;
+            if (H.isAPICloud()) {
+                return api.winHeight;
+            }
         }
     });
     Object.defineProperty(H, "frameName", {
         get: function () {
-            return api.frameName;
+            if (H.isAPICloud()) {
+                return api.frameName;
+            }
         }
     });
     Object.defineProperty(H, "frameWidth", {
         get: function () {
-            return api.frameWidth;
+            if (H.isAPICloud()) {
+                return api.frameWidth;
+            }
         }
     });
     Object.defineProperty(H, "frameHeight", {
         get: function () {
-            return api.frameHeight;
+            if (H.isAPICloud()) {
+                return api.frameHeight;
+            }
         }
     });
     Object.defineProperty(H, "pageParam", {
         get: function () {
-            return api.pageParam;
+            if (H.isAPICloud()) {
+                return api.pageParam;
+            }
         }
     });
     Object.defineProperty(H, "wgtParam", {
         get: function () {
-            return api.wgtParam;
+            if (H.isAPICloud()) {
+                return api.wgtParam;
+            }
         }
     });
     Object.defineProperty(H, "appParam", {
         get: function () {
-            return api.appParam;
+            if (H.isAPICloud()) {
+                return api.appParam;
+            }
         }
     });
     Object.defineProperty(H, "wgtRootDir", {
         get: function () {
-            return api.wgtRootDir;
+            if (H.isAPICloud()) {
+                return api.wgtRootDir;
+            }
         }
     });
     Object.defineProperty(H, "fsDir", {
         get: function () {
-            return api.fsDir;
+            if (H.isAPICloud()) {
+                return api.fsDir;
+            }
         }
     });
     Object.defineProperty(H, "cacheDir", {
         get: function () {
-            return api.cacheDir;
+            if (H.isAPICloud()) {
+                return api.cacheDir;
+            }
         }
     });
     Object.defineProperty(H, "iOS7StatusBarAppearance", {
         get: function () {
-            return api.iOS7StatusBarAppearance;
+            if (H.isAPICloud()) {
+                return api.iOS7StatusBarAppearance;
+            }
         }
     });
     // ######################### 设置pageParam默认值
     var _openWin_ = H.DEFAULT_CONFIG.openWin_CONFIG;
     Object.defineProperty(_openWin_, "pageParam", {
         get: function () {
-            return H.pageParam;
+            if (H.isAPICloud()) {
+                return H.pageParam;
+            }
         }
     });
     Object.defineProperty(_openWin_, "delay", {
         get: function () {
-            return H.systemType == "ios" ? 0 : 0;
+            if (H.isAPICloud()) {
+                return H.systemType == "ios" ? 0 : 0;
+            }
         }
     });
     var _openFrame_ = H.DEFAULT_CONFIG.openFrame_CONFIG;
     Object.defineProperty(_openFrame_, "pageParam", {
         get: function () {
-            return H.pageParam;
+            if (H.isAPICloud()) {
+                return H.pageParam;
+            }
         }
     });
     var _openPopoverWin_ = H.DEFAULT_CONFIG.openPopoverWin_CONFIG;
     Object.defineProperty(_openPopoverWin_, "pageParam", {
         get: function () {
-            return H.pageParam;
+            if (H.isAPICloud()) {
+                return H.pageParam;
+            }
         }
     });
     var _openDrawerLayout_ = H.DEFAULT_CONFIG.openDrawerLayout_CONFIG;
     Object.defineProperty(_openDrawerLayout_, "pageParam", {
         get: function () {
-            return H.pageParam;
+            if (H.isAPICloud()) {
+                return H.pageParam;
+            }
         }
     });
     // ######################### 常量
     // toast位置
     Object.defineProperty(H, "ENUM_toast_location", {
         get: function () {
-            return {
-                top: "top",
-                middle: "middle",
-                bottom: "bottom"
-            };
+            if (H.isAPICloud()) {
+                return {
+                    top: "top",
+                    middle: "middle",
+                    bottom: "bottom"
+                };
+            }
         }
     });
 
     // 传感器类型
     Object.defineProperty(H, "ENUM_startSensor_type", {
         get: function () {
-            return {
-                accelerometer: "accelerometer",
-                gyroscope: "gyroscope",
-                magnetic_field: "magnetic_field",
-                proximity: "proximity"
-            };
+            if (H.isAPICloud()) {
+                return {
+                    accelerometer: "accelerometer",
+                    gyroscope: "gyroscope",
+                    magnetic_field: "magnetic_field",
+                    proximity: "proximity"
+                };
+            }
         }
     });
 });

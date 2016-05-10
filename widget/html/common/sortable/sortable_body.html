@@ -1,0 +1,79 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hui</title>
+    <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <div id="drop-sort">
+        <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-after H-vertical-middle H-touch-active">
+            <span class="H-icon H-display-block H-margin-horizontal-left-10"><i class="H-iconfont H-icon-user H-font-size-18 H-vertical-middle"></i></span>
+            <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">按住右边图标可以拖动排序哦1</div>
+            <span class="H-icon H-padding-horizontal-right-10 H-display-block drop-handle" aria-hidden="true"><i class="H-iconfont H-icon-drop-sort H-theme-font-color9 H-font-size-18 H-vertical-middle"></i></span>
+        </div>
+        <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-after H-vertical-middle H-touch-active">
+            <span class="H-icon H-display-block H-margin-horizontal-left-10"><i class="H-iconfont H-icon-setting H-font-size-18 H-vertical-middle H-theme-font-color1"></i></span>
+            <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">按住右边图标可以拖动排序哦2</div>
+            <span class="H-icon H-padding-horizontal-right-10 H-display-block drop-handle" aria-hidden="true"><i class="H-iconfont H-icon-drop-sort H-theme-font-color9 H-font-size-18 H-vertical-middle"></i></span>
+        </div>
+        <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-after H-vertical-middle H-touch-active">
+            <span class="H-icon H-display-block H-margin-horizontal-left-10"><i class="H-iconfont H-icon-earth H-font-size-18 H-vertical-middle H-theme-font-color4"></i></span>
+            <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">按住右边图标可以拖动排序哦3</div>
+            <span class="H-icon H-padding-horizontal-right-10 H-display-block drop-handle" aria-hidden="true"><i class="H-iconfont H-icon-drop-sort H-theme-font-color9 H-font-size-18 H-vertical-middle"></i></span>
+        </div>
+        <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-after H-vertical-middle H-touch-active">
+            <span class="H-icon H-display-block H-margin-horizontal-left-10"><i class="H-iconfont H-icon-user H-font-size-18 H-vertical-middle"></i></span>
+            <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">按住右边图标可以拖动排序哦4</div>
+            <span class="H-icon H-padding-horizontal-right-10 H-display-block drop-handle" aria-hidden="true"><i class="H-iconfont H-icon-drop-sort H-theme-font-color9 H-font-size-18 H-vertical-middle"></i></span>
+        </div>
+        <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-after H-vertical-middle H-touch-active">
+            <span class="H-icon H-display-block H-margin-horizontal-left-10"><i class="H-iconfont H-icon-setting H-font-size-18 H-vertical-middle H-theme-font-color1"></i></span>
+            <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">按住右边图标可以拖动排序哦5</div>
+            <span class="H-icon H-padding-horizontal-right-10 H-display-block drop-handle" aria-hidden="true"><i class="H-iconfont H-icon-drop-sort H-theme-font-color9 H-font-size-18 H-vertical-middle"></i></span>
+        </div>
+        <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-after H-vertical-middle H-touch-active">
+            <span class="H-icon H-display-block H-margin-horizontal-left-10"><i class="H-iconfont H-icon-earth H-font-size-18 H-vertical-middle H-theme-font-color4"></i></span>
+            <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">按住右边图标可以拖动排序哦6</div>
+            <span class="H-icon H-padding-horizontal-right-10 H-display-block drop-handle" aria-hidden="true"><i class="H-iconfont H-icon-drop-sort H-theme-font-color9 H-font-size-18 H-vertical-middle"></i></span>
+        </div>
+    </div>
+    <script src="../../../plugins/sortable/Sortable.min.js"></script>
+    <script src="../../../script/H.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var listWithHandle = document.getElementById('drop-sort');
+        Sortable.create(listWithHandle, {
+            handle: '.drop-handle',
+            animation: 150,
+            onEnd: function (evt) {
+                // 拖动元素旧索引
+                var oldIndex = evt.oldIndex;
+                // 拖动元素新索引
+                var newIndex = evt.newIndex;
+                // 拖动完成之后所有元素最新的排序
+                var newSortList = evt.from.children;
+
+                // ************************************************测试demo*********************************************
+                var arr = [];
+                // 输出最新排序
+                for (var i = 0; i < newSortList.length; i++) {
+                    var tempObj = newSortList[i];
+                    var text = tempObj.innerText;
+                    arr.push({
+                        element: tempObj,
+                        index: i,
+                        text: text
+                    });
+                }
+
+                console.log(arr);
+                // ************************************************测试demo*********************************************
+            }
+        });
+    </script>
+</body>
+</html>

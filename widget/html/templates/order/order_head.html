@@ -16,13 +16,13 @@
             我的订单
         </div>
         <div class="H-flexbox-horizontal H-theme-background-color-white" id="tag">
-            <div tapmode="" onclick="swipeIndex(0);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-10 H-theme-border-color-white  H-font-size-16 H-theme-border-color-52ace5 H-theme-font-color-52ace5 H-theme-border-color9 H-theme-font-color9" style="border-width: 0 0 2px  0">
+            <div tapmode="" onclick="setPage(0, 'order_mobile_body.html');" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-10 H-theme-border-color-white  H-font-size-16 H-theme-border-color-52ace5 H-theme-font-color-52ace5 H-theme-border-color9 H-theme-font-color9" style="border-width: 0 0 2px  0">
                 话费充值
             </div>
-            <div tapmode="" onclick="swipeIndex(1);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-10 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
+            <div tapmode="" onclick="setPage(1, 'order_print_body.html');" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-10 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
                 打印复印
             </div>
-            <div tapmode="" onclick="swipeIndex(2);" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-10 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
+            <div tapmode="" onclick="setPage(2, 'order_goods_body.html');" class="H-flex-item H-center-all H-theme-font-color-666 H-padding-vertical-both-10 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
                 商品购买
             </div>
         </div>
@@ -35,8 +35,14 @@
             H.removeClass(H.siblings(that), "H-theme-border-color9 H-theme-font-color9");
         }
 
-        function swipeIndex(index) {
-            H.setFrameGroupIndex("groups", index, true);
+        function setPage(index, url) {
+            setStyle(index);
+            if (H.isAPICloud()) {
+                H.setFrameGroupIndex("groups", index, true);
+            }
+            else {
+                H.D("#H-frame").setAttribute("src", url);
+            }
         }
 
         H.ready(function () {

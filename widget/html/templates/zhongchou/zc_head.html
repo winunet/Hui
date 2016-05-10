@@ -1,0 +1,61 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../../css/Hui.css" />
+    <style type="text/css">
+    </style>
+</head>
+<body class="H-flexbox-vertical">
+    <header class="H-header H-theme-background-color1" id="header">
+        <span class="H-icon H-position-relative H-display-inline-block H-float-left H-vertical-middle H-theme-font-color-white H-padding-horizontal-left-10 H-z-index-100"><label class="H-display-block H-vertical-middle H-font-size-16">众筹</label></span>
+        <div class="H-flexbox-horizontal H-theme-background-color-white H-padding-horizontal-left-10" id="tag">
+            <div onclick="setPage(0, 'zc_list_body.html');" class="H-margin-horizontal-right-20 H-theme-font-color-666 H-padding-vertical-both-5 H-theme-border-color-white  H-font-size-16  H-theme-font-color1" style="border-width: 0 0 2px  0">
+                精选项目
+            </div>
+            <div onclick="setPage(1, 'zc_list_body.html');" class="H-margin-horizontal-right-20 H-theme-font-color-666 H-padding-vertical-both-5 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
+                尝鲜预售
+            </div>
+            <div onclick="setPage(2, 'zc_list_body.html');" class="H-margin-horizontal-right-20 H-theme-font-color-666 H-padding-vertical-both-5 H-theme-border-color-white  H-font-size-16" style="border-width: 0 0 2px  0">
+                梦想清单
+            </div>
+        </div>
+    </header>
+    <script type="text/javascript" src="../../../script/H.js"></script>
+    <script type="text/javascript">
+        function setStyle(index) {
+            var that = H.D("#tag div:nth-child(" + (index + 1) + ")");
+            H.addClass(that, "H-theme-font-color1");
+            H.removeClass(H.siblings(that), "H-theme-font-color1");
+        }
+
+        function setPage(index, url) {
+            setStyle(index);
+            if (H.isAPICloud()) {
+                H.setFrameGroupIndex("groups", index, true);
+            }
+            else {
+                H.D("#H-frame").setAttribute("src", url);
+            }
+        }
+
+        H.ready(function () {
+            H.openFrameGroupNavOrFoot(function (ret, err) {
+                setStyle(ret.index);
+            }, "groups", [{
+                url: 'zc_list_body.html',
+                name: 'zc_list_body1'
+            }, {
+                url: 'zc_list_body.html',
+                name: 'zc_list_body2'
+            }, {
+                url: 'zc_list_body.html',
+                name: 'zc_list_body3'
+            }], 0, "#header", null);
+        });
+    </script>
+</body>
+</html>

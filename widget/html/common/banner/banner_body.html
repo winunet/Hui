@@ -7,8 +7,7 @@
     <title>Hui</title>
     <link href="../../../plugins/swiper/swiper.min.css" rel="stylesheet" />
     <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
-    <style type="text/css">
-    </style>
+    <style type="text/css"></style>
 </head>
 <body>
     <!--################### 常用轮播图 ###################-->
@@ -17,8 +16,8 @@
         <div class="H-channel-text H-theme-font-color-black H-flex-item H-font-size-18 H-theme-font-color-black H-padding-10 H-margin-horizontal-right-10 H-text-show-row-1">常用轮播图</div>
     </div>
     <div class="H-padding-vertical-bottom-10"></div>
-    <div style="height: 150px;">
-        <div class="swiper-container H-width-100-percent H-height-100-percent">
+    <div class="H-swiper H-position-relative H-width-100-percent H-box-sizing-border-box H-overflow-scrolling" style="height:150px;">
+        <div class="swiper-container  swiper-normal H-position-absolute H-width-100-percent H-height-100-percent">
             <div class="swiper-wrapper">
                 <div class="swiper-slide"><img src="../../../image/banner.png" class="H-width-100-percent H-height-100-percent" /></div>
                 <div class="swiper-slide"><img src="../../../image/banner.png" class="H-width-100-percent H-height-100-percent" /></div>
@@ -34,43 +33,45 @@
         <div class="H-channel-text H-theme-font-color-black H-flex-item H-font-size-18 H-theme-font-color-black H-padding-10 H-margin-horizontal-right-10 H-text-show-row-1">3D轮播图</div>
     </div>
     <div class="H-padding-vertical-bottom-10"></div>
-    <div style="height: 150px;" class="H-overflow-hidden">
-        <div class="swiper-container-3D H-width-100-percent H-height-100-percent">
+    <div class="H-swiper H-position-relative H-width-100-percent H-box-sizing-border-box H-overflow-scrolling" style="height:150px;">
+        <div class="swiper-container swiper-3d H-position-absolute H-width-100-percent H-height-100-percent">
             <div class="swiper-wrapper">
                 <div class="swiper-slide"><img src="../../../image/banner.png" class="H-width-100-percent H-height-100-percent" /></div>
                 <div class="swiper-slide"><img src="../../../image/banner.png" class="H-width-100-percent H-height-100-percent" /></div>
                 <div class="swiper-slide"><img src="../../../image/banner.png" class="H-width-100-percent H-height-100-percent" /></div>
             </div>
-            <div class="swiper-pagination"></div>
+            <div class="swiper-pagination" id=""></div>
         </div>
     </div>
     <div class="H-padding-vertical-bottom-10"></div>
-    <!--################### 3D轮播图2 ###################-->
+    <!--################### 3D轮播图 ###################-->
     <div class="H-channel-title H-flexbox-horizontal H-theme-background-color-white H-vertical-middle H-border-vertical-bottom-after">
         <div class="H-channel-line H-theme-background-color-black H-padding-vertical-top-15 H-padding-horizontal-left-3  H-margin-horizontal-left-10"></div>
-        <div class="H-channel-text H-theme-font-color-black H-flex-item H-font-size-18 H-theme-font-color-black H-padding-10 H-margin-horizontal-right-10 H-text-show-row-1">3D轮播图2</div>
+        <div class="H-channel-text H-theme-font-color-black H-flex-item H-font-size-18 H-theme-font-color-black H-padding-10 H-margin-horizontal-right-10 H-text-show-row-1">3D轮播图</div>
     </div>
     <div class="H-padding-vertical-bottom-10"></div>
-    <div style="height: 150px;" class="H-overflow-hidden">
-        <div class="swiper-container-3D2 H-width-100-percent H-height-100-percent">
+    <div class="H-swiper H-position-relative H-width-100-percent H-box-sizing-border-box H-overflow-scrolling" style="height:150px;">
+        <div class="swiper-container swiper-3d2 H-position-absolute H-width-100-percent H-height-100-percent">
             <div class="swiper-wrapper">
                 <div class="swiper-slide"><img src="../../../image/banner.png" class="H-width-100-percent H-height-100-percent" /></div>
                 <div class="swiper-slide"><img src="../../../image/banner.png" class="H-width-100-percent H-height-100-percent" /></div>
                 <div class="swiper-slide"><img src="../../../image/banner.png" class="H-width-100-percent H-height-100-percent" /></div>
             </div>
-            <div class="swiper-pagination"></div>
+            <div class="swiper-pagination" id=""></div>
         </div>
     </div>
     <div class="H-padding-vertical-bottom-10"></div>
     <script src="../../../plugins/swiper/swiper.min.js"></script>
     <script src="../../../script/H.js" type="text/javascript"></script>
     <script type="text/javascript">
-        var swiper = new Swiper('.swiper-container', {
-            pagination: '.swiper-pagination'
+        var swiper = new Swiper('.swiper-normal', {
+            pagination: '.swiper-pagination',
+            loop: true
         });
 
-        var swiper2 = new Swiper('.swiper-container-3D', {
+        var swiper2 = new Swiper('.swiper-3d', {
             pagination: '.swiper-pagination',
+            loop: true,
             effect: 'coverflow',
             grabCursor: true,
             centeredSlides: true,
@@ -84,8 +85,9 @@
             }
         });
 
-        var swipe3 = new Swiper('.swiper-container-3D2', {
+        var swiper2 = new Swiper('.swiper-3d2', {
             pagination: '.swiper-pagination',
+            loop: true,
             effect: 'cube',
             grabCursor: true,
             cube: {

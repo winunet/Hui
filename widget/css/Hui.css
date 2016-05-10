@@ -2,7 +2,7 @@
 
 /*!
  * 文件名称：Hui.css
- * 文件版本：Version 0.2.0    2016-05-04
+ * 文件版本：Version 0.2.1    2016-05-06
  * 文件作者：新生帝
  * 编写日期：2016年04月15日
  * 版权所有：中山赢友网络科技有限公司
@@ -55,7 +55,6 @@ textarea { overflow: auto; }
 ::-webkit-input-placeholder { color: inherit; opacity: .54; }
 ::-webkit-file-upload-button { -webkit-appearance: button; font: inherit; }
 
-
 /*字体图标*/
 /*引入字体图标*/
 @font-face { font-family: 'iconfont'; src: url('Hui.ttf') format('truetype'); }
@@ -86,6 +85,7 @@ textarea { overflow: auto; }
 .H-icon-donate:before { content: "\f076"; }
 .H-icon-plus:before { content: "\f110"; }
 .H-icon-shopping-cart:before { content: "\f105"; }
+.H-icon-contacts:before { content: "\f205"; }
 .H-icon-share:before { content: "\f090"; }
 .H-icon-html5:before { content: "\f047"; }
 .H-icon-warn:before { content: "\f009"; }
@@ -127,13 +127,20 @@ textarea { overflow: auto; }
 .H-icon-ipadiphone:before { content: "\f180"; }
 .H-icon-mobile-net:before { content: "\f037"; }
 .H-icon-arrow-scrolltop:before { content: "\f032"; }
+.H-icon-wow:before { content: "\f284"; }
+.H-icon-sad:before { content: "\f283"; }
+.H-icon-smile2:before { content: "\f276"; }
+.H-icon-edit:before { content: "\f252"; }
+.H-icon-level:before { content: "\f251"; }
 .H-icon-ding-null:before { content: "\f132"; }
 .H-icon-ding-fill:before { content: "\f133"; }
 .H-icon-cai-null:before { content: "\f134"; }
 .H-icon-cai-fill:before { content: "\f135"; }
 .H-icon-delegate:before { content: "\f075"; }
 .H-icon-ios:before { content: "\f101"; }
+.H-icon-pointmore:before { content: "\f277"; }
 .H-icon-arrow-down:before { content: "\f023"; }
+.H-icon-drop-sort:before { content: "\f210"; }
 .H-icon-more:before { content: "\f038"; }
 .H-icon-clear:before { content: "\f041"; }
 .H-icon-tools:before { content: "\f136"; }
@@ -144,6 +151,10 @@ textarea { overflow: auto; }
 .H-icon-gobottom:before { content: "\f096"; }
 .H-icon-bbs:before { content: "\f093"; }
 .H-icon-finding:before { content: "\f095"; }
+.H-icon-cloud-download-fill:before { content: "\281"; }
+.H-icon-cloud-download:before { content: "\f280"; }
+.H-icon-download-fill:before { content: "\f279"; }
+.H-icon-download:before { content: "\f278"; }
 .H-icon-list-down:before { content: "\f138"; }
 .H-icon-list-up:before { content: "\f139"; }
 .H-icon-about-me:before { content: "\f077"; }
@@ -161,6 +172,7 @@ textarea { overflow: auto; }
 .H-icon-voice-right:before { content: "\f015"; }
 .H-icon-union:before { content: "\f104"; }
 .H-icon-kefu:before { content: "\f068"; }
+.H-icon-fangzi:before { content: "\f275"; }
 .H-icon-time:before { content: "\f030"; }
 .H-icon-user:before { content: "\f016"; }
 .H-icon-find:before { content: "\f017"; }
@@ -170,21 +182,45 @@ textarea { overflow: auto; }
 .H-icon-like-null:before { content: "\f012"; }
 .H-icon-close-eye:before { content: "\f001"; }
 .H-icon-aliwangwang:before { content: "\f092"; }
+.H-icon-kuandai:before { content: "\f274"; }
+.H-icon-huoche:before { content: "\f273"; }
+.H-icon-qiche:before { content: "\f272"; }
+.H-icon-chuzuche:before { content: "\f271"; }
+.H-icon-meishi2:before { content: "\f270"; }
+.H-icon-meishi:before { content: "\f268"; }
 .H-icon-official:before { content: "\f078"; }
 .H-icon-radio-fill:before { content: "\f123"; }
 .H-icon-radio-null:before { content: "\f122"; }
+.H-icon-guanbi2-fill:before { content: "\f285"; }
+.H-icon-guanbi2:before { content: "\f265"; }
+.H-icon-jiahao2:before { content: "\f264"; }
+.H-icon-jiahao2-fill:before { content: "\f263"; }
+.H-icon-tishi-fill:before { content: "\f262"; }
+.H-icon-tishi:before { content: "\f261"; }
+.H-icon-wenhao-fill:before { content: "\f260"; }
+.H-icon-wenhao:before { content: "\f259"; }
+.H-icon-radio-check-fill:before { content: "\f258"; }
+.H-icon-radio-check:before { content: "\f257"; }
+.H-icon-chexiao:before { content: "\f255"; }
+.H-icon-gouwudai:before { content: "\f254"; }
+.H-icon-kefu2-fill:before { content: "\f266"; }
+.H-icon-kefu2:before { content: "\f267"; }
 .H-icon-review-fill:before { content: "\f124"; }
 .H-icon-review-null:before { content: "\f121"; }
+.H-icon-qingchu:before { content: "\f253"; }
+.H-icon-saoma:before { content: "\f290"; }
 .H-icon-search-list:before { content: "\f120"; }
+.H-icon-search-list-null:before { content: "\f287"; }
+.H-icon-tianmao:before { content: "\f286"; }
 .H-icon-wuliu:before { content: "\f119"; }
 .H-icon-vip:before { content: "\f072"; }
+.H-icon-familyarea:before { content: "\f160"; }
 .H-icon-aite:before { content: "\f034"; }
 .H-icon-alipay:before { content: "\f108"; }
 .H-icon-none:before { content: "\f130"; }
 .H-icon-calc:before { content: "\f155"; }
 .H-icon-licai:before { content: "\f171"; }
 .H-icon-money2:before { content: "\f170"; }
-.H-icon-familyarea:before { content: "\f160"; }
 .H-icon-femaleanchors:before { content: "\f159"; }
 .H-icon-gamelive:before { content: "\f154"; }
 .H-icon-recreationcenter:before { content: "\f145"; }
@@ -197,11 +233,10 @@ textarea { overflow: auto; }
 .H-icon-safe:before { content: "\f080"; }
 .H-icon-supermarket:before { content: "\f147"; }
 .H-icon-reward:before { content: "\f081"; }
-.H-icon-zujin:before { content: "\f148"; }
+.H-icon-zuji:before { content: "\f148"; }
 .H-icon-zhongping:before { content: "\f150"; }
 .H-icon-camera1:before { content: "\f140"; }
 .H-icon-new:before { content: "\f152"; }
-.H-icon-point:before { content: "\f153"; }
 .H-icon-user2:before { content: "\f173"; }
 .H-icon-adduser:before { content: "\f156"; }
 .H-icon-passuser:before { content: "\f157"; }
@@ -216,7 +251,13 @@ textarea { overflow: auto; }
 .H-icon-arrow-up:before { content: "\f099"; }
 .H-icon-close:before { content: "\f117"; }
 .H-icon-fee:before { content: "\f118"; }
+.H-icon-mianji:before { content: "\f288"; }
 
+/*改写滚动条为全部透明*/
+::-webkit-scrollbar /*整体部分*/ { width: 0; height: 0; }
+::-webkit-scrollbar-track /*滑动轨道*/ { background: rgba(0,0,0,0); }
+::-webkit-scrollbar-thumb /*滑块*/ { background: rgba(0,0,0,0.0); }
+::-webkit-scrollbar-thumb:hover /*滑块效果*/ { background: rgba(0,0,0,0); }
 
 /* 常用字体大小 */
 .H-font-size-0 { font-size: 0; }
@@ -394,6 +435,18 @@ textarea { overflow: auto; }
 .H-white-space-pre { white-space: pre; }
 .H-white-space-pre-line { white-space: pre-line; }
 .H-white-space-pre-wrap { white-space: pre-wrap; }
+.H-word-break-break-all { word-break: break-all; }
+
+/*常见透明背景*/
+.H-background-color-transparent-1 { background: rgba(0,0,0,0.1); }
+.H-background-color-transparent-2 { background: rgba(0,0,0,0.2); }
+.H-background-color-transparent-3 { background: rgba(0,0,0,0.3); }
+.H-background-color-transparent-4 { background: rgba(0,0,0,0.4); }
+.H-background-color-transparent-5 { background: rgba(0,0,0,0.5); }
+.H-background-color-transparent-6 { background: rgba(0,0,0,0.6); }
+.H-background-color-transparent-7 { background: rgba(0,0,0,0.7); }
+.H-background-color-transparent-8 { background: rgba(0,0,0,0.8); }
+.H-background-color-transparent-9 { background: rgba(0,0,0,0.9); }
 
 /*常用等宽*/
 .H-width-avg-1 { width: 100%; }
@@ -438,9 +491,8 @@ textarea { overflow: auto; }
 .H-position-static { position: static; }
 
 /* 设置文字显示多少行 */
-.H-text-show-row-1, .H-text-show-row-2, .H-text-show-row-3, .H-text-show-row-4, .H-text-show-row-5 { overflow: hidden; text-overflow: ellipsis; }
-.H-text-show-row-2, .H-text-show-row-3, .H-text-show-row-4, .H-text-show-row-5 { display: box; display: -webkit-box; word-wrap: break-word; white-space: normal !important; -webkit-box-orient: vertical; }
-.H-text-show-row-1 { white-space: nowrap; }
+.H-text-show-row-1, .H-text-show-row-2, .H-text-show-row-3, .H-text-show-row-4, .H-text-show-row-5 { overflow: hidden; text-overflow: ellipsis; display: box; display: -webkit-box; word-wrap: break-word; white-space: normal !important; -webkit-box-orient: vertical; }
+.H-text-show-row-1 { line-clamp: 1; -webkit-line-clamp: 1; }
 .H-text-show-row-2 { line-clamp: 2; -webkit-line-clamp: 2; }
 .H-text-show-row-3 { line-clamp: 3; -webkit-line-clamp: 3; }
 .H-text-show-row-4 { line-clamp: 4; -webkit-line-clamp: 4; }
@@ -529,6 +581,18 @@ textarea { overflow: auto; }
 .H-height-90 { height: 90px; }
 .H-width-100 { width: 100px; }
 .H-height-100 { height: 100px; }
+.H-width-120 { width: 120px; }
+.H-height-120 { height: 120px; }
+.H-width-150 { width: 150px; }
+.H-height-150 { height: 150px; }
+.H-width-180 { width: 180px; }
+.H-height-180 { height: 180px; }
+.H-width-200 { width: 200px; }
+.H-height-200 { height: 200px; }
+.H-width-220 { width: 220px; }
+.H-height-220 { height: 220px; }
+.H-width-240 { width: 240px; }
+.H-height-240 { height: 240px; }
 
 .H-auto-height { min-height: 0; height: auto; overflow: hidden; }
 .H-max-width-100-percent { max-width: 100%; }
@@ -882,11 +946,57 @@ textarea { overflow: auto; }
 .H-border-style-double-after:after { border-style: double; }
 .H-border-style-dashed-after:after { border-style: dashed; }
 .H-border-style-hidden-after:after { border-style: hidden; }
+.H-border-top-style-solid { border-top-style: solid; }
+.H-border-top-style-dotted { border-top-style: dotted; }
+.H-border-top-style-double { border-top-style: double; }
+.H-border-top-style-dashed { border-top-style: dashed; }
+.H-border-top-style-hidden { border-top-style: hidden; }
+.H-border-top-style-solid-after:after { border-top-style: solid; }
+.H-border-top-style-dotted-after:after { border-top-style: dotted; }
+.H-border-top-style-double-after:after { border-top-style: double; }
+.H-border-top-style-dashed-after:after { border-top-style: dashed; }
+.H-border-top-style-hidden-after:after { border-top-style: hidden; }
+.H-border-bottom-style-solid { border-bottom-style: solid; }
+.H-border-bottom-style-dotted { border-bottom-style: dotted; }
+.H-border-bottom-style-double { border-bottom-style: double; }
+.H-border-bottom-style-dashed { border-bottom-style: dashed; }
+.H-border-bottom-style-hidden { border-bottom-style: hidden; }
+.H-border-bottom-style-solid-after:after { border-bottom-style: solid; }
+.H-border-bottom-style-dotted-after:after { border-bottom-style: dotted; }
+.H-border-bottom-style-double-after:after { border-bottom-style: double; }
+.H-border-bottom-style-dashed-after:after { border-bottom-style: dashed; }
+.H-border-bottom-style-hidden-after:after { border-bottom-style: hidden; }
+.H-border-left-style-solid { border-left-style: solid; }
+.H-border-left-style-dotted { border-left-style: dotted; }
+.H-border-left-style-double { border-left-style: double; }
+.H-border-left-style-dashed { border-left-style: dashed; }
+.H-border-left-style-hidden { border-left-style: hidden; }
+.H-border-left-style-solid-after:after { border-left-style: solid; }
+.H-border-left-style-dotted-after:after { border-left-style: dotted; }
+.H-border-left-style-double-after:after { border-left-style: double; }
+.H-border-left-style-dashed-after:after { border-left-style: dashed; }
+.H-border-left-style-hidden-after:after { border-left-style: hidden; }
+.H-border-right-style-solid { border-right-style: solid; }
+.H-border-right-style-dotted { border-right-style: dotted; }
+.H-border-right-style-double { border-right-style: double; }
+.H-border-right-style-dashed { border-right-style: dashed; }
+.H-border-right-style-hidden { border-right-style: hidden; }
+.H-border-right-style-solid-after:after { border-right-style: solid; }
+.H-border-right-style-dotted-after:after { border-right-style: dotted; }
+.H-border-right-style-double-after:after { border-right-style: double; }
+.H-border-right-style-dashed-after:after { border-right-style: dashed; }
+.H-border-right-style-hidden-after:after { border-right-style: hidden; }
 
 /*透明度*/
 .H-opacity-0 { opacity: 0; }
 .H-opacity-1-half { opacity: 0.5; }
 .H-opacity-1 { opacity: 1; }
+
+/*取消点击黑边*/
+.H-tap-highlight-color-transparent { -webkit-tap-highlight-color: transparent; }
+
+/*解决iframe在iphone手机不能上下滑动问题*/
+.H-overflow-scrolling { -webkit-overflow-scrolling: touch; overflow: scroll; }
 
 /*支持动画*/
 .H-transition-all { transition: All 0.5s ease-in; -webkit-transition: All 0.5s ease-in; }
@@ -947,11 +1057,13 @@ textarea { overflow: auto; }
 .H-footer-half-circle { left: 50%; margin-left: -25px; top: -10px; width: 50px; height: 25px; border-radius: 25px 25px 0 0; border: 1px solid #e6e6e6; border-bottom: 0; }
 .H-footer-cover-half-line { left: 0; top: -2px; transform: scaleY(0.9); -webkit-transform: scaleY(0.9); }
 
+iframe { -webkit-user-select: none; outline: none; -webkit-touch-callout: none; -webkit-overflow-scrolling: touch; overflow: hidden; -webkit-appearance: none; }
+
 /*常见按钮*/
-.H-button { min-width: 120px; }
+.H-button { min-width: 120px; -webkit-touch-callout: none; -webkit-appearance: none; -webkit-user-select: none; }
 
 /*切换滑块*/
-.H-switch { overflow: hidden; width: 46px; height: 26px; border: 1px solid #dddddd; box-shadow: #dfdfdf 0 0 0 0 inset; border-radius: 13px; background-clip: content-box; -webkit-appearance: none; -webkit-user-select: none; outline: none; transition: border cubic-bezier(0, 0, 0, 1) 0.2s, box-shadow cubic-bezier(0, 0, 0, 1) 0.2s; -webkit-transition: border cubic-bezier(0, 0, 0, 1) 0.2s, box-shadow cubic-bezier(0, 0, 0, 1) 0.2s; }
+.H-switch { -webkit-touch-callout: none; cursor: pointer; overflow: hidden; width: 46px; height: 26px; border: 1px solid #dddddd; box-shadow: #dfdfdf 0 0 0 0 inset; border-radius: 13px; background-clip: content-box; -webkit-appearance: none; -webkit-user-select: none; outline: none; transition: border cubic-bezier(0, 0, 0, 1) 0.2s, box-shadow cubic-bezier(0, 0, 0, 1) 0.2s; -webkit-transition: border cubic-bezier(0, 0, 0, 1) 0.2s, box-shadow cubic-bezier(0, 0, 0, 1) 0.2s; }
 .H-switch:before { width: 24px; height: 24px; position: absolute; top: 0; left: 0; border-radius: 13px; -webkit-border-radius: 13px; background-color: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); content: ''; transition: left 0.2s; -webkit-transition: left 0.2s; text-transform: uppercase; }
 .H-switch:checked { transition: border ease 0.2s, box-shadow ease 0.2s, background-color ease 0.6s; -webkit-transition: border ease 0.2s, box-shadow ease 0.2s, background-color ease 0.6s; }
 .H-switch:checked:before { left: 20px; transition: left 0.2s; -webkit-transition: left 0.2s; }
@@ -974,10 +1086,10 @@ textarea { overflow: auto; }
 .H-switch.H-theme-font-color9:checked { border-color: #5cb85c; box-shadow: #5cb85c 0 0 0 26px inset; background-color: #5cb85c; }
 
 /*复选框，复选框*/
-.H-checkbox, .H-radio { width: 22px; height: 22px; text-align: center; line-height: 22px; -webkit-appearance: none; appearance: none; border: 1px solid #dddddd; box-shadow: #dfdfdf 0 0 0 0 inset; background-clip: content-box; -webkit-appearance: none; -webkit-user-select: none; outline: none; transition: border cubic-bezier(0, 0, 0, 1) 0.2s, box-shadow cubic-bezier(0, 0, 0, 1) 0.2s; -webkit-transition: border cubic-bezier(0, 0, 0, 1) 0.2s, box-shadow cubic-bezier(0, 0, 0, 1) 0.2s; background: transparent; }
+.H-checkbox, .H-radio { cursor: pointer; -webkit-touch-callout: none; width: 22px; height: 22px; text-align: center; line-height: 22px; border: 1px solid #dddddd; box-shadow: #dfdfdf 0 0 0 0 inset; background-clip: content-box; -webkit-appearance: none; -webkit-user-select: none; outline: none; transition: border cubic-bezier(0, 0, 0, 1) 0.2s, box-shadow cubic-bezier(0, 0, 0, 1) 0.2s; -webkit-transition: border cubic-bezier(0, 0, 0, 1) 0.2s, box-shadow cubic-bezier(0, 0, 0, 1) 0.2s; background: transparent; }
 .H-checkbox.H-theme-background-color-white, .H-radio.H-theme-background-color-white { background: white; }
-.H-checkbox:checked, .H-radio:checked { transition: border ease 0.2s, box-shadow ease 0.2s, background-color ease 0.6s; -webkit-transition: border ease 0.2s, box-shadow ease 0.2s, background-color ease 0.6s; }
-.H-checkbox:checked:before, .H-radio:checked:before { width: 22px; height: 22px; line-height: 22px; content: '\2713'; }
+.H-checkbox:checked, .H-radio:checked { transition: border ease 0.2s, box-shadow ease 0.2s, background-color ease 0.6s; -webkit-touch-callout: none; -webkit-transition: border ease 0.2s, box-shadow ease 0.2s, background-color ease 0.6s; }
+.H-checkbox:checked:before, .H-radio:checked:before { width: 22px; height: 22px; line-height: 22px; content: '\2713'; -webkit-touch-callout: none; }
 /*空背景样式*/
 .H-checkbox.H-checkbox-null.H-theme-font-color-black:checked, .H-radio.H-radio-null.H-theme-font-color-black:checked { border-color: black; }
 .H-checkbox.H-checkbox-null.H-theme-font-color1:checked, .H-radio.H-radio-null.H-theme-font-color1:checked { border-color: #52ace5; }
@@ -1239,7 +1351,7 @@ textarea { overflow: auto; }
 .H-radio.H-radio-judge-yes.H-radio-fill.H-theme-font-color9:checked:before { color: #fff; }
 
 /*区域滑块*/
-.H-range { height: 4px; margin: 12px 0; background-color: #c8c7cc; appearance: none !important; -webkit-appearance: none !important; }
+.H-range { cursor: pointer; -webkit-touch-callout: none; height: 4px; margin: 12px 0; background-color: #c8c7cc; appearance: none !important; -webkit-appearance: none !important; }
 .H-range::-webkit-slider-thumb { width: 25px; height: 25px; border-radius: 50%; -webkit-border-radius: 50%; border-color: #1abc9c; background-color: #1abc9c; appearance: none !important; -webkit-appearance: none !important; }
 
 .H-range.H-range-square { height: 10px; margin: 3px 0; }
@@ -1256,7 +1368,7 @@ textarea { overflow: auto; }
 .H-range.H-theme-font-color9::-webkit-slider-thumb { border-color: #5cb85c; background-color: #5cb85c; }
 
 /*文本框*/
-.H-textbox { appearance: none !important; -webkit-appearance: none !important; outline: 0; }
+.H-textbox { appearance: none !important; -webkit-appearance: none !important; outline: 0; -webkit-appearance: none; -webkit-tap-highlight-color: transparent; -webkit-overflow-scrolling: touch; }
 textarea.H-textbox { min-height: 150px; resize: none; }
 
 /*会话组件*/
@@ -1265,6 +1377,7 @@ textarea.H-textbox { min-height: 150px; resize: none; }
 .H-chatbox-receiver .H-chatbox-bugle { left: -16px; }
 .H-chatbox-sender .H-chatbox-bugle { right: -16px; }
 .H-chatbox-status-loading { animation: 1s linear 0s normal none infinite H-rotate; -webkit-animation: 1s linear 0s normal none infinite H-rotate; }
+.H-chatbox-content-text, .H-chatbox-content-image, .H-chatbox-content-voice { word-break: break-all; }
 
 /*时间轴*/
 .H-timeline, .H-timeline-dot, html, body { background: #f4f5f9; }

@@ -12,8 +12,8 @@
     <header class="H-header H-theme-background-color9" id="header">
         <span tapmode="" onclick="H.closeWin();" class="H-icon H-position-relative H-display-inline-block H-float-left H-vertical-middle H-theme-font-color-white H-padding-horizontal-left-5 H-z-index-100"><i class="H-iconfont H-icon-arrow-left H-font-size-18 H-vertical-middle"></i><label class="H-display-block H-vertical-middle H-font-size-15">返回</label></span>
         <div class="H-header-title H-center-all H-font-size-18 H-text-show-row-1 H-theme-font-color-white H-position-absolute H-width-100-percent" id="tag">
-            <div tapmode="" onclick="swipeIndex(0);" class="H-header-tag H-font-size-14 H-padding-vertical-both-2 H-padding-horizontal-both-12 H-border-vertical-both-white H-border-horizontal-left-white H-border-radius-12-left-both H-overflow-hidden H-center-all H-theme-background-color-white H-theme-font-color9">官方</div>
-            <div tapmode="" onclick="swipeIndex(1);" class="H-header-tag H-font-size-14 H-padding-vertical-both-2 H-padding-horizontal-both-12 H-border-vertical-both-white H-border-horizontal-both-white H-border-radius-12-right-both H-overflow-hidden H-center-all">资方</div>
+            <div tapmode="" onclick="setPage(0, 'templates_official_body.html');" class="H-header-tag H-font-size-14 H-padding-vertical-both-2 H-padding-horizontal-both-12 H-border-vertical-both-white H-border-horizontal-left-white H-border-radius-12-left-both H-overflow-hidden H-center-all H-theme-background-color-white H-theme-font-color9">官方</div>
+            <div tapmode="" onclick="setPage(1, 'templates_vendor_body.html');" class="H-header-tag H-font-size-14 H-padding-vertical-both-2 H-padding-horizontal-both-12 H-border-vertical-both-white H-border-horizontal-both-white H-border-radius-12-right-both H-overflow-hidden H-center-all">资方</div>
         </div>
     </header>
     <script src="../../script/H.js" type="text/javascript"></script>
@@ -24,9 +24,16 @@
             H.removeClass(H.siblings(that), "H-theme-background-color-white H-theme-font-color9");
         }
 
-        function swipeIndex(index) {
-            H.setFrameGroupIndex("groups", index, true);
+        function setPage(index, url) {
+            setStyle(index);
+            if (H.isAPICloud()) {
+                H.setFrameGroupIndex("groups", index, true);
+            }
+            else {
+                H.D("#H-frame").setAttribute("src", url);
+            }
         }
+
         H.ready(function () {
             H.openFrameGroupNavOrFoot(function (ret, err) {
                 setStyle(ret.index);

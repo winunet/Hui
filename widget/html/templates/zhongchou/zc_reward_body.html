@@ -1,0 +1,53 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hui</title>
+    <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        html, body { background: rgba(0,0,0,0.1); }
+        .H-theme-background-color7 { background-color: #ff5000; }
+    </style>
+</head>
+<body class="H-flexbox-vertical">
+    <div class="space H-flex-item"></div>
+    <div class="zp-menu H-theme-background-color-white">
+        <div class="H-padding-vertical-both-15 H-text-align-center H-font-size-16">
+            档位回报
+        </div>
+        <div class="H-flexbox-horizontal H-padding-vertical-bottom-10 H-font-size-14 H-border-vertical-bottom-margin-both-10-after">
+            <div class="H-theme-font-color7 H-padding-horizontal-both-15"></div>
+            <div class="H-flex-item H-flexbox-vertical">
+                <span class="H-margin-vertical-both-5 H-theme-font-color-333 ">每满200位支持者抽取1位支持者抽取1位幸运用户，不满足时也抽取1位。幸运用户将会获得价值349元的雷神K470机械键盘1把。</span>
+                <span class="H-margin-vertical-both-3 H-theme-font-color-333 ">配送费用：免运费</span>
+                <span class="H-margin-vertical-both-3 H-theme-font-color-333 ">预计回报发送时间：项目成功结束之后30天内</span>
+            </div>
+
+            <div class="H-theme-font-color7 H-padding-horizontal-both-15"></div>
+
+        </div>
+
+        <div tapmode="" onclick="closeDropMenu();" class="H-theme-background-color7 H-theme-font-color-white H-padding-12 H-font-size-16 H-center-all H-margin-vertical-top-15">
+            关 闭
+        </div>
+    </div>
+    <script src="../../../script/H.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        function closeDropMenu() {
+            H.addClass(H.D(".zp-menu"), "H-animate-scale-small");
+            setTimeout(function () {
+                H.closeFrame();
+            }, 200);
+        }
+        document.body.addEventListener('touchstart', function (e) {
+            var evt = event || window.event;
+            var src = evt.target || evt.srcElement;
+            if (src.tagName.toLowerCase() == "div" && src.classList.contains("space")) {
+                closeDropMenu();
+            }
+        });
+    </script>
+</body>
+</html>

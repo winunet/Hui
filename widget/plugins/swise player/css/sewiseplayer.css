@@ -1,0 +1,51 @@
+.sewiseplayer-container{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    left:0px;
+    top:0px;
+    /*border: 1px silver solid;*/
+}
+
+.sewiseplayer-video{
+    background: black;
+    width: 100%;
+    height: 100%;
+}
+.sewiseplayer-video video{
+    background: black;
+    width: 100%;
+    height: 100%;
+}
+.sewiseplayer-skin{
+	position: absolute;
+	z-index: 30;
+	left:0px;
+	top:0px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+video::-webkit-media-controls {
+    display:none !important;
+}
+/*播放器皮肤控制元件最外层*/
+div.sewise-player-ui {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	color: white;
+	font-size: 14px;
+	font-family: 'Trebuchet MS' Verdana, Arial, sans-serif;
+	pointer-events: none;
+}
+div.sewise-player-ui *{
+	outline: none;
+}

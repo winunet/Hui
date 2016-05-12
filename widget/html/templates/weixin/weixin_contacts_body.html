@@ -13,9 +13,9 @@
 </head>
 <body>
     <!--当前显示字母-->
-    <div class="current-index H-position-fixed H-z-index-100000 H-border-radius-5 H-theme-font-color-white"></div>
+    <div class="current-index H-position-absolute H-z-index-100000 H-border-radius-5 H-theme-font-color-white"></div>
     <!--字母索引-->
-    <div class="contact-index H-flexbox-vertical H-position-fixed H-z-index-10000" style="width: 22px; right: 0; top: 0; bottom: 0; height: 100%; ">
+    <div class="contact-index H-flexbox-vertical H-position-absolute H-z-index-10000 H-overflow-hidden" style="width: 22px; right: 0; top: 0; bottom: 0;  ">
         <span class="H-flex-item H-display-block H-font-size-12 H-center-all" data-index-name="top"><i class="H-iconfont H-icon-arrow-scrolltop H-font-size-14"></i></span>
         <span class="H-flex-item H-display-block H-font-size-12 H-center-all" data-index-name="star"><i class="H-iconfont H-icon-star H-font-size-13"></i></span>
         <span class="H-flex-item H-display-block H-font-size-12 H-center-all" data-index-name="A">A</span>
@@ -47,186 +47,193 @@
         <span class="H-flex-item H-display-block H-font-size-12 H-center-all" data-index-name="HASH">#</span>
     </div>
     <!--联系人列表-->
-    <div class="contact-list">
-        <div class="group-name" data-group-name="top"></div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <span class="H-icon H-center-all H-display-block H-margin-horizontal-left-10 H-theme-font-color-white H-theme-background-color1" style="height: 30px; width: 30px;"><i class="H-iconfont H-icon-add-user H-font-size-18 H-vertical-middle"></i></span>
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">新朋友</div>
+    <div class="contact-scroll-area H-overflow-y-auto H-box-sizing-border-box H-position-relative H-z-index-10">
+        <div class="contact-list">
+            <div class="group-name" data-group-name="top"></div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <span class="H-icon H-center-all H-display-block H-margin-horizontal-left-10 H-theme-font-color-white H-theme-background-color1" style="height: 30px; width: 30px;"><i class="H-iconfont H-icon-add-user H-font-size-18 H-vertical-middle"></i></span>
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">新朋友</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <span class="H-icon H-center-all H-display-block H-margin-horizontal-left-10 H-theme-background-color2" style="height: 30px; width: 30px;"><i class="H-iconfont H-icon-group-user H-font-size-18 H-vertical-middle H-theme-font-color-white"></i></span>
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">群聊</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <span class="H-icon H-center-all H-display-block H-margin-horizontal-left-10 H-theme-background-color4" style="height: 30px; width: 30px;"><i class="H-iconfont H-icon-tag H-font-size-18 H-vertical-middle H-theme-font-color-white"></i></span>
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">标签</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <span class="H-icon H-center-all H-display-block H-margin-horizontal-left-10 H-theme-background-color5" style="height: 30px; width: 30px;"><i class="H-iconfont H-icon-vip H-font-size-18 H-vertical-middle H-theme-font-color-white"></i></span>
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">公众号</div>
+                </div>
             </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <span class="H-icon H-center-all H-display-block H-margin-horizontal-left-10 H-theme-background-color2" style="height: 30px; width: 30px;"><i class="H-iconfont H-icon-group-user H-font-size-18 H-vertical-middle H-theme-font-color-white"></i></span>
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">群聊</div>
+            <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="star">星标朋友</div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">老爸</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">老妈</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">老姐</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">老弟</div>
+                </div>
             </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <span class="H-icon H-center-all H-display-block H-margin-horizontal-left-10 H-theme-background-color4" style="height: 30px; width: 30px;"><i class="H-iconfont H-icon-tag H-font-size-18 H-vertical-middle H-theme-font-color-white"></i></span>
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">标签</div>
+            <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="A">A</div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">阿三</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">阿四</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">阿五</div>
+                </div>
             </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <span class="H-icon H-center-all H-display-block H-margin-horizontal-left-10 H-theme-background-color5" style="height: 30px; width: 30px;"><i class="H-iconfont H-icon-vip H-font-size-18 H-vertical-middle H-theme-font-color-white"></i></span>
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">公众号</div>
+            <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="B">B</div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">爸爸</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">八哥</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">波霸</div>
+                </div>
             </div>
-        </div>
-        <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="star">星标朋友</div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">老爸</div>
+            <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="C">C</div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">唱歌</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">彻头彻尾</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">吃货</div>
+                </div>
             </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">老妈</div>
+            <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="D">D</div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">大哥</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">大姐</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">打的</div>
+                </div>
             </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">老姐</div>
+            <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="E">E</div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">二哥</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">额吉</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">儿子</div>
+                </div>
             </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">老弟</div>
+            <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="F">F</div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">房东</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">发哥</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">法海</div>
+                </div>
             </div>
-        </div>
-        <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="A">A</div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">阿三</div>
+            <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="J">J</div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">佳佳</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">嘉美</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">姐姐</div>
+                </div>
             </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">阿四</div>
+            <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="Q">Q</div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">裘千仞</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">欠债的</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">齐天大圣</div>
+                </div>
             </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">阿五</div>
-            </div>
-        </div>
-        <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="B">B</div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">爸爸</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">八哥</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">波霸</div>
-            </div>
-        </div>
-        <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="C">C</div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">唱歌</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">彻头彻尾</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">吃货</div>
-            </div>
-        </div>
-        <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="D">D</div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">大哥</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">大姐</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">打的</div>
-            </div>
-        </div>
-        <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="E">E</div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">二哥</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">额吉</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">儿子</div>
-            </div>
-        </div>
-        <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="F">F</div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">房东</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">发哥</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">法海</div>
-            </div>
-        </div>
-        <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="J">J</div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">佳佳</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">嘉美</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">姐姐</div>
-            </div>
-        </div>
-        <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="Q">Q</div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">裘千仞</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">欠债的</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">齐天大圣</div>
-            </div>
-        </div>
-        <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="HASH">#</div>
-        <div class="people-item">
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">520</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">*_*</div>
-            </div>
-            <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
-                <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
-                <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">(*~.~*)</div>
+            <div class="group-name H-font-size-14 H-padding-horizontal-both-10 H-padding-vertical-both-2 H-theme-background-color-eee" data-group-name="HASH">#</div>
+            <div class="people-item">
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/logo.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">520</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-border-vertical-bottom-margin-left-10-after H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">*_*</div>
+                </div>
+                <div class="H-text-list H-flexbox-horizontal  H-theme-background-color-white H-vertical-middle H-touch-active">
+                    <img src="../../../image/xsd.png" class="H-display-block H-margin-horizontal-left-10" style="width:30px;height:30px;" />
+                    <div class="H-flex-item H-padding-horizontal-both-10 H-font-size-16 H-padding-vertical-both-12">(*~.~*)</div>
+                </div>
             </div>
         </div>
     </div>
     <script src="../../../script/H.js" type="text/javascript"></script>
     <script type="text/javascript">
+        var _clientHeight = window.innerHeight;
         var indexObj = H.D(".contact-index");
         var currentIndexObj = H.D(".current-index");
         var contactListObj = H.D(".contact-list");
+        var scrollArea = H.D('.contact-scroll-area');
+
+        indexObj.style.height = _clientHeight + "px";
+        scrollArea.style.height = _clientHeight + "px";
 
         // 索引字母个数
         var indexSize = 29;
@@ -238,7 +245,7 @@
             if (word) {
                 var scrollObj = H.D(".group-name[data-group-name=" + word + "]");
                 if (scrollObj) {
-                    document.body.scrollTop = scrollObj.offsetTop + document.documentElement.scrollTop;
+                    scrollArea.scrollTop = scrollObj.offsetTop + document.documentElement.scrollTop;
                 }
             }
         }

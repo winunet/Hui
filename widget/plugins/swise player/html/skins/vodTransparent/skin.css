@@ -1,0 +1,333 @@
+/*
+ * Skin for Sewise Player Plugin
+ * http://www.sewise.com/
+ * 
+ * Skin Name: Transparent
+ * 
+ * Copyright (c) 2010-2016 Sewise Ltd
+ * 
+ * Author: Jack Zhang/keyun
+ * Skin Version: 1.0.1 (sewise player 2.7.0)
+ * Date: 19th February 2015
+ */
+
+/*播放控制栏*/
+.vodTransparent div.sewise-player-ui div.controlbar {
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	bottom: 60px;
+	pointer-events: auto;
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-bg {
+	position: absolute;
+	width: 100%;
+	height: 60px;
+	/*background-color:rgba(0, 0, 0, 0.5);*/
+	background-color: #000000;
+	opacity:0.5;
+	/*IE8下*/
+    filter:alpha(opacity=50);
+	text-indent: -10000px;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns {
+	position: absolute;
+	width: 100%;
+	top: 20px;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	list-style-type: none;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li {
+	float: left;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a {
+	display:block;
+	width: 30px;
+	height: 30px;
+	text-indent: -10000px;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-play {
+	background: url("controlbar.png") 0px 0px no-repeat;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-play:hover {
+	background: url("controlbar.png") -30px 0px no-repeat;
+	
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-pause {
+	background: url("controlbar.png") 0px -30px no-repeat;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-pause:hover {
+	background: url("controlbar.png") -30px -30px no-repeat;
+}
+
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns div.controlbar-progress {
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	top: 0px;
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-progress div.controlbar-progress-totalline {
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	top: 0px;
+	/*background-color: rgba(255, 255, 255, 0.4);*/
+	background-color: #FFFFFF;
+	opacity:0.4;
+	/*IE8下*/
+    filter:alpha(opacity=40);
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-progress div.controlbar-progress-loadedline {
+	position: absolute;
+	width: 0%;
+	height: 2px;
+	top: 0px;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-progress div.controlbar-progress-playedline {
+	position: absolute;
+	width: 0%;
+	height: 2px;
+	top: 0px;
+	background-color: #FF0363;
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-progress div.controlbar-progress-seekline {
+	position: absolute;
+	width: 100%;
+	height: 20px;
+	top: -9px;
+	background-color:rgba(0, 0, 0, 0);
+	cursor: pointer;
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-progress div.controlbar-progress-playpoint {
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	border-radius: 24px;
+	background-color: #FFF;
+	left: 0%;
+	top: -11px;
+	cursor: pointer;
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-progress div.controlbar-progress-playpoint:hover {
+	background-color: #DDD;
+	box-shadow: 0px 0px 10px #000;
+}
+
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li.right-float {
+	float: right;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-fullscreen {
+	background: url("controlbar.png") 0px -90px no-repeat;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-fullscreen:hover {
+	background: url("controlbar.png") -30px -90px no-repeat;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-normalscreen {
+	background: url("controlbar.png") 0px -120px no-repeat;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-normalscreen:hover {
+	background: url("controlbar.png") -30px -120px no-repeat;
+}
+
+
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns div.controlbar-volumeline {
+	position: relative;
+	float: left;
+	width: 90px;
+	height: 30px;
+	top: 0px;
+	left: -15px;
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-volumeline div.controlbar-volumeline-bg {
+	position: absolute;
+	width: 100%;
+	height: 2px;
+	top: 14px;
+	background-color: rgba(255, 255, 255, 0.4);
+	/*IE8下*/
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#66ffffff,endColorstr=#66ffffff);
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-volumeline div.controlbar-volumeline-volume {
+	position: absolute;
+	width: 50%;
+	height: 2px;
+	top: 14px;
+	background-color: #FF0363;
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-volumeline div.controlbar-volumeline-dragger {
+	position: absolute;
+	width: 100%;
+	height: 20px;
+	top: 5px;
+	background-color:rgba(0, 0, 0, 0);
+	cursor: pointer;
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-volumeline div.controlbar-volumeline-point {
+	position: absolute;
+	width: 18px;
+	height: 18px;
+	border-radius: 18px;
+	top: 6px;
+	left: 50%;
+	background-color: #FFF;
+	cursor: pointer;
+}
+.vodTransparent div.sewise-player-ui div.controlbar div.controlbar-volumeline div.controlbar-volumeline-point:hover {
+	background-color: #DDD;
+	box-shadow: 0px 0px 10px #000;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-soundclose {
+	background: url("controlbar.png") 0px -180px no-repeat;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-soundclose:hover {
+	background: url("controlbar.png") -30px -180px no-repeat;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-soundopen {
+	background: url("controlbar.png") 0px -150px no-repeat;
+}
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns li a.controlbar-btns-soundopen:hover {
+	background: url("controlbar.png") -30px -150px no-repeat;
+}
+
+
+.vodTransparent div.sewise-player-ui div.controlbar ul.controlbar-btns div.controlbar-playtime {
+	position: relative;
+	float: left;
+	display: block;
+	color: white;
+	line-height: 30px;
+	font-size: 18px;
+	top: 2px;
+}
+
+
+/*logo*/
+.vodTransparent div.sewise-player-ui div.logo {
+	position: absolute;
+	right: 10px;
+	top: 5px;
+}
+.vodTransparent div.sewise-player-ui div.logo a.logo-icon {
+	display: block;
+	width: 142px;
+	height: 27px;
+	background: url("logo.png") 0px 0px no-repeat;
+	text-indent: -10000px;
+	pointer-events: auto;
+}
+
+
+/*标题栏*/
+.vodTransparent div.sewise-player-ui div.topbar {
+	position: absolute;
+	width: 100%;
+	float: left;
+	
+	background-color: rgba(0, 0, 0, 0.3);
+	
+	/*color: white;
+	font-size: 0.8em;*/
+}
+.vodTransparent div.sewise-player-ui div.topbar div.topbar-program {
+	float: left;
+	padding: 5px;
+}
+.vodTransparent div.sewise-player-ui div.topbar div.topbar-program div.topbar-program-tip {
+	float: left;
+}
+.vodTransparent div.sewise-player-ui div.topbar div.topbar-program div.topbar-program-title {
+	float: left;
+}
+.vodTransparent div.sewise-player-ui div.topbar div.topbar-clock {
+	float: right;
+	padding: 5px;
+}
+
+
+/*缓冲进度条*/
+.vodTransparent div.sewise-player-ui div.buffer {
+	position: absolute;
+	width: 60px;
+	height: 80px;
+	left: 50%;
+	margin-left: -30px;
+	top: 50%;
+	margin-top: -40px;
+}
+.vodTransparent div.sewise-player-ui div.buffer div.buffer-bg {
+	position: absolute;
+	display: block;
+	width: 48px;
+	height: 48px;
+	left: 6px;
+	top: 6px;
+	
+	background: url("buffer.png") 0px 0px no-repeat;
+	text-indent: -10000px;
+	
+	animation: buffer-keyframes 1s linear 0s infinite;
+	-ms-animation: buffer-keyframes 1s linear 0s infinite;
+	-webkit-animation: buffer-keyframes 1s linear 0s infinite;
+	-moz-animation: buffer-keyframes 1s linear 0s infinite;
+	-o-animation: buffer-keyframes 1s linear 0s infinite;
+}
+@keyframes buffer-keyframes {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+@-ms-keyframes buffer-keyframes {
+	from { -ms-transform: rotate(0deg); }
+	to { -ms-transform: rotate(360deg); }
+}
+@-webkit-keyframes buffer-keyframes {
+	from { -webkit-transform: rotate(0deg); }
+	to { -webkit-transform: rotate(360deg); }
+}
+@-moz-keyframes buffer-keyframes {
+	from { -moz-transform: rotate(0deg); }
+	to { -moz-transform: rotate(360deg); }
+}
+@-o-keyframes buffer-keyframes {
+	from { -o-transform: rotate(0deg); }
+	to { -o-transform: rotate(360deg); }
+}
+.vodTransparent div.sewise-player-ui div.buffer div.buffer-text {
+	position: absolute;
+	left: 2px;
+	top: 60px;
+	font-size: 12px;
+}
+.vodTransparent div.sewise-player-ui div.buffer div.buffer-text div.buffer-text-tip,
+.vodTransparent div.sewise-player-ui div.buffer div.buffer-text div.buffer-text-bufferPt {
+	float: left;
+}
+
+
+/*开始播放大按钮*/
+.vodTransparent div.sewise-player-ui div.big-play-btn {
+	position: absolute;
+	left: 50%;
+	margin-left: -50px;
+	top: 50%;
+	margin-top: -50px;
+	overflow: hidden;
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0);
+	pointer-events: auto;
+}
+.vodTransparent div.sewise-player-ui div.big-play-btn a.big-play-icon {
+	display:block;
+	width: 90px;
+	height: 90px;
+	
+	background: url("big_play_btn.png") 0px 0px no-repeat;
+	text-indent: -10000px;
+}
+.vodTransparent div.sewise-player-ui div.big-play-btn:hover a.big-play-icon {
+	background: url("big_play_btn.png") -90px 0px no-repeat;
+}

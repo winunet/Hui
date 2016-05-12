@@ -1,6 +1,6 @@
 ﻿/*!
  * 文件名称：H.js
- * 文件版本：Version 0.0.7    2016-05-10
+ * 文件版本：Version 0.0.8    2016-05-12
  * 文件作者：新生帝(JsonLei)
  * 编写日期：2016年03月11日
  * 版权所有：中山赢友网络科技有限公司
@@ -20,7 +20,7 @@
         define(['exports'], factory);
     } else {
         factory(window['H'] = {
-            v: "0.0.7",
+            v: "0.0.8",
             M: {},
             tppl_flag: ['[:', ':]'],
             trim: function (str) {
@@ -36,6 +36,18 @@
                     return fileName.substring(fileName.lastIndexOf('.') + 1);
                 } else {
                     console.warn("输入文件名有误！");
+                }
+            },
+            //是否是闰年
+            isLeapYear: function (iYear) {
+                if (iYear % 4 == 0 && iYear % 100 != 0) {
+                    return true;
+                } else {
+                    if (iYear % 400 == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             },
             getAgeForBirthDay: function (birthday) {
@@ -266,6 +278,58 @@
                 }
                 else {
                     return false;
+                }
+            },
+            // 获取当前光标位置
+            getCursorPosition: function (element) {
+                var CaretPos = 0;
+                // IE Support
+                if (document.selection) {
+                    element.focus();
+                    var Sel = document.selection.createRange();
+                    Sel.moveStart('character', -element.value.length);
+                    CaretPos = Sel.text.length;
+                }
+                    // Firefox support
+                else if (element.selectionStart || element.selectionStart == '0') {
+                    CaretPos = element.selectionStart;
+                }
+                return (CaretPos);
+            },
+            // 设置当前管标的位置
+            setCursorPosition: function (element, pos) {
+                if (element.setSelectionRange) {
+                    element.focus();
+                    element.setSelectionRange(pos, pos);
+                } else if (element.createTextRange) {
+                    var range = element.createTextRange();
+                    range.collapse(true);
+                    range.moveEnd('character', pos);
+                    range.moveStart('character', pos);
+                    range.select();
+                }
+            },
+            // 在光标处插入内容
+            insertAtCursor: function (element, value) {
+                if (document.selection) {
+                    element.focus();
+                    sel = document.selection.createRange();
+                    sel.text = value;
+                    sel.select();
+                } else if (element.selectionStart || element.selectionStart == '0') {
+                    var startPos = element.selectionStart;
+                    var endPos = element.selectionEnd;
+                    var restoreTop = element.scrollTop;
+                    element.value = element.value.substring(0, startPos) + value + element.value.substring(endPos, element.value.length);
+                    if (restoreTop > 0) {
+                        element.scrollTop = restoreTop;
+                    }
+                    element.focus();
+                    element.selectionStart = startPos + value.length;
+                    element.selectionEnd = startPos + value.length;
+                } else {
+                    element.value += value;
+                    element.focus();
                 }
             },
             // ######################### 事件
@@ -2733,14 +2797,31 @@
                 var that = this;
                 that.D("body").scrollTop = that.D("body").scrollHeight;
             },
+            getScroll: function () {
+                var t, l, w, h;
+                if (document.documentElement && document.documentElement.scrollTop) {
+                    t = document.documentElement.scrollTop;
+                    l = document.documentElement.scrollLeft;
+                    w = document.documentElement.scrollWidth;
+                    h = document.documentElement.scrollHeight;
+                }
+                else if (document.body) {
+                    t = document.body.scrollTop;
+                    l = document.body.scrollLeft;
+                    w = document.body.scrollWidth;
+                    h = document.body.scrollHeight;
+                }
+                return { t: t, l: l, w: w, h: h };
+            },
             // #################### 自定义UI组件
             dialogCore: function (type, title, msg, buttons) {
+
                 var that = this;
                 title = title ? title : "温馨提示：";
                 var clientWidth = window.document.body.clientWidth;
 
                 var contentHtml = "";
-                contentHtml += '<div class="H-dialog H-theme-background-color-white animated rollIn" style="-webkit-animation-duration: 0.6s; animation-duration: 0.6s;width: ' + (clientWidth - 50) + 'px; min-height: 80px; margin-top:-30px;">';
+                contentHtml += '<div class="H-dialog H-theme-background-color-white animated zoomIn" style="-webkit-animation-duration: 0.3s; animation-duration: 0.3s;width: ' + (clientWidth - 50) + 'px; min-height: 80px;">';
                 contentHtml += '<div class="H-dialog-title H-padding-10 H-font-size-16 H-line-height-normal" style="background: #f4f4f4;">' + title + '</div>';
                 contentHtml += '<div class="H-dialog-content H-padding-10 H-word-break-break-all H-font-size-16 H-theme-font-color-666">' + msg + '</div>';
                 contentHtml += '<div class="H-dialog-buttons H-flexbox-horizontal H-border-vertical-top-after">';
@@ -2768,6 +2849,417 @@
                     html += '</div>';
                     that.prepend(document.body, null, html);
                 }
+
+                var scrollObj = that.getScroll();
+                that.D(".H-dialog-area").style.height = window.innerHeight + scrollObj.t + "px";
+                that.D(".H-dialog").style.marginTop = scrollObj.t + "px";
+
+                window.onscroll = function (event) {
+                    setTimeout(function () {
+                        var scrollObj = that.getScroll();
+                        that.D(".H-dialog-area").style.height = window.innerHeight + scrollObj.t + "px";
+                        that.D(".H-dialog").style.marginTop = scrollObj.t + "px";
+                    }, 10);
+                };
+            },
+            // 下拉选择
+            selectTip: function (element, items, okCallback, cancelCallback) {
+                var that = this;
+                if (that.Ds(".H-select-area") && that.Ds(".H-select-area").length > 0) {
+                    document.body.removeChild(that.D(".H-select-area"));
+                }
+
+                var html = '<div class="H-select-area H-display-none-important H-flexbox-vertical H-background-color-transparent-3 H-position-fixed H-vertical-top-0 H-horizontal-right-0 H-horizontal-left-0 H-vertical-bottom-0 H-horizontal-right-0 H-width-100-percent H-overflow-hidden H-height-100-percent">';
+                html += '<div class="H-select-space H-flex-item"></div>';
+                html += '<div class="H-select-list H-flexbox-vertical H-position-relative animated flipInY">';
+                html += '<div class="H-select-button H-theme-background-color-white H-height-45 H-padding-horizontal-both-10 H-font-size-16">';
+                html += '<span class="H-display-inline-block H-float-left H-select-cancel">取消</span>';
+                html += '<span class="H-display-inline-block H-float-right H-theme-font-color1 H-select-ok">确定</span>';
+                html += '</div>';
+                html += '<div class="H-select-options H-flex-item  H-theme-background-color-eee H-overflow-hidden H-position-relative">';
+                html += '<div class="H-select-items">';
+                if (items && items.length > 0) {
+                    for (var i = 0; i < items.length; i++) {
+                        html += '<div class="H-select-item H-font-size-16 H-theme-font-color-black H-center-all H-height-45">' + items[i] + '</div>';
+                    }
+                }
+                else {
+                    html += '<div class="H-select-item H-font-size-16 H-theme-font-color-black H-center-all H-height-45">请选择</div>';
+                }
+                html += '</div>';
+                html += '<div class="H-select-check H-position-absolute H-box-sizing-border-box H-height-45 H-width-100-percent H-position-center-all"></div>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+
+                that.prepend(document.body, null, html);
+                that.removeClass(that.D('.H-select-area'), "H-display-none-important");
+
+                var items = that.D(".H-select-items");
+                var options = that.D(".H-select-options");
+                // 是否点击取消按钮
+                var isCancel = false;
+                // 初始化方向
+                var direction = 1;
+                // 初始坐标
+                var startX = 0, startY = 0;
+                // 当前Y轴位移
+                var currentTranslateY = 0;
+                // 每一个列表项目高度
+                var itemHeight = 45;
+                // 列表项目个数
+                var itemSize = that.Ds(".H-select-item", items).length;
+                // 滑动区域的偏移量
+                var itemsOffset = that.offset(items);
+                // 当前选择索引
+                var currentSelectIndex = 0;
+                // 当前选择中的值
+                var currentSelectValue = "";
+                // 默认下移两个列表项目高度
+                that.cssText(items, "transform:translateY(" + (2 * itemHeight) + "px);-webkit-transform:translateY(" + (2 * itemHeight) + "px); transition:transform 0.3s;-webkit-transition:transform 0.3s;");
+                // 默认第一个高亮
+                that.cssText(that.D(".H-select-item:nth-child(1)", items), "font-size:1.8rem;color:#f00;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+
+                // 绑定触摸事件
+                that.on(options, "touchstart", function (event) {
+                    if (event.targetTouches.length == 1) {
+                        var touch = event.targetTouches[0];
+                        startX = touch.clientX;
+                        startY = touch.clientY;
+                        currentTranslateY = Number(items.style.WebkitTransform.replace(/translateY\(/g, "").replace(/px\)/g, ""));
+                    }
+                });
+                that.on(options, "touchmove", function (event) {
+                    if (event.targetTouches.length == 1) {
+                        var touch = event.targetTouches[0];
+                        event.preventDefault();
+                        // 滑动距离
+                        var scrollRange = touch.clientY - startY + currentTranslateY;
+                        that.cssText(items, "transform:translateY(" + scrollRange + "px);-webkit-transform:translateY(" + scrollRange + "px);");
+
+                        direction = that.GetSlideDirection(startX, startY, touch.clientX, touch.clientY);
+
+                        // 向上
+                        if (direction == 1) {
+                            if (scrollRange - itemHeight * 2 < -((itemSize - 2)) * itemHeight) {
+                                currentSelectIndex = itemSize - 1;
+                            }
+                            else {
+                                currentSelectIndex = Math.abs(Math.round((scrollRange - itemHeight * 2) / itemHeight));
+                            }
+                        }
+                        // 向下
+                        if (direction == 2) {
+                            if (scrollRange > itemHeight * 2) {
+                                currentSelectIndex = 0;
+                            }
+                            else {
+                                currentSelectIndex = Math.abs(Math.round((scrollRange - itemHeight * 2) / itemHeight));
+                            }
+                        }
+                        var currentItem = that.D(".H-select-item:nth-child(" + (currentSelectIndex + 1) + ")", items);
+                        that.cssText(currentItem, "font-size:1.8rem;color:#f00;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+                        that.cssText(that.siblings(currentItem), "font-size:1.6rem;color:#000;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+                    }
+                });
+                that.on(options, "touchend", function (event) {
+                    that.cssText(items, "transition: transform 0.2s;-webkit-transition: transform 0.2s;-webkit-transform:translateY(" + (itemHeight * 2 - currentSelectIndex * itemHeight) + "px);");
+                });
+
+                // 取消按钮
+                that.on(that.Ds(".H-select-cancel,.H-select-space"), "touchend", function (event) {
+                    isCancel = true;
+                    currentSelectValue = that.D(".H-select-item:nth-child(" + (currentSelectIndex + 1) + ")").innerText;
+                    that.cssText(that.D('.H-select-list'), "-webkit-animation-duration: 0.4s; animation-duration: 0.4s;");
+                    that.addClass(that.D('.H-select-list'), 'slideOutDown');
+                });
+
+                // 确定按钮
+                that.on(that.D(".H-select-ok"), "touchend", function (event) {
+                    isCancel = false;
+                    currentSelectValue = that.D(".H-select-item:nth-child(" + (currentSelectIndex + 1) + ")").innerText;
+                    that.cssText(that.D('.H-select-list'), "-webkit-animation-duration: 0.4s; animation-duration: 0.4s;");
+                    that.addClass(that.D('.H-select-list'), 'slideOutDown');
+                });
+
+                that.animationEventEnd(".H-select-list", function (event) {
+                    if (that.hasClass(that.D('.H-select-area'), "H-display-none-important") == false) {
+                        that.removeClass(that.D('.H-select-list'), 'flipInY');
+                    }
+                    if (that.hasClass(that.D('.H-select-list'), 'slideOutDown')) {
+                        that.addClass(that.D('.H-select-area'), "H-display-none-important");
+                        if (isCancel == true) {
+                            if (that.isFunction(cancelCallback)) {
+                                cancelCallback(currentSelectIndex, currentSelectValue);
+                            }
+                        }
+                        else {
+                            if (that.isElement(element)) {
+                                element.value = currentSelectValue;
+                            }
+                            if (that.isFunction(okCallback)) {
+                                okCallback(currentSelectIndex, currentSelectValue);
+                            }
+                        }
+                    }
+                });
+            },
+            // 日期选择
+            dateTip: function (element, okCallback, cancelCallback) {
+                var that = this;
+                var that = this;
+
+                // 获取当前年月日
+                var now = new Date();
+                var year = now.getFullYear();
+                var month = now.getMonth() + 1;
+                var date = now.getDate();
+                var hours = now.getHours();
+                var minutes = now.getMinutes();
+                var seconds = now.getSeconds();
+
+                if (that.Ds(".H-select-area") && that.Ds(".H-select-area").length > 0) {
+                    document.body.removeChild(that.D(".H-select-area"));
+                }
+
+                var html = '<div class="H-select-area H-display-none-important H-flexbox-vertical H-background-color-transparent-3 H-position-fixed H-vertical-top-0 H-horizontal-right-0 H-horizontal-left-0 H-vertical-bottom-0 H-horizontal-right-0 H-width-100-percent H-overflow-hidden H-height-100-percent">';
+                html += '<div class="H-select-space H-flex-item"></div>';
+                html += '<div class="H-select-list H-theme-background-color-eee H-flexbox-vertical H-position-relative animated flipInY">';
+                html += '<div class="H-select-button H-theme-background-color-white H-height-45 H-padding-horizontal-both-10 H-font-size-16">';
+                html += '<span class="H-display-inline-block H-float-left H-select-cancel">取消</span>';
+                html += '<span class="H-display-inline-block H-float-right H-theme-font-color1 H-select-ok">确定</span>';
+                html += '</div>';
+                html += '<div class="H-select-every H-flex-item H-flexbox-horizontal H-padding-horizontal-both-15">';
+                html += '<div class="H-select-options H-flex-item  H-height-100-percent H-theme-background-color-eee H-overflow-hidden H-position-relative H-margin-horizontal-right-15">';
+                html += '<div class="H-select-items">';
+                for (var i = year - 100; i < year + 100; i++) {
+                    html += '<div class="H-select-item H-font-size-16 H-theme-font-color-black H-center-all H-height-45">' + i + '</div>';
+                }
+                html += '</div>';
+                html += '<div class="H-select-check H-position-absolute H-box-sizing-border-box H-height-45 H-width-100-percent H-position-center-all"></div>';
+                html += '</div>';
+                html += '<div class="H-select-options H-flex-item  H-height-100-percent H-theme-background-color-eee H-overflow-hidden H-position-relative  H-margin-horizontal-right-15">';
+                html += '<div class="H-select-items">';
+                for (var i = 1; i <= 12; i++) {
+                    html += '<div class="H-select-item H-font-size-16 H-theme-font-color-black H-center-all H-height-45">' + (i < 10 ? "0" + i : i) + '</div>';
+                }
+                html += '</div>';
+                html += '<div class="H-select-check H-position-absolute H-box-sizing-border-box H-height-45 H-width-100-percent H-position-center-all"></div>';
+                html += '</div>';
+                html += '<div class="H-select-options H-flex-item  H-height-100-percent H-theme-background-color-eee H-overflow-hidden H-position-relative">';
+                html += '<div class="H-select-items">';
+                for (var i = 1; i <= 31; i++) {
+                    html += '<div class="H-select-item H-font-size-16 H-theme-font-color-black H-center-all H-height-45">' + (i < 10 ? "0" + i : i) + '</div>';
+
+                }
+                html += '</div>';
+                html += '<div class="H-select-check H-position-absolute H-box-sizing-border-box H-height-45 H-width-100-percent H-position-center-all"></div>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+                html += '</div>';
+
+                that.prepend(document.body, null, html);
+                that.removeClass(that.D('.H-select-area'), "H-display-none-important");
+
+                var options = that.Ds(".H-select-options");
+                // 当前滑动的对象
+                var current = null;
+                var currentIndex = 0;
+                // 是否点击取消按钮
+                var isCancel = false;
+                // 初始化方向
+                var direction = 1;
+                // 初始坐标
+                var yearStartX = 0, yearStartY = 0, monthStartX = 0, monthStartY = 0, dayStartX = 0, dayStartY = 0;
+                // 当前Y轴位移
+                var yearCurrentTranslateY = 0, monthCurrentTranslateY = 0, dayCurrentTranslateY = 0;
+                // 每一个列表项目高度
+                var itemHeight = 45;
+                // 默认下移两个列表项目高度
+                that.cssText(that.Ds('.H-select-options .H-select-items'), "transform:translateY(" + (2 * itemHeight) + "px);-webkit-transform:translateY(" + (2 * itemHeight) + "px); transition:transform 0.3s;-webkit-transition:transform 0.3s;");
+                // 默认第一个高亮
+                that.cssText(that.Ds(".H-select-item:nth-child(1)"), "font-size:1.8rem;color:#f00;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+
+                // 列表项目个数
+                var yearItemSize = that.Ds(".H-select-item", that.D('.H-select-options:nth-child(1)')).length,
+                    monthItemSize = that.Ds(".H-select-item", that.D('.H-select-options:nth-child(2)')).length,
+                    dayItemSize = that.Ds(".H-select-item", that.D('.H-select-options:nth-child(3)')).length;
+                // 当前索引
+                var yearCurrentSelectIndex = 0, monthCurrentSelectIndex = 0, dayCurrentSelectIndex = 0;
+                // 当前选择的时间
+                var dateSelectResult = {};
+
+                // 滑动核心函数
+                function scrollMove(touch, currentOption, startX, startY, currentTranslateY, itemSize) {
+                    var currentSelectIndex = 0;
+                    // 滑动距离
+                    var scrollRange = touch.clientY - startY + currentTranslateY;
+                    that.cssText(that.D(".H-select-items", currentOption), "transform:translateY(" + scrollRange + "px);-webkit-transform:translateY(" + scrollRange + "px);");
+
+                    direction = that.GetSlideDirection(startX, startY, touch.clientX, touch.clientY);
+
+                    // 向上
+                    if (direction == 1) {
+                        if (scrollRange - itemHeight * 2 < -((itemSize - 2)) * itemHeight) {
+                            currentSelectIndex = itemSize - 1;
+                        }
+                        else {
+                            currentSelectIndex = Math.abs(Math.round((scrollRange - itemHeight * 2) / itemHeight));
+                        }
+                    }
+                    // 向下
+                    if (direction == 2) {
+                        if (scrollRange > itemHeight * 2) {
+                            currentSelectIndex = 0;
+                        }
+                        else {
+                            currentSelectIndex = Math.abs(Math.round((scrollRange - itemHeight * 2) / itemHeight));
+                        }
+                    }
+                    var currentItem = that.D(".H-select-item:nth-child(" + (currentSelectIndex + 1) + ")", currentOption);
+                    that.cssText(currentItem, "font-size:1.8rem;color:#f00;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+                    that.cssText(that.siblings(currentItem), "font-size:1.6rem;color:#000;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+
+                    return currentSelectIndex;
+                }
+
+                // 动态设置默认选择年月
+                function setDefaultDate(_year, _month, _day) {
+                    var yearIndex = year + 100 - _year;
+                    that.cssText(H.D(".H-select-item:nth-child(" + (yearIndex + 1) + ")", that.D('.H-select-options:nth-child(1)')), "font-size:1.8rem;color:#f00;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+                    that.cssText(that.siblings(H.D(".H-select-item:nth-child(" + (yearIndex + 1) + ")", that.D('.H-select-options:nth-child(1)'))), "font-size:1.6rem;color:#000;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+                    that.cssText(H.D(".H-select-items", that.D('.H-select-options:nth-child(1)')), "transition: transform 0.2s;-webkit-transition: transform 0.2s;-webkit-transform:translateY(" + (itemHeight * 2 - yearIndex * itemHeight) + "px);");
+
+                    that.cssText(H.D(".H-select-item:nth-child(" + _month + ")", that.D('.H-select-options:nth-child(2)')), "font-size:1.8rem;color:#f00;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+                    that.cssText(that.siblings(H.D(".H-select-item:nth-child(" + _month + ")", that.D('.H-select-options:nth-child(2)'))), "font-size:1.6rem;color:#000;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+                    that.cssText(H.D(".H-select-items", that.D('.H-select-options:nth-child(2)')), "transition: transform 0.2s;-webkit-transition: transform 0.2s;-webkit-transform:translateY(" + (itemHeight * 2 - (_month - 1) * itemHeight) + "px);");
+
+                    that.cssText(H.D(".H-select-item:nth-child(" + _day + ")", that.D('.H-select-options:nth-child(3)')), "font-size:1.8rem;color:#f00;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+                    that.cssText(that.siblings(H.D(".H-select-item:nth-child(" + _day + ")", that.D('.H-select-options:nth-child(3)'))), "font-size:1.6rem;color:#000;transition: font-size 0.2s;-webkit-transition: font-size 0.2s;");
+                    that.cssText(H.D(".H-select-items", that.D('.H-select-options:nth-child(3)')), "transition: transform 0.2s;-webkit-transition: transform 0.2s;-webkit-transform:translateY(" + (itemHeight * 2 - (_day - 1) * itemHeight) + "px);");
+
+                    yearCurrentSelectIndex = yearIndex;
+                    monthCurrentSelectIndex = _month - 1;
+                    dayCurrentSelectIndex = _day - 1;
+
+                    dateSelectResult.year = _year;
+                    dateSelectResult.month = _month;
+                    dateSelectResult.day = _day;
+                }
+                setDefaultDate(year, month, date);
+
+                // 绑定触摸事件
+                that.on(options, "touchstart", function (event) {
+                    if (event.targetTouches.length == 1) {
+                        var touch = event.targetTouches[0];
+                        var currentOption = that.getParents(touch.target, "H-select-options");
+                        var currentOptionIndex = that.getIndex(currentOption);
+
+                        switch (currentOptionIndex) {
+                            // 年
+                            case 0:
+                                yearStartX = touch.clientX;
+                                yearStartY = touch.clientY;
+                                yearCurrentTranslateY = Number(that.D(".H-select-items", currentOption).style.WebkitTransform.replace(/translateY\(/g, "").replace(/px\)/g, ""));
+                                break;
+                                // 月
+                            case 1:
+                                monthStartX = touch.clientX;
+                                monthStartY = touch.clientY;
+                                monthCurrentTranslateY = Number(that.D(".H-select-items", currentOption).style.WebkitTransform.replace(/translateY\(/g, "").replace(/px\)/g, ""));
+                                break;
+                                // 日
+                            case 2:
+                                dayStartX = touch.clientX;
+                                dayStartY = touch.clientY;
+                                dayCurrentTranslateY = Number(that.D(".H-select-items", currentOption).style.WebkitTransform.replace(/translateY\(/g, "").replace(/px\)/g, ""));
+                                break;
+                        }
+
+                    }
+                });
+
+                that.on(options, "touchmove", function (event) {
+                    if (event.targetTouches.length == 1) {
+                        var touch = event.targetTouches[0];
+                        event.preventDefault();
+                        var currentOption = that.getParents(touch.target, "H-select-options");
+                        var currentOptionIndex = that.getIndex(currentOption);
+                        currentIndex = currentOptionIndex;
+                        current = currentOption;
+                        switch (currentOptionIndex) {
+                            case 0:
+                                yearCurrentSelectIndex = scrollMove(touch, currentOption, yearStartX, yearStartY, yearCurrentTranslateY, yearItemSize);
+                                break;
+                            case 1:
+                                monthCurrentSelectIndex = scrollMove(touch, currentOption, monthStartX, monthStartY, monthCurrentTranslateY, monthItemSize);
+                                break;
+                            case 2:
+                                dayCurrentSelectIndex = scrollMove(touch, currentOption, dayStartX, dayStartY, dayCurrentTranslateY, dayItemSize);
+                                break;
+                        }
+                    }
+                });
+
+                that.on(options, "touchend", function (event) {
+                    var selectIndex = 0;
+                    switch (currentIndex) {
+                        case 0:
+                            selectIndex = yearCurrentSelectIndex;
+                            break;
+                        case 1:
+                            selectIndex = monthCurrentSelectIndex;
+                            break;
+                        case 2:
+                            selectIndex = dayCurrentSelectIndex;
+                            break;
+                    }
+                    that.cssText(H.D(".H-select-items", current), "transition: transform 0.2s;-webkit-transition: transform 0.2s;-webkit-transform:translateY(" + (itemHeight * 2 - selectIndex * itemHeight) + "px);");
+                });
+
+
+                // 取消按钮
+                that.on(that.Ds(".H-select-cancel,.H-select-space"), "touchend", function (event) {
+                    isCancel = true;
+                    dateSelectResult.year = that.D(".H-select-item:nth-child(" + (yearCurrentSelectIndex + 1) + ")", that.D('.H-select-options:nth-child(1)')).innerText;
+                    dateSelectResult.month = that.D(".H-select-item:nth-child(" + (monthCurrentSelectIndex + 1) + ")", that.D('.H-select-options:nth-child(2)')).innerText;
+                    dateSelectResult.day = that.D(".H-select-item:nth-child(" + (dayCurrentSelectIndex + 1) + ")", that.D('.H-select-options:nth-child(3)')).innerText;
+                    that.cssText(that.D('.H-select-list'), "-webkit-animation-duration: 0.4s; animation-duration: 0.4s;");
+                    that.addClass(that.D('.H-select-list'), 'slideOutDown');
+                });
+
+                // 确定按钮
+                that.on(that.D(".H-select-ok"), "touchend", function (event) {
+                    isCancel = false;
+                    dateSelectResult.year = that.D(".H-select-item:nth-child(" + (yearCurrentSelectIndex + 1) + ")", that.D('.H-select-options:nth-child(1)')).innerText;
+                    dateSelectResult.month = that.D(".H-select-item:nth-child(" + (monthCurrentSelectIndex + 1) + ")", that.D('.H-select-options:nth-child(2)')).innerText;
+                    dateSelectResult.day = that.D(".H-select-item:nth-child(" + (dayCurrentSelectIndex + 1) + ")", that.D('.H-select-options:nth-child(3)')).innerText;
+                    that.cssText(that.D('.H-select-list'), "-webkit-animation-duration: 0.4s; animation-duration: 0.4s;");
+                    that.addClass(that.D('.H-select-list'), 'slideOutDown');
+                });
+
+                that.animationEventEnd(".H-select-list", function (event) {
+                    if (that.hasClass(that.D('.H-select-area'), "H-display-none-important") == false) {
+                        that.removeClass(that.D('.H-select-list'), 'flipInY');
+                    }
+                    if (that.hasClass(that.D('.H-select-list'), 'slideOutDown')) {
+                        that.addClass(that.D('.H-select-area'), "H-display-none-important");
+                        if (isCancel == true) {
+                            if (that.isFunction(cancelCallback)) {
+                                cancelCallback(dateSelectResult);
+                            }
+                        }
+                        else {
+                            if (that.isElement(element)) {
+                                element.value = dateSelectResult.year + "-" + dateSelectResult.month + "-" + dateSelectResult.day;
+                            }
+                            if (that.isFunction(okCallback)) {
+                                okCallback(dateSelectResult);
+                            }
+                        }
+                    }
+                });
             },
             actionSheetTip: function (callback, title, buttons, cancelTitle, destructiveTitle, style) {
                 var that = this;
@@ -2883,14 +3375,14 @@
                 that.removeClass(that.D('.H-dialog-area'), "H-display-none-important");
                 that.on(that.Ds('.H-dialog-button'), "touchend", function (e) {
                     var index = that.getIndex(that.getParents(event.target, "H-dialog-button"));
-                    that.addClass(that.D('.H-dialog'), 'rollOut');
+                    that.addClass(that.D('.H-dialog'), 'zoomOut');
                 });
 
                 that.animationEventEnd(that.D('.H-dialog'), function (event) {
                     if (that.hasClass(that.D('.H-dialog-area'), "H-display-none-important") == false) {
-                        that.removeClass(that.D('.H-dialog'), 'rollIn');
+                        that.removeClass(that.D('.H-dialog'), 'zoomIn');
                     }
-                    if (that.hasClass(that.D('.H-dialog'), 'rollOut')) {
+                    if (that.hasClass(that.D('.H-dialog'), 'zoomOut')) {
                         that.addClass(that.D('.H-dialog-area'), "H-display-none-important");
                         if (that.isFunction(callback)) {
                             callback();
@@ -2940,14 +3432,14 @@
                 that.on(that.Ds('.H-dialog-button'), "touchend", function (e) {
                     index = that.getIndex(that.getParents(event.target, "H-dialog-button"));
                     _ret.buttonIndex = buttons.length - index;
-                    that.addClass(that.D('.H-dialog'), 'rollOut');
+                    that.addClass(that.D('.H-dialog'), 'zoomOut');
                 });
 
                 that.animationEventEnd(that.D('.H-dialog'), function (event) {
                     if (that.hasClass(that.D('.H-dialog-area'), "H-display-none-important") == false) {
-                        that.removeClass(that.D('.H-dialog'), 'rollIn');
+                        that.removeClass(that.D('.H-dialog'), 'zoomIn');
                     }
-                    if (that.hasClass(that.D('.H-dialog'), 'rollOut')) {
+                    if (that.hasClass(that.D('.H-dialog'), 'zoomOut')) {
                         that.addClass(that.D('.H-dialog-area'), "H-display-none-important");
                         if (that.isFunction(callback)) {
                             callback(_ret, _err);
@@ -3004,14 +3496,14 @@
                     index = that.getIndex(that.getParents(event.target, "H-dialog-button"));
                     _ret.buttonIndex = buttons.length - index;
                     _ret.text = that.D('.H-dialog-prompt-text').value;
-                    that.addClass(that.D('.H-dialog'), 'rollOut');
+                    that.addClass(that.D('.H-dialog'), 'zoomOut');
                 });
 
                 that.animationEventEnd(that.D('.H-dialog'), function (event) {
                     if (that.hasClass(that.D('.H-dialog-area'), "H-display-none-important") == false) {
-                        that.removeClass(that.D('.H-dialog'), 'rollIn');
+                        that.removeClass(that.D('.H-dialog'), 'zoomIn');
                     }
-                    if (that.hasClass(that.D('.H-dialog'), 'rollOut')) {
+                    if (that.hasClass(that.D('.H-dialog'), 'zoomOut')) {
                         that.addClass(that.D('.H-dialog-area'), "H-display-none-important");
                         if (that.isFunction(callback)) {
                             callback(_ret, _err);
@@ -3040,27 +3532,51 @@
                 if (that.Ds(".H-toast") && that.Ds(".H-toast").length > 0) {
                     document.body.removeChild(that.D(".H-toast"));
                 }
-                var html = '<div class="H-toast H-position-absolute animated wobble H-background-color-transparent-6 H-theme-font-color-white H-font-size-12 H-padding-horizontal-both-10 H-padding-vertical-both-5 H-border-radius-3 H-display-inline-block H-word-break-break-all" style="z-index: 199305658315;left:50%;max-width:' + (clientWidth - 80) + 'px;">' + msg + '</div>';
+                var html = '<div class="H-toast H-position-absolute animated bounceIn H-background-color-transparent-6 H-theme-font-color-white H-font-size-12 H-padding-horizontal-both-10 H-padding-vertical-both-5 H-border-radius-3 H-display-inline-block H-word-break-break-all" style="-webkit-animation-duration: 0.3s; animation-duration: 0.3s;z-index: 199305658315;left:50%;max-width:' + (clientWidth - 80) + 'px;">' + msg + '</div>';
                 that.prepend(document.body, null, html);
                 var offset = that.offset(that.D(".H-toast"));
                 that.D(".H-toast").style.width = offset.w + "px";
                 that.D(".H-toast").style.marginLeft = -(offset.w / 2) + "px";
 
+                var scrollObj = that.getScroll();
+
                 if (location == "top") {
-                    that.D(".H-toast").style.top = "30px";
+                    that.D(".H-toast").style.top = scrollObj.t + 30 + "px";
                     that.D(".H-toast").style.bottom = "auto";
                 }
                 else if (location == "bottom") {
-                    that.D(".H-toast").style.bottom = "30px";
+                    that.D(".H-toast").style.bottom = 30 - scrollObj.t + "px";
                     that.D(".H-toast").style.top = "auto";
                 }
                 else if (location == "middle") {
-                    that.D(".H-toast").style.top = (clientHeight - offset.h) / 2 + "px";
+                    that.D(".H-toast").style.top = (clientHeight - offset.h) / 2 + scrollObj.t + "px";
                     that.D(".H-toast").style.bottom = "auto";
                 }
 
+                window.onscroll = function () {
+                    setTimeout(function () {
+                        var scrollObj = that.getScroll();
+                        console.log(scrollObj);
+                        if (location == "top") {
+                            that.D(".H-toast").style.top = scrollObj.t + 30 + "px";
+                            that.D(".H-toast").style.bottom = "auto";
+                        }
+                        else if (location == "bottom") {
+                            that.D(".H-toast").style.bottom = 30 - scrollObj.t + "px";
+                            that.D(".H-toast").style.top = "auto";
+                        }
+                        else if (location == "middle") {
+                            that.D(".H-toast").style.top = (clientHeight - offset.h) / 2 + scrollObj.t + "px";
+                            that.D(".H-toast").style.bottom = "auto";
+                        }
+                    }, 10);
+                };
+
+
                 tip = setTimeout(function () {
-                    document.body.removeChild(that.D(".H-toast"));
+                    if (that.isElement(that.D(".H-toast"))) {
+                        document.body.removeChild(that.D(".H-toast"));
+                    }
                     if (that.isFunction(callback)) {
                         callback();
                     }
@@ -3079,8 +3595,8 @@
                 else {
                     var toastDiv = document.createElement("div");
                     toastDiv.id = "H-toast-tip";
-                    that.addClass(toastDiv, "H-position-fixed H-z-index-1000000 H-height-100 H-width-100 H-border-radius-5 H-theme-background-color-black H-theme-font-color-white H-center-all H-text-align-center H-background-color-transparent-5 animated " + animateName);
-                    that.cssText(toastDiv, "left:50%;top:50%;margin-left:-50px;margin-top:-80px;")
+                    that.addClass(toastDiv, "H-position-absolute H-z-index-1000000 H-height-100 H-width-100 H-border-radius-5 H-theme-background-color-black H-theme-font-color-white H-center-all H-text-align-center H-background-color-transparent-5 animated " + animateName);
+                    that.cssText(toastDiv, "left:50%;top:50%;margin-left:-50px;")
                     var html = "";
                     html += '<div>';
                     html += iconHTML;
@@ -3088,6 +3604,16 @@
                     html += '</div>';
                     toastDiv.innerHTML = html;
                     that.D("body").appendChild(toastDiv);
+
+                    var scrollObj = that.getScroll();
+                    that.D("#H-toast-tip").style.marginTop = scrollObj.t - 50 + "px";
+
+                    window.onscroll = function (event) {
+                        setTimeout(function () {
+                            var scrollObj = that.getScroll();
+                            that.D("#H-toast-tip").style.marginTop = scrollObj.t - 50 + "px";
+                        }, 10);
+                    };
 
                     setTimeout(function () {
                         H.closeToast();

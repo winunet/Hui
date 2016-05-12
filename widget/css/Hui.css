@@ -2,7 +2,7 @@
 
 /*!
  * 文件名称：Hui.css
- * 文件版本：Version 0.2.1    2016-05-06
+ * 文件版本：Version 0.3.1    2016-05-12
  * 文件作者：新生帝
  * 编写日期：2016年04月15日
  * 版权所有：中山赢友网络科技有限公司
@@ -1020,7 +1020,7 @@ textarea { overflow: auto; }
 .H-animate-scale-small { animation: scalesmall 0.2s linear; -webkit-animation: scalesmall 0.2s linear; transform-origin: 50% 50%; -webkit-transform-origin: 50% 50%; }
 /*变大*/
 @keyframes scalebig {
-    from { opacity: 0 transform : scale(0); -webkit-transform: scale(0); }
+    from { opacity: 0; transform: scale(0); -webkit-transform: scale(0); }
     to { opacity: 1; transform: scale(1); -webkit-transform: scale(1); }
 }
 
@@ -1397,6 +1397,12 @@ textarea.H-textbox { min-height: 150px; resize: none; }
 
 /*下拉加载*/
 #H-drop-reflesh { top: -40px; left: 50%; margin-left: -20px; }
+
+/*下拉选择*/
+.H-select-area .H-select-list { height: 270px; z-index: 193343430; }
+.H-select-area .H-select-options { height: 225px; }
+.H-select-area .H-select-check { border: 1px solid #52ace5; border-width: 1px 0; z-index: 193343434; }
+.H-select-area .H-select-button { line-height: 45px; }
 
 /********************丰富动画集合*********************/
 

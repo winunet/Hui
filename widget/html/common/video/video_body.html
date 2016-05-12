@@ -1,0 +1,138 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hui</title>
+    <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
+    <style type="text/css"></style>
+    <script src="../../../plugins/swise player/js/jquery.min.js"></script>
+</head>
+<body>
+    <div id="con1" style="width:100%;height:200px;background-color: aqua;">
+        <script src="../../../plugins/swise player/sewise.player.min.js#url=http://www.winu.net/a.mp4&autostart=false&skin=vodFlowPlayer&playsinline=true"></script>
+    </div>
+    <script>
+        var host = "http://www.winu.net/"
+        $(document).ready(dowReady);
+        var player;
+        function dowReady() {
+            player = window.SewisePlayer;
+
+            /*
+             * 视频开始播放后回调的函数
+             */
+            player.on("start", function () {
+                console.log("播放开始");
+            });
+            /*
+             *视频暂停播放后回调
+            */
+            player.on("pause", function () {
+                console.log("播放暂停");
+            });
+
+            /*
+             *视频停止播放后回调
+             */
+            player.on("ended", function () {
+                console.log("播放停止");
+            });
+
+            /*
+             * 视频时长改变时回调
+             */
+            player.on("durationChange", function () {
+                console.log("视频时长改变");
+            });
+
+            /*
+             *视频实时播放回调
+             */
+            player.on("timeupdate", function () {
+            });
+
+            /*
+             * 视频加载进度回调
+             * @parame pt
+             */
+            player.on("loadProgress", function (pt) {
+                console.log("加载进度" + pt);
+            });
+
+            /*
+             * 视频缓冲开始回调
+             */
+            player.on("bufferBegin", function () {
+                console.log("缓冲开始");
+            });
+
+            /*
+             * 视频缓冲结束回调
+             */
+            player.on("bufferComplete", function () {
+                console.log("缓冲结束");
+            });
+
+            /*
+             * 播放器获取到视频metadata信息后回调
+             */
+            player.on("metadata", function (obj) {
+                console.log("视频元数据", obj);
+            });
+
+            /*
+             * 视频时移播放后回调的函数
+             */
+            player.on("seek", function (e) {
+                console.log("视频时移" + e);
+            });
+
+        };
+
+        //点播接口调用方法
+        function startPlay() {
+            player.play();
+        }
+        function playPause() {
+            player.pause();
+        }
+        function seekTo() {
+            player.seek(8);
+        }
+        function playStop() {
+            player.stop();
+        }
+        function changeVolume() {
+            player.setVolume(0.5);
+        }
+        function getDuration() {
+            alert(player.duration());
+        }
+        function getPlayTime() {
+            alert(player.playTime());
+        }
+        function setMuted() {
+            player.muted(true);
+        }
+        function switchVideo() {
+            player.toPlay(host + "a.mp4", "Sintel", 0, true);
+        }
+    </script>
+
+    <div class="H-padding-10">
+        <div style="padding-right: 20px;float: left;"><a href="javascript:startPlay();">播放</a></div>
+        <div style="padding-right: 20px;float: left;"><a href="javascript:playPause();">暂停</a></div>
+        <div style="padding-right: 20px;float: left;"><a href="javascript:seekTo();">跳转</a></div>
+        <div style="padding-right: 20px;float: left;"><a href="javascript:playStop();">停止</a></div>
+        <div style="padding-right: 20px;float: left;"><a href="javascript:changeVolume();">更改音量</a></div>
+        <div style="padding-right: 20px;float: left;"><a href="javascript:getDuration();">获取总时长</a></div>
+        <div style="padding-right: 20px;float: left;"><a href="javascript:getPlayTime();">获取当前时间</a></div>
+        <div style="padding-right: 20px;float: left;"><a href="javascript:setMuted();">静音</a></div>
+        <div style="padding-right: 20px;float: left;"><a href="javascript:switchVideo();">切换视频</a></div>
+        <br clear="all" />
+    </div>
+    <script src="../../../script/H.js" type="text/javascript"></script>
+</body>
+</html>

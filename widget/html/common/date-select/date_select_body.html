@@ -1,0 +1,25 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hui</title>
+    <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <p class="H-padding-horizontal-both-10 H-font-size-16">常见日期选择器</p>
+    <div class="H-flexbox-horizontal H-margin-vertical-bottom-10">
+        <input type="text" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-12" placeholder="请选择您的出生日期" readonly="readonly" tapmode="" onclick="H.dateTip(this);" /><span class="H-icon H-vertical-middle H-padding-horizontal-right-10 H-theme-background-color-white"><i class="H-iconfont H-icon-time H-font-size-16 H-vertical-middle H-theme-font-color-999"></i></span>
+    </div>
+    <p class="H-padding-horizontal-both-10 H-font-size-16">带回调的日期选择器</p>
+    <div class="H-flexbox-horizontal H-margin-vertical-bottom-10">
+        <input type="text" class="H-textbox H-vertical-align-middle H-vertical-middle H-font-size-16 H-flex-item H-box-sizing-border-box H-border-none H-outline-none H-padding-12" placeholder="请选择您的出生日期" readonly="readonly" tapmode="" onclick="H.dateTip(this, function (date) { H.alert(date); }, function (date) { H.toast('你点击了取消'); });" /><span class="H-icon H-vertical-middle H-padding-horizontal-right-10 H-theme-background-color-white"><i class="H-iconfont H-icon-time H-font-size-16 H-vertical-middle H-theme-font-color-999"></i></span>
+    </div>
+    <script src="../../../script/H.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    </script>
+</body>
+</html>

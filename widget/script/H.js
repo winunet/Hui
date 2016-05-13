@@ -1,6 +1,6 @@
 ﻿/*!
  * 文件名称：H.js
- * 文件版本：Version 0.0.8    2016-05-12
+ * 文件版本：Version 0.0.9    2016-05-12
  * 文件作者：新生帝(JsonLei)
  * 编写日期：2016年03月11日
  * 版权所有：中山赢友网络科技有限公司
@@ -20,7 +20,7 @@
         define(['exports'], factory);
     } else {
         factory(window['H'] = {
-            v: "0.0.8",
+            v: "0.0.9",
             M: {},
             tppl_flag: ['[:', ':]'],
             trim: function (str) {
@@ -3556,18 +3556,19 @@
                 window.onscroll = function () {
                     setTimeout(function () {
                         var scrollObj = that.getScroll();
-                        console.log(scrollObj);
-                        if (location == "top") {
-                            that.D(".H-toast").style.top = scrollObj.t + 30 + "px";
-                            that.D(".H-toast").style.bottom = "auto";
-                        }
-                        else if (location == "bottom") {
-                            that.D(".H-toast").style.bottom = 30 - scrollObj.t + "px";
-                            that.D(".H-toast").style.top = "auto";
-                        }
-                        else if (location == "middle") {
-                            that.D(".H-toast").style.top = (clientHeight - offset.h) / 2 + scrollObj.t + "px";
-                            that.D(".H-toast").style.bottom = "auto";
+                        if (that.D(".H-toast")) {
+                            if (location == "top") {
+                                that.D(".H-toast").style.top = scrollObj.t + 30 + "px";
+                                that.D(".H-toast").style.bottom = "auto";
+                            }
+                            else if (location == "bottom") {
+                                that.D(".H-toast").style.bottom = 30 - scrollObj.t + "px";
+                                that.D(".H-toast").style.top = "auto";
+                            }
+                            else if (location == "middle") {
+                                that.D(".H-toast").style.top = (clientHeight - offset.h) / 2 + scrollObj.t + "px";
+                                that.D(".H-toast").style.bottom = "auto";
+                            }
                         }
                     }, 10);
                 };
@@ -3611,7 +3612,9 @@
                     window.onscroll = function (event) {
                         setTimeout(function () {
                             var scrollObj = that.getScroll();
-                            that.D("#H-toast-tip").style.marginTop = scrollObj.t - 50 + "px";
+                            if (that.D("#H-toast-tip")) {
+                                that.D("#H-toast-tip").style.marginTop = scrollObj.t - 50 + "px";
+                            }
                         }, 10);
                     };
 

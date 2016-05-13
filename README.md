@@ -29,10 +29,10 @@
 
 *****
 
-### Hui V0.3.2 正式版
+### Hui V0.3.3 正式版
 
-* IOS（苹果还未审核通过）：[IOS下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/8f82353a6bec46b254268f653efb6dfb.ipa)
-* Android：[Android下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/d3fce53c828149970213d28a12c94957_d)
+* IOS（苹果还未审核通过）：[IOS下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/63704711c37015f4e993f75c39bfac31.ipa)
+* Android：[Android下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/c5c9f57aa7d754193299b711fbd939e7_d)
 
 *****
 

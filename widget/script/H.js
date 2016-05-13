@@ -250,7 +250,7 @@
                 var that = this;
                 var host = window.location.host;
                 var path = window.location.href;
-                if (host == "" && ((path.toLowerCase().indexOf('file:///storage') > -1)) || (path.toLowerCase().indexOf('file:///var/') > -1) || (path.toLowerCase().indexOf('contents:///') > -1)) {
+                if (host == "" && ((path.toLowerCase().indexOf('file:///storage') > -1)) || (path.toLowerCase().indexOf('file:///var/') > -1) || (path.toLowerCase().indexOf('contents:///') > -1) || (path.toLowerCase().indexOf('file:///private/') > -1)) {
                     return true;
                 }
                 else {

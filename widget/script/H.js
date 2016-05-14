@@ -1,6 +1,6 @@
 ﻿/*!
  * 文件名称：H.js
- * 文件版本：Version 0.0.9    2016-05-12
+ * 文件版本：Version 0.1.0    2016-05-15
  * 文件作者：新生帝(JsonLei)
  * 编写日期：2016年03月11日
  * 版权所有：中山赢友网络科技有限公司
@@ -20,7 +20,7 @@
         define(['exports'], factory);
     } else {
         factory(window['H'] = {
-            v: "0.0.9",
+            v: "0.1.0",
             M: {},
             tppl_flag: ['[:', ':]'],
             trim: function (str) {
@@ -450,6 +450,10 @@
             smartupdatefinish: function (callback) {
                 var that = this;
                 that.addEventListener(callback, "smartupdatefinish");
+            },
+            launchviewclicked: function (callback) {
+                var that = this;
+                that.addEventListener(callback, "launchviewclicked");
             },
             // ######################### 配置
             DEFAULT_CONFIG: {
@@ -1869,7 +1873,7 @@
                     api.hideProgress();
                 }
             },
-            toast: function (callback, msg, duration, location) {
+            toast: function (callback, msg, duration, location, global) {
                 var that = this;
 
                 if ((!that.isFunction(arguments[0])) && (arguments[0])) {
@@ -1878,6 +1882,7 @@
 
                 msg = that.isObject(msg) ? (JSON.stringify(msg)) : msg;
                 duration = Math.abs(that.isNumber(duration) ? Number(duration) : 2000);
+                global = that.isBoolean(global) ? global : false;
 
                 var locationArr = ["top", "middle", "bottom"];
                 location = location ? location : "bottom";
@@ -1887,7 +1892,8 @@
                     api.toast({
                         msg: msg,
                         duration: duration,
-                        location: location
+                        location: location,
+                        global: global
                     });
                     if (that.isFunction(callback)) {
                         setTimeout(function () {
@@ -3699,18 +3705,20 @@
                     return (new Function(k, fn.$)).apply(d, v);
                 };
                 if (!fn.$) {
-                    var tpls = tpl.replace(/[\r\n]/g, "").split(that.tppl_flag[0]);
-
+                    var tpls = tpl.split(that.tppl_flag[0]);
                     fn.$ = "var $=''";
-                    for (var t in tpls) {
+                    for (var t = 0; t < tpls.length; t++) {
                         var p = tpls[t].split(that.tppl_flag[1]);
                         if (t != 0) {
-                            fn.$ += '=' == p[0].charAt(0) ? "+(" + p[0].substr(1) + ")" : ";" + p[0] + "$=$";
+                            fn.$ += '=' == p[0].charAt(0)
+                              ? "+(" + p[0].substr(1) + ")"
+                              : ";" + p[0].replace(/\r\n/g, '') + "$=$"
                         }
-                        fn.$ += "+'" + p[p.length - 1].replace(/\'/g, "\\'") + "'";
+                        // 支持 <pre> 和 [::] 包裹的 js 代码
+                        fn.$ += "+'" + p[p.length - 1].replace(/\'/g, "\\'").replace(/\r\n/g, '\\n').replace(/\n/g, '\\n').replace(/\r/g, '\\n') + "'";
                     }
                     fn.$ += ";return $;";
-
+                    // log(fn.$);
                 }
                 return data ? fn(data) : fn;
             }

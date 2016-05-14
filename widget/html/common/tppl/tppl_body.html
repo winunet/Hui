@@ -7,9 +7,53 @@
     <title>Hui</title>
     <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
     <style type="text/css"></style>
+    <script type="text/html" id="tppl">
+        <% for(var i=0; i < list.length; i++){ %>
+        <div class="H-flexbox-horizontal H-theme-background-color-white H-border-vertical-bottom-after H-clear-both">
+            <div class="H-padding-vertical-both-10 H-box-sizing-border-box"><img src="<%=list[i].img %>" alt="" title="" class="H-display-block H-margin-horizontal-left-10" style="width: 70px; height: 70px;" /></div>
+            <div class="H-flex-item H-padding-10 H-position-relative H-box-sizing-border-box" style="height: 90px; ">
+                <strong class="H-font-weight-normal font-weight-500 H-font-size-16 H-display-block H-text-show-row-2"><%=list[i].title %></strong>
+                <p class="H-font-size-10 H-theme-font-color-999 H-position-absolute H-z-index-10 H-margin-0" style="bottom: 10px; left: 10px; right: 10px;"><span class="H-float-left"><%=list[i].author %></span><span class="H-float-right"><%=list[i].pushtime %></span></p>
+            </div>
+        </div>
+        <% } %>
+    </script>
 </head>
 <body>
-    <p class="H-padding-horizontal-both-10 H-font-size-16">功能整理中，敬请期待...</p>
+    <p class="H-padding-horizontal-both-10 H-font-size-16">下面数据是通过H.tppl模板引擎渲染的</p>
+    <div class="result"></div>
     <script src="../../../script/H.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        H.tppl_flag = ["<%", "%>"];
+
+        var data = {
+            list: [
+                {
+                    id: 1,
+                    img: '../../../image/logo.png',
+                    title: '一切从简，只为了更懒！Hui是新生帝个人开发，版权所有为中山赢友网络科技有限公司，Hui基于最新的HTML5，CSS3，ECMAScript开发，并且是一款非常棒的开源项目。也希望更多开发者能够参与进来，一起完善她，成就她！',
+                    author: '新生帝',
+                    pushtime: '2016-05-15'
+                },
+                {
+                    id: 2,
+                    img: '../../../image/xsd.png',
+                    title: 'Hui是一款与众不同，却包罗万象的移动UI框架。',
+                    author: 'Hui官方',
+                    pushtime: '2016-05-13'
+                },
+                {
+                    id: 3,
+                    img: '../../../image/winu.png',
+                    title: '大家好，我叫新生帝',
+                    author: '新生帝',
+                    pushtime: '2016-05-13'
+                }
+            ]
+        };
+
+        var render = H.tppl(H.D("#tppl").innerHTML);
+        H.D(".result").innerHTML = render(data);
+    </script>
 </body>
 </html>

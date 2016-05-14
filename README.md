@@ -29,12 +29,19 @@
 
 *****
 
-### Hui V0.3.3 正式版
+### Hui V0.3.4 正式版
 
-* IOS（苹果还未审核通过）：[IOS下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/63704711c37015f4e993f75c39bfac31.ipa)
-* Android：[Android下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/c5c9f57aa7d754193299b711fbd939e7_d)
+* IOS（苹果还未审核通过）：[IOS下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/dd93c49de77bba145f5cb8f0e998a878.ipa)
+* Android：[Android下载](http://downloadpkg.apicloud.com/app/download?path=http://7xszrk.com1.z0.glb.clouddn.com/961d721ce5dccaa8ba6090ed2e774b97_d)
 
-*****
+***** 
+
+### Hui 开源地址
+
+* Git@OSC： [http://git.oschina.net/winu.net/Hui](http://git.oschina.net/winu.net/Hui)
+* GitHub：[https://github.com/winunet/Hui](https://github.com/winunet/Hui)
+
+***** 
 
 ### Hui 友情捐赠
 

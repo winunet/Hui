@@ -2,7 +2,7 @@
 
 /*!
  * 文件名称：Hui.css
- * 文件版本：Version 0.3.1    2016-05-12
+ * 文件版本：Version 0.3.4    2016-05-15
  * 文件作者：新生帝
  * 编写日期：2016年04月15日
  * 版权所有：中山赢友网络科技有限公司
@@ -34,6 +34,7 @@ sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: b
 sub { bottom: -0.25em; }
 sup { top: -0.5em; }
 img { border-style: none; }
+ul, li { list-style: none; padding: 0; margin: 0; outline: 0; }
 svg:not(:root) { overflow: hidden; }
 code, kbd, pre, samp { font-family: monospace,monospace; font-size: 1em; }
 figure { margin: 1em 40px; }
@@ -1399,10 +1400,16 @@ textarea.H-textbox { min-height: 150px; resize: none; }
 #H-drop-reflesh { top: -40px; left: 50%; margin-left: -20px; }
 
 /*下拉选择*/
+.H-select-area { z-index: 193343430; }
 .H-select-area .H-select-list { height: 270px; z-index: 193343430; }
 .H-select-area .H-select-options { height: 225px; }
 .H-select-area .H-select-check { border: 1px solid #52ace5; border-width: 1px 0; z-index: 193343434; }
 .H-select-area .H-select-button { line-height: 45px; }
+
+/*表格*/
+.H-table { border-collapse: collapse; border-spacing: 0; }
+.H-table.H-table-fixed { table-layout: fixed; }
+.H-table td, .H-table th { width: 1px; white-space: nowrap; word-break: keep-all; }
 
 /********************丰富动画集合*********************/
 

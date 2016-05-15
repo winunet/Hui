@@ -1,6 +1,6 @@
 ﻿/*!
  * 文件名称：H.js
- * 文件版本：Version 0.1.0    2016-05-15
+ * 文件版本：Version 0.1.1    2016-05-16
  * 文件作者：新生帝(JsonLei)
  * 编写日期：2016年03月11日
  * 版权所有：中山赢友网络科技有限公司
@@ -20,7 +20,7 @@
         define(['exports'], factory);
     } else {
         factory(window['H'] = {
-            v: "0.1.0",
+            v: "0.1.1",
             M: {},
             tppl_flag: ['[:', ':]'],
             trim: function (str) {
@@ -250,7 +250,7 @@
                 var that = this;
                 var host = window.location.host;
                 var path = window.location.href;
-                if (host == "" && ((path.toLowerCase().indexOf('file:///storage') > -1)) || (path.toLowerCase().indexOf('file:///var/') > -1) || (path.toLowerCase().indexOf('contents:///') > -1) || (path.toLowerCase().indexOf('file:///private/') > -1)) {
+                if (host == "" && ((path.toLowerCase().indexOf('file:///storage') > -1)) || ((path.toLowerCase().indexOf('file:///android_asset') > -1)) || ((path.toLowerCase().indexOf('file:///data') > -1)) || (path.toLowerCase().indexOf('file:///var/') > -1) || (path.toLowerCase().indexOf('contents:///') > -1) || (path.toLowerCase().indexOf('file:///private/') > -1)) {
                     return true;
                 }
                 else {

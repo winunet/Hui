@@ -99,7 +99,7 @@
     </div>
     <script src="../../../script/H.js" type="text/javascript"></script>
     <script type="text/javascript">
-        H.on(H.Ds(".H-accordion-title"), "click", function (event) {
+        H.on(H.Ds(".H-accordion-title"), "touchend", function (event) {
             var area = H.getParents(event.target, "H-accordion-area");
             var title = H.D(".H-accordion-title", area);
             var main = H.D(".H-accordion-main", area);

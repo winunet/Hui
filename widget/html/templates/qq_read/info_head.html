@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Document</title>
+    <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="H-flexbox-vertical">
+    <header class="H-header H-theme-background-color-white" id="header">
+        <span onclick="H.closeWin();" class="H-icon H-position-relative H-display-inline-block H-float-left H-vertical-middle H-theme-font-color9 H-padding-horizontal-left-5 H-z-index-100"><i class="H-iconfont H-icon-arrow-left H-font-size-18 H-vertical-middle"></i>返回</span>
+        <div class="H-header-title H-center-all H-font-size-18 H-text-show-row-1 H-theme-font-color-black H-position-absolute H-width-100-percent">三体三部曲</div>
+        <span class="H-icon H-position-relative H-display-inline-block H-float-right H-vertical-middle H-theme-font-color9 H-padding-horizontal-right-5 H-z-index-100"><i tapmode="" onclick="H.swiperShare('.single-menu', '.share-menu', 'space');" class="H-iconfont H-icon-share-to H-font-size-24 H-vertical-middle"></i></span>
+    </header>
+    <div class="single-menu H-background-color-transparent-1 H-flexbox-vertical H-display-none-important H-position-absolute H-vertical-top-0 H-horizontal-left-0 H-horizontal-right-0 H-vertical-bottom-0 H-height-100-percent H-width-100-percent H-z-index-1000000">
+        <div class="space H-flex-item"></div>
+        <div class="share-menu">
+            <div class="H-flexbox-horizontal H-text-align-center H-theme-background-color-white H-padding-vertical-both-10">
+                <div class="H-flex-item">
+                    <span class="H-icon H-center-all H-theme-background-color1 H-border-radius-circle H-margin-horizontal-auto" style="height: 42px; width: 42px; "><i class="H-iconfont H-icon-qq H-font-size-22 H-theme-font-color-white"></i></span>
+                    <label class="H-display-block H-font-size-13 H-margin-vertical-top-5">QQ好友</label>
+                </div>
+                <div class="H-flex-item">
+                    <span class="H-icon H-center-all H-theme-background-color2 H-border-radius-circle H-margin-horizontal-auto" style="height: 42px; width: 42px; "><i class="H-iconfont H-icon-weixin H-font-size-22 H-theme-font-color-white"></i></span>
+                    <label class="H-display-block H-font-size-13 H-margin-vertical-top-5">微信好友</label>
+                </div>
+                <div class="H-flex-item">
+                    <span class="H-icon H-center-all H-theme-background-color3 H-border-radius-circle H-margin-horizontal-auto" style="height: 42px; width: 42px; "><i class="H-iconfont H-icon-weibo H-font-size-22 H-theme-font-color-white"></i></span>
+                    <label class="H-display-block H-font-size-13 H-margin-vertical-top-5">新浪微博</label>
+                </div>
+                <div class="H-flex-item">
+                    <span class="H-icon H-center-all H-theme-background-color4 H-border-radius-circle H-margin-horizontal-auto" style="height: 42px; width: 42px; "><i class="H-iconfont H-icon-qzone H-font-size-22 H-theme-font-color-white"></i></span>
+                    <label class="H-display-block H-font-size-13 H-margin-vertical-top-5">QQ空间</label>
+                </div>
+                <div class="H-flex-item">
+                    <span class="H-icon H-center-all H-theme-background-color5 H-border-radius-circle H-margin-horizontal-auto" style="height: 42px; width: 42px; "><i class="H-iconfont H-icon-friends H-font-size-22 H-theme-font-color-white"></i></span>
+                    <label class="H-display-block H-font-size-13 H-margin-vertical-top-5">朋友圈</label>
+                </div>
+            </div>
+            <div tapmode="" onclick="H.swiperShare('.single-menu', '.share-menu', 'space');" class="H-theme-background-color-eee H-padding-12 H-font-size-16 H-center-all H-touch-active">取消分享</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="../../../script/H.js"></script>
+    <script type="text/javascript">
+
+        H.ready(function () {
+            H.openFrameNavOrFoot("info_body", "info_body.html", "#header");
+        });
+    </script>
+</body>
+</html>

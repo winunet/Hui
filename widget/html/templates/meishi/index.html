@@ -1,0 +1,31 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hui</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/Hui.css" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <header class="H-header H-theme-background-color4-active" id="header">
+        <span tapmode="" onclick="H.openDrawerPane();" class="H-icon H-position-relative H-display-inline-block H-float-left H-vertical-middle H-theme-font-color-white H-padding-horizontal-left-10 H-z-index-100"><i class="H-iconfont H-icon-drop-sort H-font-size-22 H-vertical-middle"></i></span>
+        <div class="H-header-title H-center-all H-font-size-18 H-text-show-row-1 H-theme-font-color-white H-position-absolute H-width-100-percent">
+            <font>首页</font>
+            <span><i class="H-iconfont H-icon-refresh"></i></span>
+        </div>
+        <div tapmode="" onclick="H.openWin('meishi_find_head','./find/find_head.html')" class="H-icon H-position-relative H-display-inline-block H-float-right H-vertical-middle H-theme-font-color-white H-padding-horizontal-right-10 H-z-index-100">
+            <span><i class="H-iconfont H-icon-finding H-font-size-18 H-vertical-middle"></i></span>
+            <font class="H-font-size-14 H-padding-horizontal-left-3">发现</font>
+        </div>
+    </header>
+    <script type="text/javascript" src="../../../script/H.js"></script>
+    <script type="text/javascript">
+        H.ready(function () {
+            H.openFrameNavOrFoot('meishi_home_body', './home/home_body.html', '#header');
+        });
+    </script>
+</body>
+</html>

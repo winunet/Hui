@@ -6,10 +6,23 @@
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>Hui</title>
     <link href="../../../css/Hui.css" rel="stylesheet" type="text/css" />
-    <style type="text/css"></style>
+    <style type="text/css">
+        html, body { text-align: center; background-color: #305066; }
+        .title { color: #22C3AA; }
+    </style>
 </head>
 <body>
-    <p class="H-padding-horizontal-both-10 H-font-size-16">功能整理中，敬请期待...</p>
+
+    <script src="../../../plugins/lock/H5lock.js"></script>
     <script src="../../../script/H.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            setTimeout(function () {
+                new H5lock({
+                    chooseType: 3
+                }).init();
+            }, 300);
+        };
+    </script>
 </body>
 </html>

@@ -1,0 +1,29 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../../../../css/Hui.css" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <header class="H-header H-theme-background-color4-active" id="header">
+        <div class="H-header-title H-flexbox-horizontal H-vertical-middle H-font-size-18 H-text-show-row-1 H-position-absolute H-width-100-percent">
+            <span tapmode="" onclick="H.closeWin();" class="H-icon H-position-relative H-display-inline-block H-vertical-middle H-theme-font-color-white H-padding-horizontal-left-10 H-z-index-100"><i class="H-iconfont H-icon-arrow-left H-font-size-14 H-vertical-middle H-margin-horizontal-left-5"></i></span>
+            <div tapmode="" onclick="H.openWin('meishi_search_head','search_head.html');" class="H-header-search H-flex-item H-margin-horizontal-both-15 H-padding-horizontal-both-10 H-position-relative H-theme-background-color-white H-border-radius-5 H-line-height-normal">
+                <span class="H-icon H-display-block H-position-absolute H-float-left H-z-index-10 H-vertical-middle" style="height: 100% !important;"><i class="H-iconfont H-icon-search H-font-size-16 H-theme-font-color-666"></i></span>
+                <input type="text" name="keyword" placeholder="搜索你感兴趣的任意频道" id="H-header-search-text" class="H-width-100-percent H-box-sizing-border-box H-border-none H-padding-horizontal-both-10 H-font-size-12 H-padding-vertical-both-8 H-theme-background-color-transparent H-padding-horizontal-left-25 H-vertical-middle" />
+            </div>
+        </div>
+    </header>
+    <script type="text/javascript" src="../../../../script/H.js"></script>
+    <script type="text/javascript">
+        H.ready(function () {
+            H.openFrameNavOrFoot('meishi_find_body', 'find_body.html', '#header');
+        });
+    </script>
+</body>
+</html>

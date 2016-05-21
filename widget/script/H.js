@@ -1,6 +1,6 @@
 ﻿/*!
  * 文件名称：H.js
- * 文件版本：Version 0.1.1    2016-05-18
+ * 文件版本：Version 0.1.2    2016-05-21
  * 文件作者：新生帝(JsonLei)
  * 编写日期：2016年03月11日
  * 版权所有：中山赢友网络科技有限公司
@@ -20,7 +20,7 @@
         define(['exports'], factory);
     } else {
         factory(window['H'] = {
-            v: "0.1.1",
+            v: "0.1.2",
             M: {},
             tppl_flag: ['[:', ':]'],
             trim: function (str) {
@@ -2105,7 +2105,7 @@
                     });
                 }
             },
-            startPlay: function (path) {
+            startPlay: function (path, callback) {
                 var that = this;
                 if (that.isAPICloud()) {
                     api.startPlay({

@@ -1,6 +1,6 @@
 ﻿/*!
  * 文件名称：H.js
- * 文件版本：Version 0.1.2    2016-05-21
+ * 文件版本：Version 0.1.4    2016-05-29
  * 文件作者：新生帝(JsonLei)
  * 编写日期：2016年03月11日
  * 版权所有：中山赢友网络科技有限公司
@@ -20,7 +20,7 @@
         define(['exports'], factory);
     } else {
         factory(window['H'] = {
-            v: "0.1.2",
+            v: "0.1.4",
             M: {},
             tppl_flag: ['[:', ':]'],
             trim: function (str) {
@@ -250,7 +250,7 @@
                 var that = this;
                 var host = window.location.host;
                 var path = window.location.href;
-                if (host == "" && ((path.toLowerCase().indexOf('file:///storage') > -1)) || ((path.toLowerCase().indexOf('file:///android_asset') > -1)) || ((path.toLowerCase().indexOf('file:///data') > -1)) || (path.toLowerCase().indexOf('file:///var/') > -1) || (path.toLowerCase().indexOf('contents:///') > -1) || (path.toLowerCase().indexOf('file:///private/') > -1)) {
+                if (host == "" && ((path.toLowerCase().indexOf('file:///storage') > -1)) || ((path.toLowerCase().indexOf('file:///mnt/') > -1)) || ((path.toLowerCase().indexOf('file:///android_asset') > -1)) || ((path.toLowerCase().indexOf('file:///data') > -1)) || (path.toLowerCase().indexOf('file:///var/') > -1) || (path.toLowerCase().indexOf('contents:///') > -1) || (path.toLowerCase().indexOf('file:///private/') > -1)) {
                     return true;
                 }
                 else {
@@ -545,7 +545,8 @@
                     delay: 0,
                     reload: false,
                     allowEdit: false,
-                    softInputMode: "auto"
+                    softInputMode: "auto",
+                    useWKWebView: true
                 },
                 closeWin_CONFIG: {},
                 closeToWin_CONFIG: {},
@@ -573,7 +574,8 @@
                     //},
                     reload: false,
                     allowEdit: false,
-                    softInputMode: 'auto'
+                    softInputMode: 'auto',
+                    useWKWebView: true
                 },
                 setFrameAttr_CONFIG: {},
                 animation_CONFIG: {
@@ -4015,11 +4017,25 @@
             }
         }
     });
+    Object.defineProperty(_openWin_, "useWKWebView", {
+        get: function () {
+            if (H.isAPICloud()) {
+                return (H.systemType == "ios" && parseFloat(H.systemVersion) >= 8.0) ? true : false;
+            }
+        }
+    });
     var _openFrame_ = H.DEFAULT_CONFIG.openFrame_CONFIG;
     Object.defineProperty(_openFrame_, "pageParam", {
         get: function () {
             if (H.isAPICloud()) {
                 return H.pageParam;
+            }
+        }
+    });
+    Object.defineProperty(_openFrame_, "useWKWebView", {
+        get: function () {
+            if (H.isAPICloud()) {
+                return (H.systemType == "ios" && parseFloat(H.systemVersion) >= 8.0) ? true : false;
             }
         }
     });
